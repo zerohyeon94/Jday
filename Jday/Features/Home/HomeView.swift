@@ -24,85 +24,91 @@ struct HomeView: View {
         todayTasks.filter { !$0.isDone }.count
     }
 
-    private var progressPercentage: Double {
+    private var progressPercentage: Int {
         guard !todayTasks.isEmpty else { return 0 }
         let done = todayTasks.filter(\.isDone).count
-        return Double(done) / Double(todayTasks.count) * 100
+        return Int(Double(done) / Double(todayTasks.count) * 100)
     }
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                content
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
-            }
-            .navigationTitle(Date.now.formattedDate)
-            #if os(iOS)
-            .navigationBarTitleDisplayMode(.large)
-            #endif
+        ScrollView {
+            content
+                .padding(.horizontal, Theme.screenPadding)
+                .padding(.vertical, Theme.Spacing.lg)
         }
+        .background(Theme.Colors.appBackground)
+        #if os(iOS)
+        .toolbar(.hidden, for: .navigationBar)
+        #endif
     }
 
     private var content: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
+            header
             summaryCards
 
             if !yesterdayPendingTasks.isEmpty {
-                yesterdaySection
+                YesterdayTasksView(
+                    tasks: yesterdayPendingTasks,
+                    onMoveOne: { viewModel.moveTaskToToday($0, context: context) },
+                    onMoveAll: { viewModel.moveYesterdayTasksToToday(yesterdayPendingTasks, context: context) }
+                )
             }
 
-            todayTasksSection
-            todayScheduleSection
+            TodayTasksView(tasks: todayTasks) { task in
+                viewModel.toggleTask(task, context: context)
+            }
+
+            TodayScheduleView(schedules: todaySchedules)
+        }
+    }
+
+    private var header: some View {
+        HStack(alignment: .center) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(Date.now.shortMonthDay)
+                    .font(.system(size: 28, weight: .bold))
+
+                Text(Date.now.weekdayLabel)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer()
+
+            Circle()
+                .fill(Theme.Colors.cardStroke)
+                .frame(width: 40, height: 40)
+                .overlay(
+                    Image(systemName: "person.fill")
+                        .foregroundStyle(.secondary)
+                )
+                .accessibilityLabel("프로필")
         }
     }
 
     private var summaryCards: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: Theme.Spacing.md) {
             SummaryCardView(
-                title: String(localized: "남은 할 일"),
                 value: pendingCount == 0 ? "🎉" : "\(pendingCount)",
-                subtitle: pendingCount == 0 ? "모두 완료!" : nil,
-                color: .blue
+                label: "할 일 남음"
             )
-
-            if !todayTasks.isEmpty {
-                SummaryCardView(
-                    title: String(localized: "진행률"),
-                    value: "\(Int(progressPercentage))%",
-                    color: .orange
-                )
-            }
 
             SummaryCardView(
-                title: String(localized: "오늘 일정"),
                 value: "\(todaySchedules.count)",
-                color: .green
+                label: "오늘 일정"
+            )
+
+            SummaryCardView(
+                value: "\(progressPercentage)%",
+                label: "진행률",
+                isAccent: true
             )
         }
-    }
-
-    private var yesterdaySection: some View {
-        YesterdayTasksView(tasks: yesterdayPendingTasks) {
-            viewModel.moveYesterdayTasksToToday(yesterdayPendingTasks, context: context)
-        }
-    }
-
-    private var todayTasksSection: some View {
-        TodayTasksView(tasks: todayTasks) { task in
-            viewModel.toggleTask(task, context: context)
-        }
-    }
-
-    private var todayScheduleSection: some View {
-        TodayScheduleView(schedules: todaySchedules)
     }
 }
 
 #Preview {
     HomeView()
-        .modelContainer(
-            for: [DailyTask.self, Schedule.self, Issue.self],
-            inMemory: true
-        )
+        .modelContainer(PreviewHelpers.makeContainer())
 }

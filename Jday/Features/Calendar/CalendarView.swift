@@ -17,51 +17,97 @@ struct CalendarView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            VStack(spacing: 0) {
-                Picker(String(localized: "보기"), selection: $viewModel.displayMode) {
-                    ForEach(CalendarDisplayMode.allCases, id: \.self) { mode in
-                        Text(mode.rawValue).tag(mode)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .padding()
-
-                monthGrid
-
-                Divider()
-
-                selectedDayDetail
+        ScrollView {
+            VStack(alignment: .leading, spacing: Theme.Spacing.lg) {
+                header
+                modePicker
+                gridCard
+                dayDetail
             }
-            .navigationTitle(String(localized: "캘린더"))
+            .padding(.horizontal, Theme.screenPadding)
+            .padding(.vertical, Theme.Spacing.lg)
+        }
+        .background(Theme.Colors.appBackground)
+        #if os(iOS)
+        .toolbar(.hidden, for: .navigationBar)
+        #endif
+    }
+
+    private var header: some View {
+        HStack(alignment: .firstTextBaseline) {
+            HStack(alignment: .firstTextBaseline, spacing: Theme.Spacing.sm) {
+                Text(viewModel.selectedDate.monthLabel)
+                    .font(.system(size: 26, weight: .bold))
+                Text(viewModel.selectedDate.yearLabel)
+                    .font(.title3)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer()
+
+            HStack(spacing: Theme.Spacing.lg) {
+                Button { shiftMonth(-1) } label: {
+                    Image(systemName: "chevron.left")
+                }
+                Button { viewModel.goToToday() } label: {
+                    Text("오늘").fontWeight(.semibold)
+                }
+                Button { shiftMonth(1) } label: {
+                    Image(systemName: "chevron.right")
+                }
+            }
+            .foregroundStyle(Theme.Colors.brand)
+            .buttonStyle(.plain)
+        }
+    }
+
+    private var modePicker: some View {
+        Picker("보기", selection: $viewModel.displayMode) {
+            ForEach(CalendarDisplayMode.allCases, id: \.self) { Text($0.rawValue).tag($0) }
+        }
+        .pickerStyle(.segmented)
+    }
+
+    private var gridCard: some View {
+        VStack(spacing: Theme.Spacing.md) {
+            weekdayHeader
+
+            if viewModel.displayMode == .monthly {
+                monthGrid
+            } else {
+                weekRow
+            }
+        }
+        .cardStyle()
+    }
+
+    private var weekdayHeader: some View {
+        HStack {
+            ForEach(["일", "월", "화", "수", "목", "금", "토"], id: \.self) { day in
+                Text(day)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity)
+            }
         }
     }
 
     private var monthGrid: some View {
         let days = viewModel.daysInMonth(for: viewModel.selectedDate)
-        let firstWeekday = Calendar.current.component(.weekday, from: days.first ?? .now) - 1
+        let leadingBlanks = (Calendar.current.component(.weekday, from: days.first ?? .now)) - 1
 
-        return VStack(spacing: 8) {
-            HStack {
-                ForEach(["일", "월", "화", "수", "목", "금", "토"], id: \.self) { day in
-                    Text(day)
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity)
-                }
+        return LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: Theme.Spacing.md) {
+            ForEach(0..<leadingBlanks, id: \.self) { _ in
+                Color.clear.frame(height: 40)
             }
-
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 8) {
-                ForEach(0..<firstWeekday, id: \.self) { _ in
-                    Color.clear.frame(height: 36)
-                }
-
-                ForEach(days, id: \.self) { date in
-                    dayCell(date)
-                }
-            }
+            ForEach(days, id: \.self) { dayCell($0) }
         }
-        .padding(.horizontal)
+    }
+
+    private var weekRow: some View {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: Theme.Spacing.md) {
+            ForEach(viewModel.daysInWeek(for: viewModel.selectedDate), id: \.self) { dayCell($0) }
+        }
     }
 
     private func dayCell(_ date: Date) -> some View {
@@ -70,55 +116,62 @@ struct CalendarView: View {
         let hasEvents = viewModel.hasEvents(on: date, tasks: tasks, schedules: schedules)
 
         return Button {
-            viewModel.selectedDate = date
+            withAnimation(.easeOut(duration: 0.15)) { viewModel.selectedDate = date }
         } label: {
-            VStack(spacing: 2) {
+            VStack(spacing: 3) {
                 Text("\(Calendar.current.component(.day, from: date))")
                     .font(.subheadline)
-                    .fontWeight(isToday ? .bold : .regular)
-                    .foregroundStyle(isSelected ? .white : isToday ? .accentColor : .primary)
+                    .fontWeight(isToday || isSelected ? .bold : .regular)
+                    .foregroundStyle(isSelected ? .white : (isToday ? Theme.Colors.brand : .primary))
                     .frame(width: 32, height: 32)
-                    .background(isSelected ? Color.accentColor : Color.clear)
+                    .background(isSelected ? Theme.Colors.brand : .clear)
                     .clipShape(Circle())
 
-                if hasEvents {
-                    Circle()
-                        .fill(isSelected ? Color.white : Color.accentColor)
-                        .frame(width: 4, height: 4)
-                } else {
-                    Color.clear.frame(width: 4, height: 4)
-                }
+                Circle()
+                    .fill(hasEvents ? (isSelected ? Color.white : Theme.Colors.brand) : .clear)
+                    .frame(width: 4, height: 4)
             }
+            .frame(maxWidth: .infinity)
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .accessibilityLabel("\(Calendar.current.component(.month, from: date))월 \(Calendar.current.component(.day, from: date))일\(isToday ? ", 오늘" : "")\(hasEvents ? ", 이벤트 있음" : "")")
     }
 
-    private var selectedDayDetail: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                Text(viewModel.selectedDate.formattedDate)
+    private var dayDetail: some View {
+        VStack(alignment: .leading, spacing: Theme.Spacing.lg) {
+            HStack(alignment: .firstTextBaseline) {
+                Text("\(viewModel.selectedDate.shortMonthDay) \(viewModel.selectedDate.weekdayLabel)")
                     .font(.headline)
-                    .padding(.horizontal)
-                    .padding(.top, 12)
-
-                if !selectedSchedules.isEmpty {
-                    TodayScheduleView(schedules: selectedSchedules)
-                        .padding(.horizontal)
-                }
-
-                TodayTasksView(tasks: selectedTasks) { task in
-                    task.isDone.toggle()
-                    task.updatedAt = .now
-                    try? context.save()
-                }
-                .padding(.horizontal)
+                Spacer()
+                Text("일정 \(selectedSchedules.count) · 할 일 \(selectedTasks.count)")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
             }
+
+            if !selectedSchedules.isEmpty {
+                TodayScheduleView(schedules: selectedSchedules)
+            }
+
+            TodayTasksView(tasks: selectedTasks) { task in
+                task.isDone.toggle()
+                task.updatedAt = .now
+                try? context.save()
+            }
+        }
+    }
+
+    private func shiftMonth(_ value: Int) {
+        let component: Calendar.Component = viewModel.displayMode == .monthly ? .month : .weekOfYear
+        if let newDate = Calendar.current.date(byAdding: component, value: value, to: viewModel.selectedDate) {
+            withAnimation(.easeOut(duration: 0.15)) { viewModel.selectedDate = newDate }
         }
     }
 }
 
 #Preview {
-    CalendarView()
-        .modelContainer(PreviewHelpers.makeContainer())
+    NavigationStack {
+        CalendarView()
+            .modelContainer(PreviewHelpers.makeContainer())
+    }
 }

@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 enum SidebarItem: String, CaseIterable, Identifiable {
     case home = "홈"
@@ -12,8 +13,8 @@ enum SidebarItem: String, CaseIterable, Identifiable {
         switch self {
         case .home: "house"
         case .calendar: "calendar"
-        case .issue: "exclamationmark.bubble"
-        case .settings: "gearshape"
+        case .issue: "exclamationmark.triangle"
+        case .settings: "sun.max"
         }
     }
 }
@@ -22,34 +23,81 @@ struct macOSRootView: View {
     @State private var selectedItem: SidebarItem? = .home
     @State private var showQuickAdd = false
 
+    @Query private var issues: [Issue]
+    private var unresolvedCount: Int { issues.filter { !$0.isResolved }.count }
+
     var body: some View {
         NavigationSplitView {
-            List(SidebarItem.allCases, selection: $selectedItem) { item in
-                Label(item.rawValue, systemImage: item.icon)
-                    .tag(item)
-            }
-            .navigationTitle("Jday")
+            sidebar
         } detail: {
-            switch selectedItem {
-            case .home, .none: HomeView()
-            case .calendar: CalendarView()
-            case .issue: IssueListView()
-            case .settings: SettingsView()
-            }
+            detail
+                .toolbar { toolbarContent }
         }
-        .toolbar {
-            ToolbarItem {
-                Button {
-                    showQuickAdd = true
-                } label: {
-                    Label(String(localized: "빠른 추가"), systemImage: "plus")
+    }
+
+    private var sidebar: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: Theme.Spacing.sm) {
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(Theme.Colors.brand)
+                    .frame(width: 22, height: 22)
+                Text("DayFlow")
+                    .font(.headline)
+            }
+            .padding(.horizontal, Theme.Spacing.md)
+            .padding(.vertical, Theme.Spacing.lg)
+
+            List(selection: $selectedItem) {
+                Section("메뉴") {
+                    ForEach(SidebarItem.allCases) { item in
+                        HStack {
+                            Label(item.rawValue, systemImage: item.icon)
+                            Spacer()
+                            if item == .issue, unresolvedCount > 0 {
+                                Text("\(unresolvedCount)")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        .tag(item)
+                    }
                 }
-                .keyboardShortcut("n", modifiers: .command)
             }
+
+            Spacer()
+
+            HStack(spacing: Theme.Spacing.sm) {
+                Circle().fill(Theme.Colors.cardStroke).frame(width: 24, height: 24)
+                    .overlay(Image(systemName: "person.fill").font(.caption).foregroundStyle(.secondary))
+                Text("김도현").font(.subheadline)
+            }
+            .padding(Theme.Spacing.md)
         }
-        .sheet(isPresented: $showQuickAdd) {
-            QuickAddView()
-                .frame(minWidth: 400, minHeight: 400)
+        .navigationSplitViewColumnWidth(min: 200, ideal: 220)
+    }
+
+    @ViewBuilder
+    private var detail: some View {
+        switch selectedItem {
+        case .home, .none: MacHomeView()
+        case .calendar: MacCalendarView()
+        case .issue: MacIssueView()
+        case .settings: SettingsView()
+        }
+    }
+
+    @ToolbarContentBuilder
+    private var toolbarContent: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            Button {
+                showQuickAdd = true
+            } label: {
+                Label("빠른 추가", systemImage: "plus")
+            }
+            .popover(isPresented: $showQuickAdd, arrowEdge: .top) {
+                QuickAddView()
+                    .frame(width: 360, height: 460)
+            }
         }
     }
 }

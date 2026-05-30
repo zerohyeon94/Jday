@@ -3,64 +3,116 @@ import UserNotifications
 
 struct SettingsView: View {
     @AppStorage("notificationsEnabled") private var notificationsEnabled = true
+    @AppStorage("emailSummaryEnabled") private var emailSummaryEnabled = false
     @AppStorage("notifyMinutesBefore") private var notifyMinutesBefore = 30
     @AppStorage("startTab") private var startTab = "home"
     @AppStorage("weekStartsOnMonday") private var weekStartsOnMonday = false
-    @AppStorage("autoHideCompleted") private var autoHideCompleted = false
+    @AppStorage("autoHideCompleted") private var autoHideCompleted = true
 
+    @Environment(\.openURL) private var openURL
     @State private var notificationAuthStatus: UNAuthorizationStatus = .notDetermined
 
     var body: some View {
-        NavigationStack {
-            Form {
-                notificationSection
-                calendarSection
-                displaySection
-            }
-            .navigationTitle(String(localized: "설정"))
-            .task { await checkNotificationStatus() }
+        Form {
+            notificationSection
+            generalSection
+            accountSection
         }
+        .formStyle(.grouped)
+        .scrollContentBackground(.hidden)
+        .background(Theme.Colors.appBackground)
+        .navigationTitle("설정")
+        #if os(iOS)
+        .toolbar(.hidden, for: .navigationBar)
+        #endif
+        .task { await checkNotificationStatus() }
     }
 
     private var notificationSection: some View {
-        Section(String(localized: "알림")) {
+        Section("알림") {
             if notificationAuthStatus == .denied {
-                Label(String(localized: "알림 권한이 필요합니다"), systemImage: "bell.slash")
+                Label("알림 권한이 필요합니다", systemImage: "bell.slash")
                     .foregroundStyle(.orange)
-
-                Button(String(localized: "시스템 설정 열기")) {
-                    openSystemSettings()
-                }
+                Button("시스템 설정 열기") { openSystemSettings() }
             }
 
-            Toggle(String(localized: "푸시 알림"), isOn: $notificationsEnabled)
-                .disabled(notificationAuthStatus == .denied)
+            toggleRow(
+                title: "푸시 알림",
+                subtitle: "이슈·일정 리마인더 받기",
+                isOn: $notificationsEnabled
+            )
+            .disabled(notificationAuthStatus == .denied)
+
+            toggleRow(
+                title: "이메일 요약",
+                subtitle: "매일 아침 요약 메일",
+                isOn: $emailSummaryEnabled
+            )
 
             if notificationsEnabled {
-                Stepper(
-                    String(localized: "\(notifyMinutesBefore)분 전 알림"),
-                    value: $notifyMinutesBefore,
-                    in: 5...60,
-                    step: 5
-                )
+                Picker("기본 알림 시간", selection: $notifyMinutesBefore) {
+                    ForEach([5, 10, 15, 30, 60], id: \.self) { Text("\($0)분 전").tag($0) }
+                }
             }
         }
     }
 
-    private var calendarSection: some View {
-        Section(String(localized: "캘린더")) {
-            Toggle(String(localized: "한 주를 월요일부터 시작"), isOn: $weekStartsOnMonday)
-        }
-    }
-
-    private var displaySection: some View {
-        Section(String(localized: "화면")) {
-            Picker(String(localized: "시작 화면"), selection: $startTab) {
+    private var generalSection: some View {
+        Section("일반") {
+            Picker("시작 화면", selection: $startTab) {
                 Text("홈").tag("home")
                 Text("캘린더").tag("calendar")
             }
 
-            Toggle(String(localized: "완료 항목 자동 숨김"), isOn: $autoHideCompleted)
+            Picker("한 주 시작 요일", selection: $weekStartsOnMonday) {
+                Text("일요일").tag(false)
+                Text("월요일").tag(true)
+            }
+
+            toggleRow(
+                title: "완료 항목 자동 숨김",
+                subtitle: "체크 후 24시간 뒤 숨김",
+                isOn: $autoHideCompleted
+            )
+        }
+    }
+
+    private var accountSection: some View {
+        Section("계정") {
+            HStack(spacing: Theme.Spacing.md) {
+                Circle()
+                    .fill(Theme.Colors.cardStroke)
+                    .frame(width: 36, height: 36)
+                    .overlay(Image(systemName: "person.fill").foregroundStyle(.secondary))
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("프로필")
+                        .font(.subheadline.weight(.medium))
+                    Text("김도현 · dohyun@dayflow.app")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+
+            Button(role: .destructive) {
+                // 로그아웃 동작 (추후 구현)
+            } label: {
+                Text("로그아웃")
+            }
+        }
+    }
+
+    private func toggleRow(
+        title: LocalizedStringKey,
+        subtitle: LocalizedStringKey,
+        isOn: Binding<Bool>
+    ) -> some View {
+        Toggle(isOn: isOn) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                Text(subtitle)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
         }
     }
 
@@ -71,13 +123,15 @@ struct SettingsView: View {
 
     private func openSystemSettings() {
         #if os(iOS)
-        if let url = URL(string: UIApplication.openSettingsURLString) {
-            UIApplication.shared.open(url)
+        if let url = URL(string: "app-settings:") {
+            openURL(url)
         }
         #endif
     }
 }
 
 #Preview {
-    SettingsView()
+    NavigationStack {
+        SettingsView()
+    }
 }

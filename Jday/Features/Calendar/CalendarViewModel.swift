@@ -32,6 +32,23 @@ final class CalendarViewModel: ObservableObject {
         }
     }
 
+    func daysInWeek(for date: Date) -> [Date] {
+        guard let interval = Calendar.current.dateInterval(of: .weekOfYear, for: date) else { return [] }
+        return (0..<7).compactMap {
+            Calendar.current.date(byAdding: .day, value: $0, to: interval.start)
+        }
+    }
+
+    func goToToday() {
+        selectedDate = .now
+    }
+
+    func eventCount(on date: Date, tasks: [DailyTask], schedules: [Schedule]) -> (tasks: Int, schedules: Int) {
+        let t = tasks.filter { $0.date.isSameDay(as: date) }.count
+        let s = schedules.filter { $0.startTime.isSameDay(as: date) }.count
+        return (t, s)
+    }
+
     func hasEvents(on date: Date, tasks: [DailyTask], schedules: [Schedule]) -> Bool {
         let hasTasks = tasks.contains { $0.date.isSameDay(as: date) }
         let hasSchedules = schedules.contains { $0.startTime.isSameDay(as: date) }

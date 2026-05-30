@@ -11,22 +11,28 @@
 		05FFE39E09D430254236A8CB /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835E9EA647E8A777EAFC1AFB /* HomeView.swift */; };
 		06F2B4E6F9F287606D8BA129 /* QuickAddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055CBCF5018493DB663361D /* QuickAddViewModel.swift */; };
 		0F3871F9F8C5D18B1150F9ED /* Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EA92AE35FCCCC60ADF0018 /* Issue.swift */; };
+		141962B8F4A6417BAD75006A /* SharedComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE7CF19D2869B82C387DEB6 /* SharedComponents.swift */; };
 		18DA63BC8515F65C7B446D32 /* IssueDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D56E31B023DDB69ADD3C96 /* IssueDetailView.swift */; };
 		1CFFDEC372858AD93AAD61FB /* IssueListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF98025765C748986CD103EB /* IssueListView.swift */; };
 		1E58DFC03785573B82D2AEAA /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7745CA1AE7D0B753A6FCA2B /* Priority.swift */; };
 		241355C5A70FE7D48FE2F144 /* DailyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C3674DECE5748A01FEB615 /* DailyTask.swift */; };
 		2452D2C27BC5F0637B73D604 /* QuickAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2AE13F09497DBAA9E9B12C /* QuickAddView.swift */; };
 		2489B0969D662618F27E8CF1 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2DF13F0D93A22F0F99AD5B /* Color+Extensions.swift */; };
+		285B6838CDEF9CBFB693BBE3 /* IssueDetailContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58EE8F45C8C156F105568370 /* IssueDetailContent.swift */; };
 		2AF2C3FA0ED1E1EFE3447E56 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383A95A5C0ED57C537FB6190 /* SettingsView.swift */; };
 		2D498412D3B0E0FDBC670E23 /* TodayScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C36B8DAAF0F4D1D4D91B7BC /* TodayScheduleView.swift */; };
 		351C7197D837F3277DCF9616 /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7745CA1AE7D0B753A6FCA2B /* Priority.swift */; };
+		3AA5F332C1F33273B197837B /* IssueDetailContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58EE8F45C8C156F105568370 /* IssueDetailContent.swift */; };
 		3ABC01EA42E63348D8EB8EA0 /* TodayScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C36B8DAAF0F4D1D4D91B7BC /* TodayScheduleView.swift */; };
+		4930D0A980A1AC5D1BEDD800 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157127C7C036A5189D81182B /* Theme.swift */; };
+		4E141DC7BD7C5164D0F1FE7F /* MacCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3046959B0FCF64E81B9BC763 /* MacCalendarView.swift */; };
 		51A223E3AC8A2867A03D735C /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2DF13F0D93A22F0F99AD5B /* Color+Extensions.swift */; };
 		557D2949FE35210A197D02DD /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61574E5F5EE807DAD85E43A3 /* Schedule.swift */; };
 		575295483F89812B4469BC91 /* YesterdayTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BF7F19BE7E443A893EDFB3 /* YesterdayTasksView.swift */; };
 		5DD21AEDA0FF187634EE3550 /* TodayTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB5A4F7A9F192E8EDC142FE /* TodayTasksView.swift */; };
 		5F6A1CDEFF5096AEDCDAAC20 /* QuickAddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055CBCF5018493DB663361D /* QuickAddViewModel.swift */; };
 		658D6F3C5ADD806905EF4494 /* IssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCD9704ABA6BCED42FEE040 /* IssueViewModel.swift */; };
+		65D38C34EE6FB2C7C796191D /* MacHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72527D085D9BBF47CADDB6D7 /* MacHomeView.swift */; };
 		663D9DF12E3D6C5A9DC5C30B /* JdayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483E0D1333BC41C47CE541D /* JdayApp.swift */; };
 		67390BF5AD17934108659851 /* Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EA92AE35FCCCC60ADF0018 /* Issue.swift */; };
 		73935BF7E92E4001EE0D7B6E /* IssueListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF98025765C748986CD103EB /* IssueListView.swift */; };
@@ -35,12 +41,19 @@
 		7B99C74AFA1CE1D5F18F597E /* macOSRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F73561B21F580E0DDF48FF0 /* macOSRootView.swift */; };
 		7F2BADBA8BE530E06F56E33F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBA9A683594763A847F7B3E /* NotificationService.swift */; };
 		867962C1BCB211F6DA928504 /* PreviewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786C8E67AA2979A0AF277B11 /* PreviewHelpers.swift */; };
+		8C6B54373FBFED3B6DA4173B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 644CB144E5C052CBE5E35BBC /* Assets.xcassets */; };
+		90E3CC39C6D893F4F765FE8B /* IssueRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B83C52848D656A79E0A801 /* IssueRowView.swift */; };
+		9107F4B93927860B0EAF3309 /* MacCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3046959B0FCF64E81B9BC763 /* MacCalendarView.swift */; };
 		922A0E323DBB0D7D7D79D566 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61574E5F5EE807DAD85E43A3 /* Schedule.swift */; };
 		9299B208FE149300CA393A22 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38843B376C3C091734C26907 /* CalendarView.swift */; };
 		9505DF1CAFDD010BE083201E /* DailyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C3674DECE5748A01FEB615 /* DailyTask.swift */; };
+		9BA54A7C57B860F5439E53FD /* MacIssueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EF3AF3368917224D2F80B /* MacIssueView.swift */; };
 		9D9EE8F7EBECA0F9869D50CF /* IssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCD9704ABA6BCED42FEE040 /* IssueViewModel.swift */; };
 		9DAB1C559FD384FC55B11E55 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38843B376C3C091734C26907 /* CalendarView.swift */; };
+		9E3C60201A4924FEB9343E70 /* MacHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72527D085D9BBF47CADDB6D7 /* MacHomeView.swift */; };
+		9EC6F4FF62EB661502842952 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 644CB144E5C052CBE5E35BBC /* Assets.xcassets */; };
 		A215906B3FF58E272D5B0B34 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C934F49F589D8DA94837FB1 /* CalendarViewModel.swift */; };
+		A6895A72B8C48E1CA32A90CE /* SharedComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE7CF19D2869B82C387DEB6 /* SharedComponents.swift */; };
 		A7731F6901BD76CF89B6CE30 /* IssueDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D56E31B023DDB69ADD3C96 /* IssueDetailView.swift */; };
 		A83E6CA4C13F64547378A47B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C83A4E39ACFC8FC0BA4AFC /* HomeViewModel.swift */; };
 		AA3C0BD422C64A4B6254685D /* iOSRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D36E89E4B02D5C63BB41C3 /* iOSRootView.swift */; };
@@ -48,34 +61,44 @@
 		B17E99D81CAF61CE3CDF7CD7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF64F21112F9CB9C4D1D0F /* ContentView.swift */; };
 		B4F1FF884544A9964F6E7F89 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECCFE4D6C69F87509594B48 /* Date+Extensions.swift */; };
 		B5FFE9EE9DCF9AF6BEBAE4A4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF64F21112F9CB9C4D1D0F /* ContentView.swift */; };
+		B8D4F38DEEA8D6D0686D8B27 /* MacIssueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EF3AF3368917224D2F80B /* MacIssueView.swift */; };
 		BB10E6751F4E01254A7EFDA0 /* PreviewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786C8E67AA2979A0AF277B11 /* PreviewHelpers.swift */; };
 		BD6FE66ED645FEA6D8334207 /* TodayTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB5A4F7A9F192E8EDC142FE /* TodayTasksView.swift */; };
 		C28AEFE4E7C81C197F9DA2F7 /* JdayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483E0D1333BC41C47CE541D /* JdayApp.swift */; };
 		C74838D63D2C150B3C9F6154 /* QuickAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2AE13F09497DBAA9E9B12C /* QuickAddView.swift */; };
 		CACD52FAEEB66020A654251D /* SummaryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F921E1C837EF3AAABA7319 /* SummaryCardView.swift */; };
+		CEE9A156A9358B9608B93970 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157127C7C036A5189D81182B /* Theme.swift */; };
 		D3516AC018153FE471B20557 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECCFE4D6C69F87509594B48 /* Date+Extensions.swift */; };
 		D4DA964A12065B2A35790262 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383A95A5C0ED57C537FB6190 /* SettingsView.swift */; };
 		DE8878830970EBA47FD1E98F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835E9EA647E8A777EAFC1AFB /* HomeView.swift */; };
 		E2904634C67076CFFEA18BCB /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C934F49F589D8DA94837FB1 /* CalendarViewModel.swift */; };
 		F0D7BDD0C8E9BBEA0413A5DF /* iOSRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D36E89E4B02D5C63BB41C3 /* iOSRootView.swift */; };
+		FB75D2299B2BBC7C42D34FD0 /* IssueRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B83C52848D656A79E0A801 /* IssueRowView.swift */; };
 		FED044D26622422CC7FD1AEE /* macOSRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F73561B21F580E0DDF48FF0 /* macOSRootView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E2EF3AF3368917224D2F80B /* MacIssueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIssueView.swift; sourceTree = "<group>"; };
 		11475CAC72A97A361328EFEE /* Jday.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Jday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13AC70FB29B59CA5B986FC87 /* Jday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Jday.entitlements; sourceTree = "<group>"; };
+		157127C7C036A5189D81182B /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		16D36E89E4B02D5C63BB41C3 /* iOSRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSRootView.swift; sourceTree = "<group>"; };
 		24C83A4E39ACFC8FC0BA4AFC /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		28B83C52848D656A79E0A801 /* IssueRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueRowView.swift; sourceTree = "<group>"; };
 		29BF7F19BE7E443A893EDFB3 /* YesterdayTasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YesterdayTasksView.swift; sourceTree = "<group>"; };
 		2E2DF13F0D93A22F0F99AD5B /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		2F2AE13F09497DBAA9E9B12C /* QuickAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddView.swift; sourceTree = "<group>"; };
+		3046959B0FCF64E81B9BC763 /* MacCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacCalendarView.swift; sourceTree = "<group>"; };
 		383A95A5C0ED57C537FB6190 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		38843B376C3C091734C26907 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		3C36B8DAAF0F4D1D4D91B7BC /* TodayScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayScheduleView.swift; sourceTree = "<group>"; };
 		4C934F49F589D8DA94837FB1 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		55D56E31B023DDB69ADD3C96 /* IssueDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailView.swift; sourceTree = "<group>"; };
+		58EE8F45C8C156F105568370 /* IssueDetailContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailContent.swift; sourceTree = "<group>"; };
 		61574E5F5EE807DAD85E43A3 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
+		644CB144E5C052CBE5E35BBC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6ECCFE4D6C69F87509594B48 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
+		72527D085D9BBF47CADDB6D7 /* MacHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacHomeView.swift; sourceTree = "<group>"; };
 		786C8E67AA2979A0AF277B11 /* PreviewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewHelpers.swift; sourceTree = "<group>"; };
 		7CCD9704ABA6BCED42FEE040 /* IssueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueViewModel.swift; sourceTree = "<group>"; };
 		835E9EA647E8A777EAFC1AFB /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -86,6 +109,7 @@
 		B7F921E1C837EF3AAABA7319 /* SummaryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCardView.swift; sourceTree = "<group>"; };
 		C5EA92AE35FCCCC60ADF0018 /* Issue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Issue.swift; sourceTree = "<group>"; };
 		C7745CA1AE7D0B753A6FCA2B /* Priority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Priority.swift; sourceTree = "<group>"; };
+		CCE7CF19D2869B82C387DEB6 /* SharedComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedComponents.swift; sourceTree = "<group>"; };
 		D8958666D198532AC2BEBF96 /* Jday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF98025765C748986CD103EB /* IssueListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListView.swift; sourceTree = "<group>"; };
 		E055CBCF5018493DB663361D /* QuickAddViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddViewModel.swift; sourceTree = "<group>"; };
@@ -196,9 +220,19 @@
 			path = Calendar;
 			sourceTree = "<group>";
 		};
+		7FBBD55CE3D9FC3BAAB3FB0A /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				CCE7CF19D2869B82C387DEB6 /* SharedComponents.swift */,
+				157127C7C036A5189D81182B /* Theme.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
 		8C31045ADA470CADA75DEB7E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				644CB144E5C052CBE5E35BBC /* Assets.xcassets */,
 				A83B9F894969AB4D17E07058 /* Info.plist */,
 				13AC70FB29B59CA5B986FC87 /* Jday.entitlements */,
 			);
@@ -208,6 +242,7 @@
 		8FA9494A6F7AAF6DBCBD3E31 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				7FBBD55CE3D9FC3BAAB3FB0A /* DesignSystem */,
 				64CFC9DDC760FDC6A261BE23 /* Extensions */,
 				50FBAA17EEAF910EE3D478C9 /* Helpers */,
 				3F7E1A877E76F920E8CBF37A /* Services */,
@@ -248,8 +283,10 @@
 		B1A3E51C69A796271FF127E2 /* Issue */ = {
 			isa = PBXGroup;
 			children = (
+				58EE8F45C8C156F105568370 /* IssueDetailContent.swift */,
 				55D56E31B023DDB69ADD3C96 /* IssueDetailView.swift */,
 				DF98025765C748986CD103EB /* IssueListView.swift */,
+				28B83C52848D656A79E0A801 /* IssueRowView.swift */,
 				7CCD9704ABA6BCED42FEE040 /* IssueViewModel.swift */,
 			);
 			path = Issue;
@@ -258,6 +295,9 @@
 		E7B2BD9736B82072E3C8059A /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				3046959B0FCF64E81B9BC763 /* MacCalendarView.swift */,
+				72527D085D9BBF47CADDB6D7 /* MacHomeView.swift */,
+				0E2EF3AF3368917224D2F80B /* MacIssueView.swift */,
 				9F73561B21F580E0DDF48FF0 /* macOSRootView.swift */,
 			);
 			path = macOS;
@@ -291,6 +331,7 @@
 			buildConfigurationList = 01FEF40C2FDDEE8CEE624068 /* Build configuration list for PBXNativeTarget "Jday_iOS" */;
 			buildPhases = (
 				29E04BB3E6D298D107301F29 /* Sources */,
+				DE1778D8EEDC6B0BB8800C42 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -308,6 +349,7 @@
 			buildConfigurationList = 454044652D45E3689FA148B0 /* Build configuration list for PBXNativeTarget "Jday_macOS" */;
 			buildPhases = (
 				C48B7AB00FC213C5312A6F61 /* Sources */,
+				D761E2C86542EACDB000AB5E /* Resources */,
 			);
 			buildRules = (
 			);
@@ -359,6 +401,25 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		D761E2C86542EACDB000AB5E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9EC6F4FF62EB661502842952 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DE1778D8EEDC6B0BB8800C42 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C6B54373FBFED3B6DA4173B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		29E04BB3E6D298D107301F29 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -373,10 +434,15 @@
 				05FFE39E09D430254236A8CB /* HomeView.swift in Sources */,
 				73A6FFE92092742D5F02C615 /* HomeViewModel.swift in Sources */,
 				0F3871F9F8C5D18B1150F9ED /* Issue.swift in Sources */,
+				285B6838CDEF9CBFB693BBE3 /* IssueDetailContent.swift in Sources */,
 				18DA63BC8515F65C7B446D32 /* IssueDetailView.swift in Sources */,
 				73935BF7E92E4001EE0D7B6E /* IssueListView.swift in Sources */,
+				90E3CC39C6D893F4F765FE8B /* IssueRowView.swift in Sources */,
 				658D6F3C5ADD806905EF4494 /* IssueViewModel.swift in Sources */,
 				663D9DF12E3D6C5A9DC5C30B /* JdayApp.swift in Sources */,
+				9107F4B93927860B0EAF3309 /* MacCalendarView.swift in Sources */,
+				9E3C60201A4924FEB9343E70 /* MacHomeView.swift in Sources */,
+				9BA54A7C57B860F5439E53FD /* MacIssueView.swift in Sources */,
 				767ED8FF28B44249315D6063 /* NotificationService.swift in Sources */,
 				BB10E6751F4E01254A7EFDA0 /* PreviewHelpers.swift in Sources */,
 				1E58DFC03785573B82D2AEAA /* Priority.swift in Sources */,
@@ -384,7 +450,9 @@
 				5F6A1CDEFF5096AEDCDAAC20 /* QuickAddViewModel.swift in Sources */,
 				557D2949FE35210A197D02DD /* Schedule.swift in Sources */,
 				2AF2C3FA0ED1E1EFE3447E56 /* SettingsView.swift in Sources */,
+				141962B8F4A6417BAD75006A /* SharedComponents.swift in Sources */,
 				02992D9534B32C937FCDA2D7 /* SummaryCardView.swift in Sources */,
+				4930D0A980A1AC5D1BEDD800 /* Theme.swift in Sources */,
 				2D498412D3B0E0FDBC670E23 /* TodayScheduleView.swift in Sources */,
 				5DD21AEDA0FF187634EE3550 /* TodayTasksView.swift in Sources */,
 				B0EB42C840BB63D7BE4843FF /* YesterdayTasksView.swift in Sources */,
@@ -406,10 +474,15 @@
 				DE8878830970EBA47FD1E98F /* HomeView.swift in Sources */,
 				A83E6CA4C13F64547378A47B /* HomeViewModel.swift in Sources */,
 				67390BF5AD17934108659851 /* Issue.swift in Sources */,
+				3AA5F332C1F33273B197837B /* IssueDetailContent.swift in Sources */,
 				A7731F6901BD76CF89B6CE30 /* IssueDetailView.swift in Sources */,
 				1CFFDEC372858AD93AAD61FB /* IssueListView.swift in Sources */,
+				FB75D2299B2BBC7C42D34FD0 /* IssueRowView.swift in Sources */,
 				9D9EE8F7EBECA0F9869D50CF /* IssueViewModel.swift in Sources */,
 				C28AEFE4E7C81C197F9DA2F7 /* JdayApp.swift in Sources */,
+				4E141DC7BD7C5164D0F1FE7F /* MacCalendarView.swift in Sources */,
+				65D38C34EE6FB2C7C796191D /* MacHomeView.swift in Sources */,
+				B8D4F38DEEA8D6D0686D8B27 /* MacIssueView.swift in Sources */,
 				7F2BADBA8BE530E06F56E33F /* NotificationService.swift in Sources */,
 				867962C1BCB211F6DA928504 /* PreviewHelpers.swift in Sources */,
 				351C7197D837F3277DCF9616 /* Priority.swift in Sources */,
@@ -417,7 +490,9 @@
 				06F2B4E6F9F287606D8BA129 /* QuickAddViewModel.swift in Sources */,
 				922A0E323DBB0D7D7D79D566 /* Schedule.swift in Sources */,
 				D4DA964A12065B2A35790262 /* SettingsView.swift in Sources */,
+				A6895A72B8C48E1CA32A90CE /* SharedComponents.swift in Sources */,
 				CACD52FAEEB66020A654251D /* SummaryCardView.swift in Sources */,
+				CEE9A156A9358B9608B93970 /* Theme.swift in Sources */,
 				3ABC01EA42E63348D8EB8EA0 /* TodayScheduleView.swift in Sources */,
 				BD6FE66ED645FEA6D8334207 /* TodayTasksView.swift in Sources */,
 				575295483F89812B4469BC91 /* YesterdayTasksView.swift in Sources */,

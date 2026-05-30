@@ -5,20 +5,33 @@ struct TodayTasksView: View {
     let tasks: [DailyTask]
     let onToggle: (DailyTask) -> Void
 
-    private var pending: [DailyTask] { tasks.filter { !$0.isDone } }
-    private var done: [DailyTask] { tasks.filter { $0.isDone } }
+    private var ordered: [DailyTask] {
+        tasks.filter { !$0.isDone } + tasks.filter { $0.isDone }
+    }
+
+    private var doneCount: Int { tasks.filter(\.isDone).count }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("오늘 할 일")
-                .font(.headline)
+        VStack(alignment: .leading, spacing: Theme.Spacing.md) {
+            CardHeader(
+                title: "오늘 할 일",
+                trailing: tasks.isEmpty ? nil : "\(doneCount) / \(tasks.count) 완료"
+            )
 
             if tasks.isEmpty {
                 emptyState
             } else {
-                taskList
+                VStack(spacing: 0) {
+                    ForEach(Array(ordered.enumerated()), id: \.element.persistentModelID) { index, task in
+                        row(task)
+                        if index < ordered.count - 1 {
+                            DashedDivider()
+                        }
+                    }
+                }
             }
         }
+        .cardStyle()
     }
 
     private var emptyState: some View {
@@ -26,28 +39,17 @@ struct TodayTasksView: View {
             .font(.subheadline)
             .foregroundStyle(.secondary)
             .frame(maxWidth: .infinity, alignment: .center)
-            .padding(.vertical, 12)
+            .padding(.vertical, Theme.Spacing.md)
     }
 
-    private var taskList: some View {
-        VStack(spacing: 4) {
-            ForEach(pending) { task in
-                taskRow(task)
-            }
-            ForEach(done) { task in
-                taskRow(task)
-            }
-        }
-    }
-
-    private func taskRow(_ task: DailyTask) -> some View {
+    private func row(_ task: DailyTask) -> some View {
         Button {
-            onToggle(task)
+            withAnimation(.easeOut(duration: 0.2)) { onToggle(task) }
         } label: {
-            HStack(spacing: 12) {
+            HStack(spacing: Theme.Spacing.md) {
                 Image(systemName: task.isDone ? "checkmark.circle.fill" : "circle")
-                    .foregroundStyle(task.isDone ? .green : .secondary)
-                    .font(.title3)
+                    .font(.system(size: 20))
+                    .foregroundStyle(task.isDone ? Theme.Colors.brand : Color.secondary)
 
                 Text(task.title)
                     .font(.subheadline)
@@ -56,14 +58,21 @@ struct TodayTasksView: View {
 
                 Spacer()
 
-                Circle()
-                    .fill(Color.priority(task.priority))
-                    .frame(width: 8, height: 8)
+                Text(task.date.amPmLabel)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
-            .padding(.vertical, 6)
+            .padding(.vertical, Theme.Spacing.sm)
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .accessibilityLabel("\(task.title), \(task.isDone ? "완료" : "미완료")")
         .accessibilityHint("탭하여 상태 변경")
     }
+}
+
+#Preview {
+    TodayTasksView(tasks: PreviewHelpers.sampleTasks, onToggle: { _ in })
+        .padding()
+        .background(Theme.Colors.appBackground)
 }

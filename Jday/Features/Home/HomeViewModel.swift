@@ -12,6 +12,12 @@ final class HomeViewModel: ObservableObject {
         save(context: context)
     }
 
+    func moveTaskToToday(_ task: DailyTask, context: ModelContext) {
+        task.date = .now
+        task.updatedAt = .now
+        save(context: context)
+    }
+
     func moveYesterdayTasksToToday(_ tasks: [DailyTask], context: ModelContext) {
         for task in tasks {
             task.date = .now

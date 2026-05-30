@@ -3,37 +3,67 @@ import SwiftData
 
 struct YesterdayTasksView: View {
     let tasks: [DailyTask]
+    let onMoveOne: (DailyTask) -> Void
     let onMoveAll: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Text("어제 미완료")
-                    .font(.headline)
+        VStack(alignment: .leading, spacing: Theme.Spacing.md) {
+            CardHeader(title: "어제 미완료", trailing: "\(tasks.count)개")
 
-                Spacer()
-
-                Button(String(localized: "모두 오늘로")) {
-                    onMoveAll()
+            VStack(spacing: 0) {
+                ForEach(Array(tasks.enumerated()), id: \.element.persistentModelID) { index, task in
+                    row(task)
+                    if index < tasks.count - 1 {
+                        DashedDivider()
+                            .padding(.vertical, Theme.Spacing.xs)
+                    }
                 }
-                .font(.caption)
-                .foregroundStyle(Color.accentColor)
             }
 
-            ForEach(tasks) { task in
-                HStack(spacing: 8) {
-                    Circle()
-                        .fill(Color.priority(task.priority))
-                        .frame(width: 8, height: 8)
-
-                    Text(task.title)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .strikethrough(task.isDone)
-                }
-                .padding(.vertical, 2)
+            Button {
+                onMoveAll()
+            } label: {
+                Text("모두 오늘로 옮기기")
             }
+            .buttonStyle(PrimaryButtonStyle())
+            .padding(.top, Theme.Spacing.xs)
         }
-        .accessibilityLabel("어제 미완료 항목 \(tasks.count)개")
+        .cardStyle()
+        .accessibilityElement(children: .contain)
     }
+
+    private func row(_ task: DailyTask) -> some View {
+        HStack(spacing: Theme.Spacing.md) {
+            Image(systemName: "circle")
+                .font(.system(size: 18))
+                .foregroundStyle(.secondary)
+
+            Text(task.title)
+                .font(.subheadline)
+                .foregroundStyle(.primary)
+
+            Spacer()
+
+            Button {
+                onMoveOne(task)
+            } label: {
+                Label("오늘로", systemImage: "arrow.uturn.left")
+                    .font(.caption.weight(.medium))
+                    .labelStyle(.titleAndIcon)
+                    .foregroundStyle(Theme.Colors.brand)
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(.vertical, Theme.Spacing.sm)
+    }
+}
+
+#Preview {
+    YesterdayTasksView(
+        tasks: PreviewHelpers.sampleYesterdayTasks,
+        onMoveOne: { _ in },
+        onMoveAll: {}
+    )
+    .padding()
+    .background(Theme.Colors.appBackground)
 }
