@@ -16,6 +16,8 @@ struct CalendarView: View {
         viewModel.schedulesFor(date: viewModel.selectedDate, schedules: schedules)
     }
 
+    @State private var selectedTask: DailyTask?
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Theme.Spacing.lg) {
@@ -31,6 +33,9 @@ struct CalendarView: View {
         #if os(iOS)
         .toolbar(.hidden, for: .navigationBar)
         #endif
+        .sheet(item: $selectedTask) { task in
+            TaskDetailView(task: task)
+        }
     }
 
     private var header: some View {
@@ -153,11 +158,15 @@ struct CalendarView: View {
                 TodayScheduleView(schedules: selectedSchedules)
             }
 
-            TodayTasksView(tasks: selectedTasks) { task in
-                task.isDone.toggle()
-                task.updatedAt = .now
-                try? context.save()
-            }
+            TodayTasksView(
+                tasks: selectedTasks,
+                onToggle: { task in
+                    task.isDone.toggle()
+                    task.updatedAt = .now
+                    try? context.save()
+                },
+                onSelect: { selectedTask = $0 }
+            )
         }
     }
 

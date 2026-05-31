@@ -17,6 +17,7 @@ final class QuickAddViewModel: ObservableObject {
 
     // 할 일
     @Published var taskTitle = ""
+    @Published var taskDetail = ""
     @Published var taskDate = Date.now
     @Published var taskPriority = Priority.medium
 
@@ -46,7 +47,13 @@ final class QuickAddViewModel: ObservableObject {
 
     func saveTask(context: ModelContext) -> Bool {
         guard canSaveTask else { return false }
-        let task = DailyTask(title: taskTitle.trimmingCharacters(in: .whitespaces), date: taskDate, priority: taskPriority)
+        let trimmedDetail = taskDetail.trimmingCharacters(in: .whitespacesAndNewlines)
+        let task = DailyTask(
+            title: taskTitle.trimmingCharacters(in: .whitespaces),
+            detail: trimmedDetail.isEmpty ? nil : trimmedDetail,
+            date: taskDate,
+            priority: taskPriority
+        )
         context.insert(task)
         return save(context: context)
     }
@@ -86,6 +93,7 @@ final class QuickAddViewModel: ObservableObject {
         switch selectedTab {
         case .task:
             taskTitle = ""
+            taskDetail = ""
             taskDate = .now
             taskPriority = .medium
         case .schedule:

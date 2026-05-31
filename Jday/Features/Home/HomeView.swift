@@ -8,6 +8,8 @@ struct HomeView: View {
     @Query(sort: \DailyTask.date) private var allTasks: [DailyTask]
     @Query(sort: \Schedule.startTime) private var allSchedules: [Schedule]
 
+    @State private var selectedTask: DailyTask?
+
     private var todayTasks: [DailyTask] {
         allTasks.filter { $0.date.isToday }
     }
@@ -40,6 +42,9 @@ struct HomeView: View {
         #if os(iOS)
         .toolbar(.hidden, for: .navigationBar)
         #endif
+        .sheet(item: $selectedTask) { task in
+            TaskDetailView(task: task)
+        }
     }
 
     private var content: some View {
@@ -55,9 +60,11 @@ struct HomeView: View {
                 )
             }
 
-            TodayTasksView(tasks: todayTasks) { task in
-                viewModel.toggleTask(task, context: context)
-            }
+            TodayTasksView(
+                tasks: todayTasks,
+                onToggle: { viewModel.toggleTask($0, context: context) },
+                onSelect: { selectedTask = $0 }
+            )
 
             TodayScheduleView(schedules: todaySchedules)
         }

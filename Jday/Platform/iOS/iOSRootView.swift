@@ -3,6 +3,7 @@ import SwiftUI
 enum Tab: String {
     case home
     case calendar
+    case quickAdd
     case issue
     case settings
 }
@@ -10,6 +11,7 @@ enum Tab: String {
 struct iOSRootView: View {
     @AppStorage("startTab") private var startTab = "home"
     @State private var selectedTab: Tab = iOSRootView.defaultTab
+    @State private var previousTab: Tab = iOSRootView.defaultTab
     @State private var showQuickAdd = false
 
     /// 월요일 → 캘린더, 그 외 → 홈
@@ -28,6 +30,11 @@ struct iOSRootView: View {
                     .tabItem { Label("캘린더", systemImage: "calendar") }
                     .tag(Tab.calendar)
 
+                // 중앙 FAB 자리 확보용 placeholder 탭 (간격 균등화)
+                Color.clear
+                    .tabItem { Text(" ") }
+                    .tag(Tab.quickAdd)
+
                 NavigationStack { IssueListView() }
                     .tabItem { Label("이슈", systemImage: "exclamationmark.triangle") }
                     .tag(Tab.issue)
@@ -37,6 +44,14 @@ struct iOSRootView: View {
                     .tag(Tab.settings)
             }
             .tint(Theme.Colors.brand)
+            .onChange(of: selectedTab) { oldValue, newValue in
+                if newValue == .quickAdd {
+                    showQuickAdd = true
+                    selectedTab = oldValue == .quickAdd ? previousTab : oldValue
+                } else {
+                    previousTab = newValue
+                }
+            }
 
             fab
         }
@@ -46,7 +61,9 @@ struct iOSRootView: View {
                 .presentationDragIndicator(.hidden)
         }
         .onAppear {
-            selectedTab = startTab == "calendar" ? .calendar : iOSRootView.defaultTab
+            let initial: Tab = startTab == "calendar" ? .calendar : iOSRootView.defaultTab
+            selectedTab = initial
+            previousTab = initial
         }
     }
 

@@ -4,6 +4,8 @@ import SwiftData
 struct TodayTasksView: View {
     let tasks: [DailyTask]
     let onToggle: (DailyTask) -> Void
+    /// 항목 본문 탭 시 호출(상세/수정). nil이면 본문 탭도 완료 토글로 동작.
+    var onSelect: ((DailyTask) -> Void)? = nil
 
     private var ordered: [DailyTask] {
         tasks.filter { !$0.isDone } + tasks.filter { $0.isDone }
@@ -43,31 +45,56 @@ struct TodayTasksView: View {
     }
 
     private func row(_ task: DailyTask) -> some View {
-        Button {
-            withAnimation(.easeOut(duration: 0.2)) { onToggle(task) }
-        } label: {
-            HStack(spacing: Theme.Spacing.md) {
+        HStack(spacing: Theme.Spacing.md) {
+            // 체크박스: 완료 토글 전용
+            Button {
+                withAnimation(.easeOut(duration: 0.2)) { onToggle(task) }
+            } label: {
                 Image(systemName: task.isDone ? "checkmark.circle.fill" : "circle")
                     .font(.system(size: 20))
                     .foregroundStyle(task.isDone ? Theme.Colors.brand : Color.secondary)
-
-                Text(task.title)
-                    .font(.subheadline)
-                    .strikethrough(task.isDone)
-                    .foregroundStyle(task.isDone ? .secondary : .primary)
-
-                Spacer()
-
-                Text(task.date.amPmLabel)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .contentShape(Rectangle())
             }
-            .padding(.vertical, Theme.Spacing.sm)
-            .contentShape(Rectangle())
+            .buttonStyle(.plain)
+            .accessibilityLabel(task.isDone ? "완료됨" : "미완료")
+            .accessibilityHint("탭하여 완료 상태 변경")
+
+            // 본문: 상세/수정으로 이동(onSelect 없으면 토글)
+            Button {
+                if let onSelect {
+                    onSelect(task)
+                } else {
+                    withAnimation(.easeOut(duration: 0.2)) { onToggle(task) }
+                }
+            } label: {
+                HStack(spacing: Theme.Spacing.md) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(task.title)
+                            .font(.subheadline)
+                            .strikethrough(task.isDone)
+                            .foregroundStyle(task.isDone ? .secondary : .primary)
+
+                        if let detail = task.detail, !detail.isEmpty {
+                            Text(detail)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .lineLimit(1)
+                        }
+                    }
+
+                    Spacer()
+
+                    Text(task.date.amPmLabel)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("\(task.title)\(task.detail.map { ", \($0)" } ?? "")")
+            .accessibilityHint(onSelect == nil ? "탭하여 완료 상태 변경" : "탭하여 상세 보기")
         }
-        .buttonStyle(.plain)
-        .accessibilityLabel("\(task.title), \(task.isDone ? "완료" : "미완료")")
-        .accessibilityHint("탭하여 상태 변경")
+        .padding(.vertical, Theme.Spacing.sm)
     }
 }
 

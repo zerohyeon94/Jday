@@ -71,7 +71,7 @@ struct QuickAddView: View {
 
     private var hasInput: Bool {
         switch viewModel.selectedTab {
-        case .task: !viewModel.taskTitle.isEmpty
+        case .task: !viewModel.taskTitle.isEmpty || !viewModel.taskDetail.isEmpty
         case .schedule: !viewModel.scheduleTitle.isEmpty || !viewModel.scheduleLocation.isEmpty
         case .issue: !viewModel.issueTitle.isEmpty || !viewModel.issueDetail.isEmpty
         }
@@ -98,6 +98,9 @@ struct QuickAddView: View {
         VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
             field(label: "제목") {
                 styledField("할 일 제목을 입력", text: $viewModel.taskTitle)
+            }
+            field(label: "메모 (선택)") {
+                styledField("할 일에 대한 설명을 입력", text: $viewModel.taskDetail, axis: .vertical)
             }
             field(label: "날짜") {
                 DatePicker("", selection: $viewModel.taskDate, displayedComponents: .date)

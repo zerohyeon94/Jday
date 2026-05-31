@@ -38,9 +38,13 @@ struct macOSRootView: View {
     private var sidebar: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: Theme.Spacing.sm) {
-                RoundedRectangle(cornerRadius: 6)
-                    .fill(Theme.Colors.brand)
-                    .frame(width: 22, height: 22)
+                Image("AppLogo")
+                    .resizable()
+                    .interpolation(.high)
+                    .scaledToFit()
+                    .frame(width: 24, height: 24)
+                    .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+                    .accessibilityHidden(true)
                 Text("Jday")
                     .font(.headline)
             }

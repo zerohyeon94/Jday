@@ -30,6 +30,7 @@
 		51A223E3AC8A2867A03D735C /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2DF13F0D93A22F0F99AD5B /* Color+Extensions.swift */; };
 		557D2949FE35210A197D02DD /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61574E5F5EE807DAD85E43A3 /* Schedule.swift */; };
 		575295483F89812B4469BC91 /* YesterdayTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BF7F19BE7E443A893EDFB3 /* YesterdayTasksView.swift */; };
+		5A8940EACA1A29C6B466247A /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59406FC5C9473B03E90E6672 /* TaskDetailView.swift */; };
 		5DD21AEDA0FF187634EE3550 /* TodayTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB5A4F7A9F192E8EDC142FE /* TodayTasksView.swift */; };
 		5F6A1CDEFF5096AEDCDAAC20 /* QuickAddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055CBCF5018493DB663361D /* QuickAddViewModel.swift */; };
 		658D6F3C5ADD806905EF4494 /* IssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCD9704ABA6BCED42FEE040 /* IssueViewModel.swift */; };
@@ -54,6 +55,7 @@
 		9E3C60201A4924FEB9343E70 /* MacHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72527D085D9BBF47CADDB6D7 /* MacHomeView.swift */; };
 		9EC6F4FF62EB661502842952 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 644CB144E5C052CBE5E35BBC /* Assets.xcassets */; };
 		A215906B3FF58E272D5B0B34 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C934F49F589D8DA94837FB1 /* CalendarViewModel.swift */; };
+		A5BA8DE24EB6DBE06B711A92 /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59406FC5C9473B03E90E6672 /* TaskDetailView.swift */; };
 		A6895A72B8C48E1CA32A90CE /* SharedComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE7CF19D2869B82C387DEB6 /* SharedComponents.swift */; };
 		A7731F6901BD76CF89B6CE30 /* IssueDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D56E31B023DDB69ADD3C96 /* IssueDetailView.swift */; };
 		A83E6CA4C13F64547378A47B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C83A4E39ACFC8FC0BA4AFC /* HomeViewModel.swift */; };
@@ -98,6 +100,7 @@
 		4C934F49F589D8DA94837FB1 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		55D56E31B023DDB69ADD3C96 /* IssueDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailView.swift; sourceTree = "<group>"; };
 		58EE8F45C8C156F105568370 /* IssueDetailContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailContent.swift; sourceTree = "<group>"; };
+		59406FC5C9473B03E90E6672 /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
 		61574E5F5EE807DAD85E43A3 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		644CB144E5C052CBE5E35BBC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6ECCFE4D6C69F87509594B48 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
@@ -270,6 +273,7 @@
 			children = (
 				835E9EA647E8A777EAFC1AFB /* HomeView.swift */,
 				24C83A4E39ACFC8FC0BA4AFC /* HomeViewModel.swift */,
+				59406FC5C9473B03E90E6672 /* TaskDetailView.swift */,
 				90D06997327E79756951D475 /* Components */,
 			);
 			path = Home;
@@ -457,6 +461,7 @@
 				2AF2C3FA0ED1E1EFE3447E56 /* SettingsView.swift in Sources */,
 				141962B8F4A6417BAD75006A /* SharedComponents.swift in Sources */,
 				02992D9534B32C937FCDA2D7 /* SummaryCardView.swift in Sources */,
+				5A8940EACA1A29C6B466247A /* TaskDetailView.swift in Sources */,
 				4930D0A980A1AC5D1BEDD800 /* Theme.swift in Sources */,
 				2D498412D3B0E0FDBC670E23 /* TodayScheduleView.swift in Sources */,
 				5DD21AEDA0FF187634EE3550 /* TodayTasksView.swift in Sources */,
@@ -498,6 +503,7 @@
 				D4DA964A12065B2A35790262 /* SettingsView.swift in Sources */,
 				A6895A72B8C48E1CA32A90CE /* SharedComponents.swift in Sources */,
 				CACD52FAEEB66020A654251D /* SummaryCardView.swift in Sources */,
+				A5BA8DE24EB6DBE06B711A92 /* TaskDetailView.swift in Sources */,
 				CEE9A156A9358B9608B93970 /* Theme.swift in Sources */,
 				3ABC01EA42E63348D8EB8EA0 /* TodayScheduleView.swift in Sources */,
 				BD6FE66ED645FEA6D8334207 /* TodayTasksView.swift in Sources */,

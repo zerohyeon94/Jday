@@ -12,6 +12,8 @@ struct MacCalendarView: View {
     private var selectedTasks: [DailyTask] { viewModel.tasksFor(date: viewModel.selectedDate, tasks: tasks) }
     private var selectedSchedules: [Schedule] { viewModel.schedulesFor(date: viewModel.selectedDate, schedules: schedules) }
 
+    @State private var selectedTask: DailyTask?
+
     var body: some View {
         HStack(spacing: 0) {
             gridColumn
@@ -20,6 +22,9 @@ struct MacCalendarView: View {
         }
         .background(Theme.Colors.appBackground)
         .navigationTitle("캘린더")
+        .sheet(item: $selectedTask) { task in
+            TaskDetailView(task: task)
+        }
     }
 
     private var gridColumn: some View {
@@ -137,11 +142,15 @@ struct MacCalendarView: View {
 
                 TodayScheduleView(schedules: selectedSchedules)
 
-                TodayTasksView(tasks: selectedTasks) { task in
-                    task.isDone.toggle()
-                    task.updatedAt = .now
-                    try? context.save()
-                }
+                TodayTasksView(
+                    tasks: selectedTasks,
+                    onToggle: { task in
+                        task.isDone.toggle()
+                        task.updatedAt = .now
+                        try? context.save()
+                    },
+                    onSelect: { selectedTask = $0 }
+                )
             }
             .padding(Theme.screenPadding)
         }

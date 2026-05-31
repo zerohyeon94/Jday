@@ -9,6 +9,8 @@ struct MacHomeView: View {
     @Query(sort: \DailyTask.date) private var allTasks: [DailyTask]
     @Query(sort: \Schedule.startTime) private var allSchedules: [Schedule]
 
+    @State private var selectedTask: DailyTask?
+
     private var todayTasks: [DailyTask] { allTasks.filter { $0.date.isToday } }
     private var yesterdayPendingTasks: [DailyTask] { allTasks.filter { $0.date.isYesterday && !$0.isDone } }
     private var todaySchedules: [Schedule] { allSchedules.filter { $0.startTime.isToday } }
@@ -34,6 +36,9 @@ struct MacHomeView: View {
         }
         .background(Theme.Colors.appBackground)
         .navigationTitle("홈")
+        .sheet(item: $selectedTask) { task in
+            TaskDetailView(task: task)
+        }
     }
 
     private var header: some View {
@@ -64,9 +69,11 @@ struct MacHomeView: View {
                 )
             }
 
-            TodayTasksView(tasks: todayTasks) { task in
-                viewModel.toggleTask(task, context: context)
-            }
+            TodayTasksView(
+                tasks: todayTasks,
+                onToggle: { viewModel.toggleTask($0, context: context) },
+                onSelect: { selectedTask = $0 }
+            )
         }
         .frame(maxWidth: .infinity, alignment: .top)
     }
