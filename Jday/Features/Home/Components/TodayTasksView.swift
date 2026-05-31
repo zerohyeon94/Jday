@@ -46,6 +46,14 @@ struct TodayTasksView: View {
 
     private func row(_ task: DailyTask) -> some View {
         HStack(spacing: Theme.Spacing.md) {
+            // 좌측 우선순위 색상 바 (낮음=회색 / 중간=주황 / 높음=빨강)
+            RoundedRectangle(cornerRadius: 2, style: .continuous)
+                .fill(Color.priority(task.priority))
+                .frame(width: 4)
+                .frame(maxHeight: .infinity)
+                .opacity(task.isDone ? 0.3 : 1)
+                .accessibilityHidden(true)
+
             // 체크박스: 완료 토글 전용
             Button {
                 withAnimation(.easeOut(duration: 0.2)) { onToggle(task) }
@@ -91,7 +99,7 @@ struct TodayTasksView: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("\(task.title)\(task.detail.map { ", \($0)" } ?? "")")
+            .accessibilityLabel("\(task.title), 우선순위 \(task.priority.label)\(task.detail.map { ", \($0)" } ?? "")")
             .accessibilityHint(onSelect == nil ? "탭하여 완료 상태 변경" : "탭하여 상세 보기")
         }
         .padding(.vertical, Theme.Spacing.sm)

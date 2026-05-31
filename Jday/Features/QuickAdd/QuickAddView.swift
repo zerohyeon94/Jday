@@ -8,7 +8,6 @@ struct QuickAddView: View {
     @State private var showTabSwitchAlert = false
     @State private var pendingTab: QuickAddTab?
     @State private var contentHeight: CGFloat = 0
-    @State private var selectedDetent: PresentationDetent = .large
 
     var body: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
@@ -46,7 +45,10 @@ struct QuickAddView: View {
         .background(Theme.Colors.appBackground)
         .background(heightReader)
         #if os(iOS)
-        .presentationDetents(detents, selection: $selectedDetent)
+        // 키보드가 올라와도 시트 높이를 유지(콘텐츠가 밀려 측정값이 커지는 것 방지)
+        .ignoresSafeArea(.keyboard, edges: .bottom)
+        // 단일 height detent로 고정 → 키보드가 올라와도 시트가 .large로 점프하지 않음
+        .presentationDetents(detents)
         #endif
         .presentationDragIndicator(.hidden)
         .alert("입력 내용 초기화", isPresented: $showTabSwitchAlert) {
@@ -110,13 +112,12 @@ struct QuickAddView: View {
         .onPreferenceChange(ContentHeightKey.self) { height in
             guard height > 0, abs(height - contentHeight) > 1 else { return }
             contentHeight = height
-            selectedDetent = .height(height)
         }
     }
 
-    /// 측정된 내용 높이에 맞춘 detent(+ 안전 장치로 large 허용).
+    /// 측정된 내용 높이에 딱 맞춘 단일 detent. 측정 전에는 medium으로 표시.
     private var detents: Set<PresentationDetent> {
-        contentHeight > 0 ? [.height(contentHeight), .large] : [.large]
+        contentHeight > 0 ? [.height(contentHeight)] : [.medium]
     }
 
     // MARK: - Forms
