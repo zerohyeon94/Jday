@@ -57,13 +57,16 @@ struct iOSRootView: View {
         }
         .sheet(isPresented: $showQuickAdd) {
             QuickAddView()
-                .presentationDetents([.medium, .large])
-                .presentationDragIndicator(.hidden)
         }
         .onAppear {
             let initial: Tab = startTab == "calendar" ? .calendar : iOSRootView.defaultTab
             selectedTab = initial
             previousTab = initial
+            #if DEBUG
+            if CommandLine.arguments.contains("-openQuickAdd") {
+                showQuickAdd = true
+            }
+            #endif
         }
     }
 

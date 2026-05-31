@@ -7,10 +7,14 @@ struct QuickAddView: View {
     @StateObject private var viewModel = QuickAddViewModel()
     @State private var showTabSwitchAlert = false
     @State private var pendingTab: QuickAddTab?
+    @State private var contentHeight: CGFloat = 0
+    @State private var selectedDetent: PresentationDetent = .large
 
     var body: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
+            #if os(iOS)
             handle
+            #endif
 
             Text("빠른 추가")
                 .font(.title2.bold())
@@ -21,15 +25,15 @@ struct QuickAddView: View {
                 selection: tabBinding
             )
 
-            ScrollView {
-                VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
-                    switch viewModel.selectedTab {
-                    case .task: taskForm
-                    case .schedule: scheduleForm
-                    case .issue: issueForm
-                    }
+            // 내용을 한 번에 모두 표시(스크롤 없이) — 시트 높이는 아래 detent로 자동 맞춤
+            VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
+                switch viewModel.selectedTab {
+                case .task: taskForm
+                case .schedule: scheduleForm
+                case .issue: issueForm
                 }
             }
+            .animation(.easeInOut(duration: 0.2), value: viewModel.selectedTab)
 
             Button(action: save) {
                 Text("저장")
@@ -38,7 +42,12 @@ struct QuickAddView: View {
             .disabled(!canSave)
         }
         .padding(Theme.screenPadding)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(Theme.Colors.appBackground)
+        .background(heightReader)
+        #if os(iOS)
+        .presentationDetents(detents, selection: $selectedDetent)
+        #endif
         .presentationDragIndicator(.hidden)
         .alert("입력 내용 초기화", isPresented: $showTabSwitchAlert) {
             Button("초기화", role: .destructive) {
@@ -90,6 +99,24 @@ struct QuickAddView: View {
             .fill(Theme.Colors.cardStroke)
             .frame(width: 36, height: 5)
             .frame(maxWidth: .infinity)
+    }
+
+    /// 실제 콘텐츠 높이를 측정해 시트 높이를 내용에 맞춘다.
+    private var heightReader: some View {
+        GeometryReader { proxy in
+            Color.clear
+                .preference(key: ContentHeightKey.self, value: proxy.size.height)
+        }
+        .onPreferenceChange(ContentHeightKey.self) { height in
+            guard height > 0, abs(height - contentHeight) > 1 else { return }
+            contentHeight = height
+            selectedDetent = .height(height)
+        }
+    }
+
+    /// 측정된 내용 높이에 맞춘 detent(+ 안전 장치로 large 허용).
+    private var detents: Set<PresentationDetent> {
+        contentHeight > 0 ? [.height(contentHeight), .large] : [.large]
     }
 
     // MARK: - Forms
@@ -210,11 +237,18 @@ struct QuickAddView: View {
     }
 }
 
+/// 시트 내용 높이 측정용 PreferenceKey
+private struct ContentHeightKey: PreferenceKey {
+    static let defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = max(value, nextValue())
+    }
+}
+
 #Preview {
     Color.black.opacity(0.2)
         .sheet(isPresented: .constant(true)) {
             QuickAddView()
                 .modelContainer(PreviewHelpers.makeContainer())
-                .presentationDetents([.medium, .large])
         }
 }

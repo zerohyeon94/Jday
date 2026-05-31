@@ -100,7 +100,8 @@ struct macOSRootView: View {
             }
             .popover(isPresented: $showQuickAdd, arrowEdge: .top) {
                 QuickAddView()
-                    .frame(width: 360, height: 460)
+                    .frame(width: 360)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
     }
