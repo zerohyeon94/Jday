@@ -12,6 +12,7 @@
 		06F2B4E6F9F287606D8BA129 /* QuickAddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055CBCF5018493DB663361D /* QuickAddViewModel.swift */; };
 		0F3871F9F8C5D18B1150F9ED /* Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EA92AE35FCCCC60ADF0018 /* Issue.swift */; };
 		141962B8F4A6417BAD75006A /* SharedComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE7CF19D2869B82C387DEB6 /* SharedComponents.swift */; };
+		16EB02C394BDCCCE0F8D47DD /* AppearanceMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394FB1660EB764765FBB6CE1 /* AppearanceMode.swift */; };
 		18DA63BC8515F65C7B446D32 /* IssueDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D56E31B023DDB69ADD3C96 /* IssueDetailView.swift */; };
 		1CFFDEC372858AD93AAD61FB /* IssueListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF98025765C748986CD103EB /* IssueListView.swift */; };
 		1E58DFC03785573B82D2AEAA /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7745CA1AE7D0B753A6FCA2B /* Priority.swift */; };
@@ -73,6 +74,7 @@
 		DE8878830970EBA47FD1E98F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835E9EA647E8A777EAFC1AFB /* HomeView.swift */; };
 		E2904634C67076CFFEA18BCB /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C934F49F589D8DA94837FB1 /* CalendarViewModel.swift */; };
 		F0D7BDD0C8E9BBEA0413A5DF /* iOSRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D36E89E4B02D5C63BB41C3 /* iOSRootView.swift */; };
+		F0EEE1880B1D756DC23AF9D2 /* AppearanceMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394FB1660EB764765FBB6CE1 /* AppearanceMode.swift */; };
 		FB75D2299B2BBC7C42D34FD0 /* IssueRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B83C52848D656A79E0A801 /* IssueRowView.swift */; };
 		FED044D26622422CC7FD1AEE /* macOSRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F73561B21F580E0DDF48FF0 /* macOSRootView.swift */; };
 /* End PBXBuildFile section */
@@ -91,6 +93,7 @@
 		3046959B0FCF64E81B9BC763 /* MacCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacCalendarView.swift; sourceTree = "<group>"; };
 		383A95A5C0ED57C537FB6190 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		38843B376C3C091734C26907 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		394FB1660EB764765FBB6CE1 /* AppearanceMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceMode.swift; sourceTree = "<group>"; };
 		3C36B8DAAF0F4D1D4D91B7BC /* TodayScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayScheduleView.swift; sourceTree = "<group>"; };
 		4C934F49F589D8DA94837FB1 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		55D56E31B023DDB69ADD3C96 /* IssueDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailView.swift; sourceTree = "<group>"; };
@@ -223,6 +226,7 @@
 		7FBBD55CE3D9FC3BAAB3FB0A /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
+				394FB1660EB764765FBB6CE1 /* AppearanceMode.swift */,
 				CCE7CF19D2869B82C387DEB6 /* SharedComponents.swift */,
 				157127C7C036A5189D81182B /* Theme.swift */,
 			);
@@ -425,6 +429,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0EEE1880B1D756DC23AF9D2 /* AppearanceMode.swift in Sources */,
 				9DAB1C559FD384FC55B11E55 /* CalendarView.swift in Sources */,
 				E2904634C67076CFFEA18BCB /* CalendarViewModel.swift in Sources */,
 				2489B0969D662618F27E8CF1 /* Color+Extensions.swift in Sources */,
@@ -465,6 +470,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16EB02C394BDCCCE0F8D47DD /* AppearanceMode.swift in Sources */,
 				9299B208FE149300CA393A22 /* CalendarView.swift in Sources */,
 				A215906B3FF58E272D5B0B34 /* CalendarViewModel.swift in Sources */,
 				51A223E3AC8A2867A03D735C /* Color+Extensions.swift in Sources */,

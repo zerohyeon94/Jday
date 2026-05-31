@@ -41,7 +41,7 @@ struct macOSRootView: View {
                 RoundedRectangle(cornerRadius: 6)
                     .fill(Theme.Colors.brand)
                     .frame(width: 22, height: 22)
-                Text("DayFlow")
+                Text("Jday")
                     .font(.headline)
             }
             .padding(.horizontal, Theme.Spacing.md)

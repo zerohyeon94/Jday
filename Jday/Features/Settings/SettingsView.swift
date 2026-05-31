@@ -8,6 +8,7 @@ struct SettingsView: View {
     @AppStorage("startTab") private var startTab = "home"
     @AppStorage("weekStartsOnMonday") private var weekStartsOnMonday = false
     @AppStorage("autoHideCompleted") private var autoHideCompleted = true
+    @AppStorage("appearanceMode") private var appearanceModeRaw = AppearanceMode.system.rawValue
 
     @Environment(\.openURL) private var openURL
     @State private var notificationAuthStatus: UNAuthorizationStatus = .notDetermined
@@ -57,8 +58,23 @@ struct SettingsView: View {
         }
     }
 
+    private var appearanceBinding: Binding<AppearanceMode> {
+        Binding(
+            get: { AppearanceMode(rawValue: appearanceModeRaw) ?? .system },
+            set: { appearanceModeRaw = $0.rawValue }
+        )
+    }
+
     private var generalSection: some View {
         Section("일반") {
+            Picker(selection: appearanceBinding) {
+                ForEach(AppearanceMode.allCases) { mode in
+                    Label(mode.label, systemImage: mode.icon).tag(mode)
+                }
+            } label: {
+                Text("화면 모드")
+            }
+
             Picker("시작 화면", selection: $startTab) {
                 Text("홈").tag("home")
                 Text("캘린더").tag("calendar")
