@@ -91,6 +91,8 @@ struct TodayTasksView: View {
                             .font(.subheadline)
                             .strikethrough(task.isDone)
                             .foregroundStyle(task.isDone ? .secondary : .primary)
+                            .lineLimit(1)
+                            .truncationMode(.tail)
 
                         if let detail = task.detail, !detail.isEmpty {
                             Text(detail)
@@ -100,11 +102,14 @@ struct TodayTasksView: View {
                         }
                     }
 
-                    Spacer()
+                    Spacer(minLength: Theme.Spacing.sm)
 
                     trailingLabel(task)
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .fixedSize()
+                        .layoutPriority(1)
                 }
                 .contentShape(Rectangle())
             }
