@@ -18,8 +18,21 @@ final class CalendarViewModel: ObservableObject {
         tasks.filter { $0.date.isSameDay(as: date) }
     }
 
+    /// 해당 날짜와 기간이 겹치는 일정(여러 날 일정 포함)을 시간순으로 반환.
     func schedulesFor(date: Date, schedules: [Schedule]) -> [Schedule] {
-        schedules.filter { $0.startTime.isSameDay(as: date) }
+        schedules
+            .filter { $0.occurs(on: date) }
+            .sorted { $0.startTime < $1.startTime }
+    }
+
+    /// 해당 날짜에 완료(completedAt)된 할 일을 완료 시각순으로 반환.
+    func completedTasksFor(date: Date, tasks: [DailyTask]) -> [DailyTask] {
+        tasks
+            .filter { task in
+                guard let completedAt = task.completedAt else { return false }
+                return completedAt.isSameDay(as: date)
+            }
+            .sorted { ($0.completedAt ?? .distantPast) < ($1.completedAt ?? .distantPast) }
     }
 
     func daysInMonth(for date: Date) -> [Date] {
@@ -45,13 +58,18 @@ final class CalendarViewModel: ObservableObject {
 
     func eventCount(on date: Date, tasks: [DailyTask], schedules: [Schedule]) -> (tasks: Int, schedules: Int) {
         let t = tasks.filter { $0.date.isSameDay(as: date) }.count
-        let s = schedules.filter { $0.startTime.isSameDay(as: date) }.count
+        let s = schedules.filter { $0.occurs(on: date) }.count
         return (t, s)
     }
 
     func hasEvents(on date: Date, tasks: [DailyTask], schedules: [Schedule]) -> Bool {
         let hasTasks = tasks.contains { $0.date.isSameDay(as: date) }
-        let hasSchedules = schedules.contains { $0.startTime.isSameDay(as: date) }
+        let hasSchedules = schedules.contains { $0.occurs(on: date) }
         return hasTasks || hasSchedules
+    }
+
+    /// 해당 날짜에 완료된 할 일이 있는지(셀 완료 마커용).
+    func hasCompletions(on date: Date, tasks: [DailyTask]) -> Bool {
+        tasks.contains { ($0.completedAt?.isSameDay(as: date)) == true }
     }
 }

@@ -14,7 +14,7 @@ enum PreviewHelpers {
         let task1 = DailyTask(title: "기획서 검토", detail: "2장 사용자 시나리오 위주로 확인", date: .now, priority: .high)
         let task2 = DailyTask(title: "디자인 피드백", date: .now, priority: .medium)
         let task3 = DailyTask(title: "코드 리뷰", date: .now, priority: .low)
-        task3.isDone = true
+        task3.setDone(true) // 완료 시각 기록
 
         let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: .now)!
         let oldTask = DailyTask(title: "어제 미완료 항목", date: yesterday, priority: .medium)
@@ -30,6 +30,12 @@ enum PreviewHelpers {
         let endTime = Calendar.current.date(byAdding: .hour, value: 3, to: now)!
         let schedule = Schedule(title: "팀 미팅", startTime: startTime, endTime: endTime, location: "회의실 A")
         context.insert(schedule)
+
+        // 여러 날에 걸친 일정(출장) — 어제부터 내일까지
+        let tripStart = Calendar.current.date(byAdding: .day, value: -1, to: now)!
+        let tripEnd = Calendar.current.date(byAdding: .day, value: 1, to: now)!
+        let trip = Schedule(title: "출장 (3일)", startTime: tripStart, endTime: tripEnd, location: "부산")
+        context.insert(trip)
 
         // 샘플 Issue
         let issue = Issue(title: "로그인 버그", detail: "특정 기기에서 로그인 실패")

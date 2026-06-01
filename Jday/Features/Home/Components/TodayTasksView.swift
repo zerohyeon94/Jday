@@ -44,6 +44,16 @@ struct TodayTasksView: View {
             .padding(.vertical, Theme.Spacing.md)
     }
 
+    /// 완료된 항목은 "완료 HH:mm", 그 외는 예정 시간대 라벨을 표시.
+    @ViewBuilder
+    private func trailingLabel(_ task: DailyTask) -> some View {
+        if task.isDone, let completedAt = task.completedAt {
+            Text("완료 \(completedAt.hourMinuteLabel)")
+        } else {
+            Text(task.date.amPmLabel)
+        }
+    }
+
     private func row(_ task: DailyTask) -> some View {
         HStack(spacing: Theme.Spacing.md) {
             // 좌측 우선순위 색상 바 (낮음=회색 / 중간=주황 / 높음=빨강)
@@ -92,7 +102,7 @@ struct TodayTasksView: View {
 
                     Spacer()
 
-                    Text(task.date.amPmLabel)
+                    trailingLabel(task)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }

@@ -13,7 +13,7 @@ struct MacHomeView: View {
 
     private var todayTasks: [DailyTask] { allTasks.filter { $0.date.isToday } }
     private var yesterdayPendingTasks: [DailyTask] { allTasks.filter { $0.date.isYesterday && !$0.isDone } }
-    private var todaySchedules: [Schedule] { allSchedules.filter { $0.startTime.isToday } }
+    private var todaySchedules: [Schedule] { allSchedules.filter { $0.occurs(on: .now) } }
     private var pendingCount: Int { todayTasks.filter { !$0.isDone }.count }
     private var progressPercentage: Int {
         guard !todayTasks.isEmpty else { return 0 }

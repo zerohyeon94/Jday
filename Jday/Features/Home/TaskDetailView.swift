@@ -26,7 +26,10 @@ struct TaskDetailView: View {
                         ForEach(Priority.allCases, id: \.self) { Text($0.label).tag($0) }
                     }
 
-                    Toggle("완료", isOn: $task.isDone)
+                    Toggle("완료", isOn: Binding(
+                        get: { task.isDone },
+                        set: { task.setDone($0) }
+                    ))
                 }
 
                 Section {

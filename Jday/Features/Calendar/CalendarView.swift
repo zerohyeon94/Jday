@@ -16,6 +16,10 @@ struct CalendarView: View {
         viewModel.schedulesFor(date: viewModel.selectedDate, schedules: schedules)
     }
 
+    private var completedTasks: [DailyTask] {
+        viewModel.completedTasksFor(date: viewModel.selectedDate, tasks: tasks)
+    }
+
     @State private var selectedTask: DailyTask?
 
     var body: some View {
@@ -119,6 +123,7 @@ struct CalendarView: View {
         let isSelected = date.isSameDay(as: viewModel.selectedDate)
         let isToday = date.isToday
         let hasEvents = viewModel.hasEvents(on: date, tasks: tasks, schedules: schedules)
+        let hasCompletions = viewModel.hasCompletions(on: date, tasks: tasks)
 
         return Button {
             withAnimation(.easeOut(duration: 0.15)) { viewModel.selectedDate = date }
@@ -131,16 +136,47 @@ struct CalendarView: View {
                     .frame(width: 32, height: 32)
                     .background(isSelected ? Theme.Colors.brand : .clear)
                     .clipShape(Circle())
+                    // 오늘(선택되지 않은 경우): 얇은 테두리로 기준점 표시
+                    .overlay {
+                        if isToday && !isSelected {
+                            Circle().stroke(Theme.Colors.brand, lineWidth: 1.5)
+                        }
+                    }
 
-                Circle()
-                    .fill(hasEvents ? (isSelected ? Color.white : Theme.Colors.brand) : .clear)
-                    .frame(width: 4, height: 4)
+                dayMarkers(isSelected: isSelected, hasEvents: hasEvents, hasCompletions: hasCompletions)
             }
             .frame(maxWidth: .infinity)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .accessibilityLabel("\(Calendar.current.component(.month, from: date))월 \(Calendar.current.component(.day, from: date))일\(isToday ? ", 오늘" : "")\(hasEvents ? ", 이벤트 있음" : "")")
+        .accessibilityLabel(cellAccessibilityLabel(date: date, isToday: isToday, isSelected: isSelected, hasEvents: hasEvents, hasCompletions: hasCompletions))
+    }
+
+    /// 날짜 셀 하단 마커: 이벤트 도트 + 완료 체크 마커.
+    @ViewBuilder
+    private func dayMarkers(isSelected: Bool, hasEvents: Bool, hasCompletions: Bool) -> some View {
+        HStack(spacing: 2) {
+            if hasEvents {
+                Circle()
+                    .fill(isSelected ? Color.white : Theme.Colors.brand)
+                    .frame(width: 4, height: 4)
+            }
+            if hasCompletions {
+                Image(systemName: "checkmark")
+                    .font(.system(size: 7, weight: .bold))
+                    .foregroundStyle(isSelected ? Color.white : .green)
+            }
+        }
+        .frame(height: 8)
+    }
+
+    private func cellAccessibilityLabel(date: Date, isToday: Bool, isSelected: Bool, hasEvents: Bool, hasCompletions: Bool) -> String {
+        var parts = ["\(Calendar.current.component(.month, from: date))월 \(Calendar.current.component(.day, from: date))일"]
+        if isToday { parts.append("오늘") }
+        if isSelected { parts.append("선택됨") }
+        if hasEvents { parts.append("이벤트 있음") }
+        if hasCompletions { parts.append("완료 기록 있음") }
+        return parts.joined(separator: ", ")
     }
 
     private var dayDetail: some View {
@@ -161,12 +197,15 @@ struct CalendarView: View {
             TodayTasksView(
                 tasks: selectedTasks,
                 onToggle: { task in
-                    task.isDone.toggle()
-                    task.updatedAt = .now
+                    task.setDone(!task.isDone)
                     try? context.save()
                 },
                 onSelect: { selectedTask = $0 }
             )
+
+            if !completedTasks.isEmpty {
+                CompletedTasksView(tasks: completedTasks)
+            }
         }
     }
 

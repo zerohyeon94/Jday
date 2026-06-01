@@ -6,6 +6,8 @@ final class DailyTask {
     var title: String
     var detail: String?
     var isDone: Bool
+    /// 완료로 체크한 시각. 미완료면 nil.
+    var completedAt: Date?
     var date: Date
     var priority: Priority
     var createdAt: Date
@@ -15,9 +17,17 @@ final class DailyTask {
         self.title = title
         self.detail = detail
         self.isDone = false
+        self.completedAt = nil
         self.date = date
         self.priority = priority
         self.createdAt = .now
         self.updatedAt = .now
+    }
+
+    /// 완료 상태를 변경하며 완료 시각도 함께 갱신한다.
+    func setDone(_ done: Bool) {
+        isDone = done
+        completedAt = done ? .now : nil
+        updatedAt = .now
     }
 }

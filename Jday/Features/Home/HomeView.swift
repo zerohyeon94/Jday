@@ -19,7 +19,7 @@ struct HomeView: View {
     }
 
     private var todaySchedules: [Schedule] {
-        allSchedules.filter { $0.startTime.isToday }
+        allSchedules.filter { $0.occurs(on: .now) }
     }
 
     private var pendingCount: Int {

@@ -7,8 +7,7 @@ private let logger = Logger(subsystem: "com.j.jday", category: "HomeViewModel")
 @MainActor
 final class HomeViewModel: ObservableObject {
     func toggleTask(_ task: DailyTask, context: ModelContext) {
-        task.isDone.toggle()
-        task.updatedAt = .now
+        task.setDone(!task.isDone)
         save(context: context)
     }
 

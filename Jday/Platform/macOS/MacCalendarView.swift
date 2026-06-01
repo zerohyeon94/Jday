@@ -11,6 +11,7 @@ struct MacCalendarView: View {
 
     private var selectedTasks: [DailyTask] { viewModel.tasksFor(date: viewModel.selectedDate, tasks: tasks) }
     private var selectedSchedules: [Schedule] { viewModel.schedulesFor(date: viewModel.selectedDate, schedules: schedules) }
+    private var completedTasks: [DailyTask] { viewModel.completedTasksFor(date: viewModel.selectedDate, tasks: tasks) }
 
     @State private var selectedTask: DailyTask?
 
@@ -91,14 +92,29 @@ struct MacCalendarView: View {
         let isSelected = date.isSameDay(as: viewModel.selectedDate)
         let counts = viewModel.eventCount(on: date, tasks: tasks, schedules: schedules)
         let daySchedules = viewModel.schedulesFor(date: date, schedules: schedules)
+        let hasCompletions = viewModel.hasCompletions(on: date, tasks: tasks)
 
         return VStack(alignment: .leading, spacing: 3) {
-            Text("\(Calendar.current.component(.day, from: date))")
-                .font(.caption.weight(date.isToday ? .bold : .regular))
-                .foregroundStyle(isSelected ? .white : (date.isToday ? Theme.Colors.brand : .primary))
-                .frame(width: 22, height: 22)
-                .background(isSelected ? Theme.Colors.brand : .clear)
-                .clipShape(Circle())
+            HStack(spacing: 3) {
+                Text("\(Calendar.current.component(.day, from: date))")
+                    .font(.caption.weight(date.isToday ? .bold : .regular))
+                    .foregroundStyle(isSelected ? .white : (date.isToday ? Theme.Colors.brand : .primary))
+                    .frame(width: 22, height: 22)
+                    .background(isSelected ? Theme.Colors.brand : .clear)
+                    .clipShape(Circle())
+                    // 오늘(선택되지 않은 경우): 얇은 테두리로 기준점 표시
+                    .overlay {
+                        if date.isToday && !isSelected {
+                            Circle().stroke(Theme.Colors.brand, lineWidth: 1.5)
+                        }
+                    }
+
+                if hasCompletions {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 8, weight: .bold))
+                        .foregroundStyle(.green)
+                }
+            }
 
             ForEach(daySchedules.prefix(2)) { schedule in
                 Text(schedule.title)
@@ -145,12 +161,15 @@ struct MacCalendarView: View {
                 TodayTasksView(
                     tasks: selectedTasks,
                     onToggle: { task in
-                        task.isDone.toggle()
-                        task.updatedAt = .now
+                        task.setDone(!task.isDone)
                         try? context.save()
                     },
                     onSelect: { selectedTask = $0 }
                 )
+
+                if !completedTasks.isEmpty {
+                    CompletedTasksView(tasks: completedTasks)
+                }
             }
             .padding(Theme.screenPadding)
         }
