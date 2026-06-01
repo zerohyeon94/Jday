@@ -1,7 +1,7 @@
 import SwiftUI
 
 extension Color {
-    static var priorityLow: Color { .gray }
+    static var priorityLow: Color { .blue }
     static var priorityMedium: Color { .orange }
     static var priorityHigh: Color { .red }
 
