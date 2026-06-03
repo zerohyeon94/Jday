@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -34,6 +34,7 @@
 		557D2949FE35210A197D02DD /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61574E5F5EE807DAD85E43A3 /* Schedule.swift */; };
 		575295483F89812B4469BC91 /* YesterdayTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BF7F19BE7E443A893EDFB3 /* YesterdayTasksView.swift */; };
 		5A8940EACA1A29C6B466247A /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59406FC5C9473B03E90E6672 /* TaskDetailView.swift */; };
+		5C47C95D135E513C04B5EEFF /* ScreenshotWindowConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A20F10B189F1ED6C91DEF1 /* ScreenshotWindowConfigurator.swift */; };
 		5DD21AEDA0FF187634EE3550 /* TodayTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB5A4F7A9F192E8EDC142FE /* TodayTasksView.swift */; };
 		5F3304F028FC65B72326ACDB /* WorkspaceFilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A110AE2DDA6F1EE74CBDB241 /* WorkspaceFilterBar.swift */; };
 		5F6A1CDEFF5096AEDCDAAC20 /* QuickAddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055CBCF5018493DB663361D /* QuickAddViewModel.swift */; };
@@ -80,6 +81,7 @@
 		BD6FE66ED645FEA6D8334207 /* TodayTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB5A4F7A9F192E8EDC142FE /* TodayTasksView.swift */; };
 		C28AEFE4E7C81C197F9DA2F7 /* JdayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483E0D1333BC41C47CE541D /* JdayApp.swift */; };
 		C74838D63D2C150B3C9F6154 /* QuickAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2AE13F09497DBAA9E9B12C /* QuickAddView.swift */; };
+		CA74E243734ED1033F76AC8E /* ScreenshotWindowConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A20F10B189F1ED6C91DEF1 /* ScreenshotWindowConfigurator.swift */; };
 		CAC676AB9B0FCC26F5A5B4FF /* Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A34DA33798EB9EC761D235 /* Workspace.swift */; };
 		CACD52FAEEB66020A654251D /* SummaryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F921E1C837EF3AAABA7319 /* SummaryCardView.swift */; };
 		CEE9A156A9358B9608B93970 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157127C7C036A5189D81182B /* Theme.swift */; };
@@ -97,7 +99,7 @@
 
 /* Begin PBXFileReference section */
 		0E2EF3AF3368917224D2F80B /* MacIssueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIssueView.swift; sourceTree = "<group>"; };
-		11475CAC72A97A361328EFEE /* Jday.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Jday.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		11475CAC72A97A361328EFEE /* Jday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13AC70FB29B59CA5B986FC87 /* Jday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Jday.entitlements; sourceTree = "<group>"; };
 		157127C7C036A5189D81182B /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		16D36E89E4B02D5C63BB41C3 /* iOSRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSRootView.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 		9FCF64F21112F9CB9C4D1D0F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A110AE2DDA6F1EE74CBDB241 /* WorkspaceFilterBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceFilterBar.swift; sourceTree = "<group>"; };
 		A483E0D1333BC41C47CE541D /* JdayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JdayApp.swift; sourceTree = "<group>"; };
+		A4A20F10B189F1ED6C91DEF1 /* ScreenshotWindowConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotWindowConfigurator.swift; sourceTree = "<group>"; };
 		A83B9F894969AB4D17E07058 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B7F921E1C837EF3AAABA7319 /* SummaryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCardView.swift; sourceTree = "<group>"; };
 		C5EA92AE35FCCCC60ADF0018 /* Issue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Issue.swift; sourceTree = "<group>"; };
@@ -335,6 +338,7 @@
 				72527D085D9BBF47CADDB6D7 /* MacHomeView.swift */,
 				0E2EF3AF3368917224D2F80B /* MacIssueView.swift */,
 				9F73561B21F580E0DDF48FF0 /* macOSRootView.swift */,
+				A4A20F10B189F1ED6C91DEF1 /* ScreenshotWindowConfigurator.swift */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -408,11 +412,9 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					46A95BA7C6074D164A09C50A = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					BB0212611C99A9398EB2B50D = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -427,7 +429,6 @@
 			);
 			mainGroup = 5923BCCDD0B9C1CDB3D6F862;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -488,6 +489,7 @@
 				5F6A1CDEFF5096AEDCDAAC20 /* QuickAddViewModel.swift in Sources */,
 				557D2949FE35210A197D02DD /* Schedule.swift in Sources */,
 				FF0555FDE43D0E9C78BA4378 /* ScheduleDetailView.swift in Sources */,
+				CA74E243734ED1033F76AC8E /* ScreenshotWindowConfigurator.swift in Sources */,
 				2AF2C3FA0ED1E1EFE3447E56 /* SettingsView.swift in Sources */,
 				141962B8F4A6417BAD75006A /* SharedComponents.swift in Sources */,
 				02992D9534B32C937FCDA2D7 /* SummaryCardView.swift in Sources */,
@@ -537,6 +539,7 @@
 				06F2B4E6F9F287606D8BA129 /* QuickAddViewModel.swift in Sources */,
 				922A0E323DBB0D7D7D79D566 /* Schedule.swift in Sources */,
 				74B335D5D8895D9DF8F17451 /* ScheduleDetailView.swift in Sources */,
+				5C47C95D135E513C04B5EEFF /* ScreenshotWindowConfigurator.swift in Sources */,
 				D4DA964A12065B2A35790262 /* SettingsView.swift in Sources */,
 				A6895A72B8C48E1CA32A90CE /* SharedComponents.swift in Sources */,
 				CACD52FAEEB66020A654251D /* SummaryCardView.swift in Sources */,
@@ -565,14 +568,14 @@
 				CODE_SIGN_ENTITLEMENTS = Jday/Resources/Jday.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5G6N83PM9C;
 				INFOPLIST_FILE = Jday/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.j.jday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zerohyeon.jday;
 				PRODUCT_NAME = Jday;
 				SDKROOT = macosx;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -651,14 +654,14 @@
 				CODE_SIGN_ENTITLEMENTS = Jday/Resources/Jday.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5G6N83PM9C;
 				INFOPLIST_FILE = Jday/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.j.jday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zerohyeon.jday;
 				PRODUCT_NAME = Jday;
 				SDKROOT = macosx;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -730,14 +733,14 @@
 				CODE_SIGN_ENTITLEMENTS = Jday/Resources/Jday.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5G6N83PM9C;
 				INFOPLIST_FILE = Jday/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.j.jday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zerohyeon.jday;
 				PRODUCT_NAME = Jday;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -751,14 +754,14 @@
 				CODE_SIGN_ENTITLEMENTS = Jday/Resources/Jday.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5G6N83PM9C;
 				INFOPLIST_FILE = Jday/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.j.jday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zerohyeon.jday;
 				PRODUCT_NAME = Jday;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

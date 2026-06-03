@@ -53,7 +53,21 @@ enum PreviewHelpers {
         let schema = Schema([DailyTask.self, Schedule.self, Issue.self])
         let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
         let container = try! ModelContainer(for: schema, configurations: config)
-        let context = container.mainContext
+        populateStoreDemo(into: container.mainContext)
+        return container
+    }
+
+    /// 실제(영구) 저장소를 비우고 데모 데이터를 새로 적재한다. (맥앱 직접 캡처용)
+    static func seedPersistentDemo(into context: ModelContext) {
+        try? context.delete(model: DailyTask.self)
+        try? context.delete(model: Schedule.self)
+        try? context.delete(model: Issue.self)
+        populateStoreDemo(into: context)
+        try? context.save()
+    }
+
+    /// 데모 데이터를 주어진 컨텍스트에 삽입(저장은 호출측 책임).
+    static func populateStoreDemo(into context: ModelContext) {
         let cal = Calendar.current
         let now = Date()
         let today = cal.startOfDay(for: now)
@@ -130,8 +144,6 @@ enum PreviewHelpers {
             issue.createdAt = time(day(-i - 4), 14, 0)
             context.insert(issue)
         }
-
-        return container
     }
 
     // MARK: - 컴포넌트 프리뷰용 샘플 데이터

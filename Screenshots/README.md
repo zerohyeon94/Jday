@@ -38,23 +38,26 @@ sleep 3; xcrun simctl io "$DEV" screenshot Screenshots/iOS/02-calendar.png
 
 ---
 
-## macOS (수동/반자동)
-이 저장소 자동화 환경에서는 "화면 기록" 권한이 없어 자동 캡처가 불가합니다.
-사용자 Mac에서 아래 스크립트를 실행하세요:
+## macOS — 영구 저장소에 데모 적재 후 직접 캡처 (권장)
+macOS 창 자동 위치/캡처는 환경(다중 디스플레이·Spaces)에 따라 불안정합니다.
+대신 **실제 SwiftData 저장소에 데모 데이터를 채운 뒤** 직접 캡처하세요:
 
 ```bash
-bash Screenshots/capture_macos.sh
+bash Screenshots/seed_macos.sh
 ```
 
-- 시스템 설정 ▸ 개인정보 보호 및 보안 ▸ **화면 기록**에서 사용하는 터미널을 허용해야 합니다.
-- 권장: 각 화면이 뜬 동안 **Cmd+Shift+5 → "선택한 윈도우 캡처" → Jday 창 클릭** (창+그림자 포함).
-- 창 크기를 먼저 보기 좋게(예: 1440×900) 맞춘 뒤 캡처하면 스토어 규격(1280×800 / 1440×900 / 2560×1600 / 2880×1800)에 맞추기 쉽습니다.
+- 데모 데이터(`-seedPersistentDemo`)가 영구 저장소에 적재되어 앱을 평소처럼 열어도 유지됩니다.
+- 데이터는 **"오늘" 기준**으로 생성되니, 캡처하는 날에 실행하세요.
+- 캡처: **Cmd+Shift+5 → "선택한 윈도우 캡처" → Jday 창 클릭** (창+그림자 포함). 사이드바로 홈/캘린더/이슈/설정 이동하며 각각 캡처.
+- 정리: 캡처 후 앱에서 **설정 ▸ "모든 데이터 삭제"** 로 데모 데이터 제거.
+- 스토어 규격(px): 1280×800 / 1440×900 / 2560×1600 / 2880×1800.
 
-수동 실행 예:
-```bash
-APP=/tmp/jday_mac/Build/Products/Debug/Jday.app   # capture_macos.sh가 빌드해 둠
-open "$APP" --args -storeDemoData -forceTab calendar
-```
+> 결과 예시는 `Screenshots/macOS/Jday_macOS_*.png` 참고.
+
+### 관련 DEBUG 런치 인자
+- `-seedPersistentDemo` : 영구 저장소를 비우고 데모 데이터 적재(ContentView `.task`)
+- `-storeDemoData` : 인메모리 데모(저장 안 됨, iOS 시뮬레이터 캡처용)
+- `-forceTab home|calendar|issue|settings`, `-openQuickAdd`, `-dumpCounts`
 
 ---
 
