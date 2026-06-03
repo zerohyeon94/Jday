@@ -10,16 +10,19 @@ final class DailyTask {
     var completedAt: Date?
     var date: Date
     var priority: Priority
+    /// 작업 공간(개인/회사). nil = 미분류(기본 공간).
+    var workspace: Workspace?
     var createdAt: Date
     var updatedAt: Date
 
-    init(title: String, detail: String? = nil, date: Date = .now, priority: Priority = .medium) {
+    init(title: String, detail: String? = nil, date: Date = .now, priority: Priority = .medium, workspace: Workspace? = nil) {
         self.title = title
         self.detail = detail
         self.isDone = false
         self.completedAt = nil
         self.date = date
         self.priority = priority
+        self.workspace = workspace
         self.createdAt = .now
         self.updatedAt = .now
     }
@@ -31,3 +34,5 @@ final class DailyTask {
         updatedAt = .now
     }
 }
+
+extension DailyTask: WorkspaceTaggable {}

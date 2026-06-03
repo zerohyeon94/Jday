@@ -10,10 +10,10 @@ enum PreviewHelpers {
 
         let context = container.mainContext
 
-        // 샘플 DailyTask
-        let task1 = DailyTask(title: "기획서 검토", detail: "2장 사용자 시나리오 위주로 확인", date: .now, priority: .high)
-        let task2 = DailyTask(title: "디자인 피드백", date: .now, priority: .medium)
-        let task3 = DailyTask(title: "코드 리뷰", date: .now, priority: .low)
+        // 샘플 DailyTask (작업 공간 분류 포함)
+        let task1 = DailyTask(title: "기획서 검토", detail: "2장 사용자 시나리오 위주로 확인", date: .now, priority: .high, workspace: .work)
+        let task2 = DailyTask(title: "디자인 피드백", date: .now, priority: .medium, workspace: .work)
+        let task3 = DailyTask(title: "코드 리뷰", date: .now, priority: .low, workspace: .personal)
         task3.setDone(true) // 완료 시각 기록
 
         let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: .now)!

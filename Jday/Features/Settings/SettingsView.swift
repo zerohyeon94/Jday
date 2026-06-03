@@ -9,6 +9,8 @@ struct SettingsView: View {
     @AppStorage("weekStartsOnMonday") private var weekStartsOnMonday = false
     @AppStorage("autoHideCompleted") private var autoHideCompleted = true
     @AppStorage("appearanceMode") private var appearanceModeRaw = AppearanceMode.system.rawValue
+    @AppStorage("workspaceSeparationEnabled") private var workspaceSeparationEnabled = false
+    @AppStorage("defaultWorkspace") private var defaultWorkspaceRaw = Workspace.personal.rawValue
 
     @Environment(\.openURL) private var openURL
     @State private var notificationAuthStatus: UNAuthorizationStatus = .notDetermined
@@ -17,6 +19,7 @@ struct SettingsView: View {
         Form {
             notificationSection
             generalSection
+            workspaceSection
             accountSection
         }
         .formStyle(.grouped)
@@ -90,6 +93,39 @@ struct SettingsView: View {
                 subtitle: "체크 후 24시간 뒤 숨김",
                 isOn: $autoHideCompleted
             )
+        }
+    }
+
+    private var defaultWorkspaceBinding: Binding<Workspace> {
+        Binding(
+            get: { Workspace(rawValue: defaultWorkspaceRaw) ?? .personal },
+            set: { defaultWorkspaceRaw = $0.rawValue }
+        )
+    }
+
+    private var workspaceSection: some View {
+        Section {
+            toggleRow(
+                title: "회사/개인 공간 분리",
+                subtitle: "할 일·일정·이슈를 개인/회사로 나눠 관리",
+                isOn: $workspaceSeparationEnabled
+            )
+
+            if workspaceSeparationEnabled {
+                Picker(selection: defaultWorkspaceBinding) {
+                    ForEach(Workspace.allCases) { ws in
+                        Label(ws.label, systemImage: ws.icon).tag(ws)
+                    }
+                } label: {
+                    Text("기본 공간")
+                }
+            }
+        } header: {
+            Text("작업 공간")
+        } footer: {
+            if workspaceSeparationEnabled {
+                Text("데이터 저장소가 완전히 분리되는 것은 아닙니다. 모든 항목은 같은 iCloud에 동기화되며, 회사 기기 정책(MDM·Managed Apple Account)에 따라 개인 iCloud 동기화가 제한될 수 있습니다.")
+            }
         }
     }
 

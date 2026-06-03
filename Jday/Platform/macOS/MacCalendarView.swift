@@ -6,8 +6,22 @@ struct MacCalendarView: View {
     @Environment(\.modelContext) private var context
     @StateObject private var viewModel = CalendarViewModel()
 
-    @Query(sort: \DailyTask.date) private var tasks: [DailyTask]
-    @Query(sort: \Schedule.startTime) private var schedules: [Schedule]
+    @Query(sort: \DailyTask.date) private var allTasks: [DailyTask]
+    @Query(sort: \Schedule.startTime) private var allSchedules: [Schedule]
+
+    @AppStorage("workspaceSeparationEnabled") private var wsEnabled = false
+    @AppStorage("workspaceFilter") private var wsFilterRaw = WorkspaceFilter.all.rawValue
+    @AppStorage("defaultWorkspace") private var wsDefaultRaw = Workspace.personal.rawValue
+
+    private var wsFilter: WorkspaceFilter { WorkspaceFilter(rawValue: wsFilterRaw) ?? .all }
+    private var wsDefault: Workspace { Workspace(rawValue: wsDefaultRaw) ?? .personal }
+
+    private var tasks: [DailyTask] {
+        allTasks.workspaceFiltered(enabled: wsEnabled, filter: wsFilter, defaultWorkspace: wsDefault)
+    }
+    private var schedules: [Schedule] {
+        allSchedules.workspaceFiltered(enabled: wsEnabled, filter: wsFilter, defaultWorkspace: wsDefault)
+    }
 
     private var selectedTasks: [DailyTask] { viewModel.tasksFor(date: viewModel.selectedDate, tasks: tasks) }
     private var selectedSchedules: [Schedule] { viewModel.schedulesFor(date: viewModel.selectedDate, schedules: schedules) }
@@ -65,6 +79,10 @@ struct MacCalendarView: View {
                 }
                 .foregroundStyle(Theme.Colors.brand)
                 .buttonStyle(.plain)
+            }
+
+            if wsEnabled {
+                WorkspaceFilterBar()
             }
 
             weekdayHeader

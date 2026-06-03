@@ -5,10 +5,21 @@ import SwiftData
 struct IssueListView: View {
     @Environment(\.modelContext) private var context
     @StateObject private var viewModel = IssueViewModel()
-    @Query(sort: \Issue.createdAt, order: .reverse) private var issues: [Issue]
+    @Query(sort: \Issue.createdAt, order: .reverse) private var allIssues: [Issue]
     @State private var selectedIssue: Issue?
     @State private var deleteTarget: Issue?
     @State private var showDeleteAlert = false
+
+    @AppStorage("workspaceSeparationEnabled") private var wsEnabled = false
+    @AppStorage("workspaceFilter") private var wsFilterRaw = WorkspaceFilter.all.rawValue
+    @AppStorage("defaultWorkspace") private var wsDefaultRaw = Workspace.personal.rawValue
+
+    private var wsFilter: WorkspaceFilter { WorkspaceFilter(rawValue: wsFilterRaw) ?? .all }
+    private var wsDefault: Workspace { Workspace(rawValue: wsDefaultRaw) ?? .personal }
+
+    private var issues: [Issue] {
+        allIssues.workspaceFiltered(enabled: wsEnabled, filter: wsFilter, defaultWorkspace: wsDefault)
+    }
 
     private var filtered: [Issue] { viewModel.filteredIssues(issues) }
     private var unresolvedCount: Int { issues.filter { !$0.isResolved }.count }
@@ -16,6 +27,11 @@ struct IssueListView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.lg) {
             header
+
+            if wsEnabled {
+                WorkspaceFilterBar()
+                    .padding(.horizontal, Theme.screenPadding)
+            }
 
             PillPicker(
                 options: IssueFilter.allCases,

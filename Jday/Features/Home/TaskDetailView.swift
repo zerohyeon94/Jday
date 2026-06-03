@@ -7,7 +7,16 @@ struct TaskDetailView: View {
     @Environment(\.modelContext) private var context
     @Bindable var task: DailyTask
 
+    @AppStorage("workspaceSeparationEnabled") private var wsEnabled = false
+    @AppStorage("defaultWorkspace") private var wsDefaultRaw = Workspace.personal.rawValue
     @State private var showDeleteAlert = false
+
+    private var workspaceBinding: Binding<Workspace> {
+        Binding(
+            get: { task.workspace ?? (Workspace(rawValue: wsDefaultRaw) ?? .personal) },
+            set: { task.workspace = $0 }
+        )
+    }
 
     var body: some View {
         NavigationStack {
@@ -30,6 +39,16 @@ struct TaskDetailView: View {
                         get: { task.isDone },
                         set: { task.setDone($0) }
                     ))
+
+                    if wsEnabled {
+                        Picker(selection: workspaceBinding) {
+                            ForEach(Workspace.allCases) { ws in
+                                Label(ws.label, systemImage: ws.icon).tag(ws)
+                            }
+                        } label: {
+                            Text("공간")
+                        }
+                    }
                 }
 
                 Section {

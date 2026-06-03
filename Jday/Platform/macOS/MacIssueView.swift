@@ -5,8 +5,19 @@ import SwiftData
 struct MacIssueView: View {
     @Environment(\.modelContext) private var context
     @StateObject private var viewModel = IssueViewModel()
-    @Query(sort: \Issue.createdAt, order: .reverse) private var issues: [Issue]
+    @Query(sort: \Issue.createdAt, order: .reverse) private var allIssues: [Issue]
     @State private var selectedID: PersistentIdentifier?
+
+    @AppStorage("workspaceSeparationEnabled") private var wsEnabled = false
+    @AppStorage("workspaceFilter") private var wsFilterRaw = WorkspaceFilter.all.rawValue
+    @AppStorage("defaultWorkspace") private var wsDefaultRaw = Workspace.personal.rawValue
+
+    private var wsFilter: WorkspaceFilter { WorkspaceFilter(rawValue: wsFilterRaw) ?? .all }
+    private var wsDefault: Workspace { Workspace(rawValue: wsDefaultRaw) ?? .personal }
+
+    private var issues: [Issue] {
+        allIssues.workspaceFiltered(enabled: wsEnabled, filter: wsFilter, defaultWorkspace: wsDefault)
+    }
 
     private var filtered: [Issue] { viewModel.filteredIssues(issues) }
     private var selectedIssue: Issue? {
@@ -29,6 +40,10 @@ struct MacIssueView: View {
 
     private var listColumn: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.lg) {
+            if wsEnabled {
+                WorkspaceFilterBar()
+            }
+
             PillPicker(
                 options: IssueFilter.allCases,
                 label: { $0.rawValue },

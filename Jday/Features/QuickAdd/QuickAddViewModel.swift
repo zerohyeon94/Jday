@@ -14,6 +14,8 @@ enum QuickAddTab: String, CaseIterable {
 final class QuickAddViewModel: ObservableObject {
     @Published var selectedTab: QuickAddTab = .task
     @Published var errorMessage: String?
+    /// 작업 공간 분리가 켜졌을 때만 사용. 꺼져 있으면 nil로 저장.
+    @Published var workspace: Workspace?
 
     // 할 일
     @Published var taskTitle = ""
@@ -52,7 +54,8 @@ final class QuickAddViewModel: ObservableObject {
             title: taskTitle.trimmingCharacters(in: .whitespaces),
             detail: trimmedDetail.isEmpty ? nil : trimmedDetail,
             date: taskDate,
-            priority: taskPriority
+            priority: taskPriority,
+            workspace: workspace
         )
         context.insert(task)
         return save(context: context)
@@ -64,7 +67,8 @@ final class QuickAddViewModel: ObservableObject {
             title: scheduleTitle.trimmingCharacters(in: .whitespaces),
             startTime: scheduleStartTime,
             endTime: scheduleEndTime,
-            location: scheduleLocation.isEmpty ? nil : scheduleLocation
+            location: scheduleLocation.isEmpty ? nil : scheduleLocation,
+            workspace: workspace
         )
         context.insert(schedule)
         let saved = save(context: context)
@@ -79,7 +83,8 @@ final class QuickAddViewModel: ObservableObject {
         let issue = Issue(
             title: issueTitle.trimmingCharacters(in: .whitespaces),
             detail: issueDetail.isEmpty ? nil : issueDetail,
-            notifyAt: issueHasNotify ? issueNotifyAt : nil
+            notifyAt: issueHasNotify ? issueNotifyAt : nil,
+            workspace: workspace
         )
         context.insert(issue)
         let saved = save(context: context)

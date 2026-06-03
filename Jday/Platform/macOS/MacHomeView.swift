@@ -12,9 +12,23 @@ struct MacHomeView: View {
     @State private var selectedTask: DailyTask?
     @State private var deletedSnapshot: DeletedTaskSnapshot?
 
-    private var todayTasks: [DailyTask] { allTasks.filter { $0.date.isToday } }
-    private var yesterdayPendingTasks: [DailyTask] { allTasks.filter { $0.date.isYesterday && !$0.isDone } }
-    private var todaySchedules: [Schedule] { allSchedules.filter { $0.occurs(on: .now) } }
+    @AppStorage("workspaceSeparationEnabled") private var wsEnabled = false
+    @AppStorage("workspaceFilter") private var wsFilterRaw = WorkspaceFilter.all.rawValue
+    @AppStorage("defaultWorkspace") private var wsDefaultRaw = Workspace.personal.rawValue
+
+    private var wsFilter: WorkspaceFilter { WorkspaceFilter(rawValue: wsFilterRaw) ?? .all }
+    private var wsDefault: Workspace { Workspace(rawValue: wsDefaultRaw) ?? .personal }
+
+    private var filteredTasks: [DailyTask] {
+        allTasks.workspaceFiltered(enabled: wsEnabled, filter: wsFilter, defaultWorkspace: wsDefault)
+    }
+    private var filteredSchedules: [Schedule] {
+        allSchedules.workspaceFiltered(enabled: wsEnabled, filter: wsFilter, defaultWorkspace: wsDefault)
+    }
+
+    private var todayTasks: [DailyTask] { filteredTasks.filter { $0.date.isToday } }
+    private var yesterdayPendingTasks: [DailyTask] { filteredTasks.filter { $0.date.isYesterday && !$0.isDone } }
+    private var todaySchedules: [Schedule] { filteredSchedules.filter { $0.occurs(on: .now) } }
     private var pendingCount: Int { todayTasks.filter { !$0.isDone }.count }
     private var progressPercentage: Int {
         guard !todayTasks.isEmpty else { return 0 }
@@ -24,7 +38,13 @@ struct MacHomeView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
-                header
+                HStack {
+                    header
+                    Spacer()
+                    if wsEnabled {
+                        WorkspaceFilterBar()
+                    }
+                }
                 summaryCards
 
                 HStack(alignment: .top, spacing: Theme.Spacing.xl) {

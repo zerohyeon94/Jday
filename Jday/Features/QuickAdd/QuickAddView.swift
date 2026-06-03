@@ -9,6 +9,9 @@ struct QuickAddView: View {
     @State private var pendingTab: QuickAddTab?
     @State private var contentHeight: CGFloat = 0
 
+    @AppStorage("workspaceSeparationEnabled") private var workspaceSeparationEnabled = false
+    @AppStorage("defaultWorkspace") private var defaultWorkspaceRaw = Workspace.personal.rawValue
+
     var body: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
             #if os(iOS)
@@ -23,6 +26,23 @@ struct QuickAddView: View {
                 label: { $0.rawValue },
                 selection: tabBinding
             )
+
+            if workspaceSeparationEnabled {
+                HStack {
+                    Text("공간")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    Picker("", selection: workspaceBinding) {
+                        ForEach(Workspace.allCases) { ws in
+                            Text(ws.label).tag(ws)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .labelsHidden()
+                    .frame(maxWidth: 200)
+                }
+            }
 
             // 내용을 한 번에 모두 표시(스크롤 없이) — 시트 높이는 아래 detent로 자동 맞춤
             VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
@@ -51,6 +71,11 @@ struct QuickAddView: View {
         .presentationDetents(detents)
         #endif
         .presentationDragIndicator(.hidden)
+        .onAppear {
+            viewModel.workspace = workspaceSeparationEnabled
+                ? (Workspace(rawValue: defaultWorkspaceRaw) ?? .personal)
+                : nil
+        }
         .alert("입력 내용 초기화", isPresented: $showTabSwitchAlert) {
             Button("초기화", role: .destructive) {
                 if let tab = pendingTab {
@@ -63,6 +88,13 @@ struct QuickAddView: View {
         } message: {
             Text("입력한 내용이 사라집니다.")
         }
+    }
+
+    private var workspaceBinding: Binding<Workspace> {
+        Binding(
+            get: { viewModel.workspace ?? (Workspace(rawValue: defaultWorkspaceRaw) ?? .personal) },
+            set: { viewModel.workspace = $0 }
+        )
     }
 
     // 탭 전환 시 입력값이 있으면 확인 Alert

@@ -7,14 +7,17 @@ final class Schedule {
     var startTime: Date
     var endTime: Date
     var location: String?
+    /// 작업 공간(개인/회사). nil = 미분류(기본 공간).
+    var workspace: Workspace?
     var createdAt: Date
     var updatedAt: Date
 
-    init(title: String, startTime: Date, endTime: Date, location: String? = nil) {
+    init(title: String, startTime: Date, endTime: Date, location: String? = nil, workspace: Workspace? = nil) {
         self.title = title
         self.startTime = startTime
         self.endTime = endTime
         self.location = location
+        self.workspace = workspace
         self.createdAt = .now
         self.updatedAt = .now
     }
@@ -34,3 +37,5 @@ final class Schedule {
         !startTime.isSameDay(as: endTime)
     }
 }
+
+extension Schedule: WorkspaceTaggable {}
