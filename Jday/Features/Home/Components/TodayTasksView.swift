@@ -8,6 +8,9 @@ struct TodayTasksView: View {
     var onSelect: ((DailyTask) -> Void)? = nil
     /// 스와이프 삭제 콜백. 제공되면 행에 왼쪽 스와이프 삭제 액션이 활성화된다.
     var onDelete: ((DailyTask) -> Void)? = nil
+    /// 컨텍스트 메뉴에서 항목을 수정한 뒤 저장(persist)하기 위한 콜백.
+    /// 제공되면 우선순위·날짜 변경 메뉴가 활성화된다.
+    var onUpdate: ((DailyTask) -> Void)? = nil
 
     private var ordered: [DailyTask] {
         tasks.filter { !$0.isDone } + tasks.filter { $0.isDone }
@@ -95,6 +98,35 @@ struct TodayTasksView: View {
             }
         }
 
+        if onUpdate != nil {
+            Divider()
+
+            Menu {
+                ForEach(Priority.allCases, id: \.self) { priority in
+                    Button {
+                        updatePriority(task, priority)
+                    } label: {
+                        if task.priority == priority {
+                            Label(priority.label, systemImage: "checkmark")
+                        } else {
+                            Text(priority.label)
+                        }
+                    }
+                }
+            } label: {
+                Label("우선 순위", systemImage: "flag")
+            }
+
+            Menu {
+                Button { updateDate(task, daysFromToday: 0) } label: { Text("오늘") }
+                Button { updateDate(task, daysFromToday: 1) } label: { Text("내일") }
+                Button { updateDate(task, daysFromToday: 2) } label: { Text("모레") }
+                Button { updateDate(task, daysFromToday: 7) } label: { Text("다음 주") }
+            } label: {
+                Label("날짜 변경", systemImage: "calendar")
+            }
+        }
+
         if let onDelete {
             Divider()
             Button(role: .destructive) {
@@ -103,6 +135,20 @@ struct TodayTasksView: View {
                 Label("삭제", systemImage: "trash")
             }
         }
+    }
+
+    private func updatePriority(_ task: DailyTask, _ priority: Priority) {
+        task.priority = priority
+        task.updatedAt = .now
+        onUpdate?(task)
+    }
+
+    private func updateDate(_ task: DailyTask, daysFromToday days: Int) {
+        let base = Calendar.current.startOfDay(for: .now)
+        guard let newDate = Calendar.current.date(byAdding: .day, value: days, to: base) else { return }
+        task.date = newDate
+        task.updatedAt = .now
+        onUpdate?(task)
     }
 
     private func row(_ task: DailyTask) -> some View {

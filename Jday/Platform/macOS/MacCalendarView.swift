@@ -177,7 +177,8 @@ struct MacCalendarView: View {
                         try? context.save()
                     },
                     onSelect: { selectedTask = $0 },
-                    onDelete: { deleteTask($0) }
+                    onDelete: { deleteTask($0) },
+                    onUpdate: { _ in try? context.save() }
                 )
 
                 if !completedTasks.isEmpty {

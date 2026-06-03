@@ -74,7 +74,8 @@ struct HomeView: View {
                 tasks: todayTasks,
                 onToggle: { viewModel.toggleTask($0, context: context) },
                 onSelect: { selectedTask = $0 },
-                onDelete: { deleteTask($0) }
+                onDelete: { deleteTask($0) },
+                onUpdate: { _ in try? context.save() }
             )
 
             TodayScheduleView(schedules: todaySchedules)
