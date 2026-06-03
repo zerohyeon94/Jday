@@ -84,15 +84,17 @@ struct MacCalendarView: View {
         }
     }
 
-    private var monthGrid: some View {
-        let days = viewModel.daysInMonth(for: viewModel.selectedDate)
-        let leadingBlanks = (Calendar.current.component(.weekday, from: days.first ?? .now)) - 1
+    private let cellHeight: CGFloat = 96
+    private let barHeight: CGFloat = 15
+    private let barLaneSpacing: CGFloat = 2
+    private let barTopInset: CGFloat = 30
+    private let maxBarLanes = 3
 
-        return LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 0), count: 7), spacing: 0) {
-            ForEach(0..<leadingBlanks, id: \.self) { _ in
-                Color.clear.frame(height: 96)
+    private var monthGrid: some View {
+        VStack(spacing: 0) {
+            ForEach(Array(monthWeeks(for: viewModel.selectedDate).enumerated()), id: \.offset) { _, week in
+                weekRow(week)
             }
-            ForEach(days, id: \.self) { cell($0) }
         }
         .overlay(
             RoundedRectangle(cornerRadius: Theme.Radius.card)
@@ -100,13 +102,52 @@ struct MacCalendarView: View {
         )
     }
 
-    private func cell(_ date: Date) -> some View {
+    /// 한 달을 주(7칸) 단위로 분할. 앞뒤 빈 칸은 nil.
+    private func monthWeeks(for date: Date) -> [[Date?]] {
+        let days = viewModel.daysInMonth(for: date)
+        guard let first = days.first else { return [] }
+        let leading = Calendar.current.component(.weekday, from: first) - 1
+        var slots: [Date?] = Array(repeating: nil, count: leading) + days.map { Optional($0) }
+        while slots.count % 7 != 0 { slots.append(nil) }
+        return stride(from: 0, to: slots.count, by: 7).map { Array(slots[$0..<$0 + 7]) }
+    }
+
+    /// 한 주: 날짜 셀(배경) + 이어지는 일정 막대(오버레이).
+    private func weekRow(_ week: [Date?]) -> some View {
+        ZStack(alignment: .topLeading) {
+            HStack(spacing: 0) {
+                ForEach(Array(week.enumerated()), id: \.offset) { _, day in
+                    if let day {
+                        dayCell(day)
+                    } else {
+                        Color.clear
+                            .frame(height: cellHeight)
+                            .frame(maxWidth: .infinity)
+                            .overlay(Rectangle().stroke(Theme.Colors.cardStroke, lineWidth: 0.5))
+                    }
+                }
+            }
+
+            GeometryReader { geo in
+                let cellWidth = geo.size.width / 7
+                ForEach(weekBars(week)) { bar in
+                    barView(bar)
+                        .frame(width: max(0, cellWidth * CGFloat(bar.span) - 6), height: barHeight)
+                        .offset(
+                            x: cellWidth * CGFloat(bar.startCol) + 3,
+                            y: barTopInset + CGFloat(bar.lane) * (barHeight + barLaneSpacing)
+                        )
+                }
+            }
+            .allowsHitTesting(false)
+        }
+    }
+
+    private func dayCell(_ date: Date) -> some View {
         let isSelected = date.isSameDay(as: viewModel.selectedDate)
-        let counts = viewModel.eventCount(on: date, tasks: tasks, schedules: schedules)
-        let daySchedules = viewModel.schedulesFor(date: date, schedules: schedules)
         let hasCompletions = viewModel.hasCompletions(on: date, tasks: tasks)
 
-        return VStack(alignment: .leading, spacing: 3) {
+        return VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 3) {
                 Text("\(Calendar.current.component(.day, from: date))")
                     .font(.caption.weight(date.isToday ? .bold : .regular))
@@ -114,7 +155,6 @@ struct MacCalendarView: View {
                     .frame(width: 22, height: 22)
                     .background(isSelected ? Theme.Colors.brand : .clear)
                     .clipShape(Circle())
-                    // 오늘(선택되지 않은 경우): 얇은 테두리로 기준점 표시
                     .overlay {
                         if date.isToday && !isSelected {
                             Circle().stroke(Theme.Colors.brand, lineWidth: 1.5)
@@ -126,35 +166,100 @@ struct MacCalendarView: View {
                         .font(.system(size: 8, weight: .bold))
                         .foregroundStyle(.green)
                 }
-            }
 
-            ForEach(daySchedules.prefix(2)) { schedule in
-                Text(schedule.title)
-                    .font(.system(size: 10))
-                    .lineLimit(1)
-                    .padding(.horizontal, 4)
-                    .padding(.vertical, 1)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Theme.Colors.brand.opacity(0.12))
-                    .clipShape(RoundedRectangle(cornerRadius: 4))
-            }
-
-            if counts.schedules > 2 {
-                Text("+\(counts.schedules - 2)")
-                    .font(.system(size: 9))
-                    .foregroundStyle(.secondary)
+                Spacer(minLength: 0)
             }
             Spacer(minLength: 0)
         }
         .padding(6)
-        .frame(height: 96, alignment: .topLeading)
+        .frame(height: cellHeight, alignment: .topLeading)
         .frame(maxWidth: .infinity)
         .background(isSelected ? Theme.Colors.brand.opacity(0.05) : .clear)
-        .overlay(
-            Rectangle().stroke(Theme.Colors.cardStroke, lineWidth: 0.5)
-        )
+        .overlay(Rectangle().stroke(Theme.Colors.cardStroke, lineWidth: 0.5))
         .contentShape(Rectangle())
         .onTapGesture { viewModel.selectedDate = date }
+    }
+
+    // MARK: - 이어지는 일정 막대
+
+    private struct EventBar: Identifiable {
+        let id: String
+        let title: String
+        let startCol: Int
+        let span: Int
+        let lane: Int
+        let isMultiDay: Bool
+    }
+
+    /// 한 주 안에서 각 일정이 차지하는 막대(시작 칸·길이·레인)를 계산.
+    private func weekBars(_ week: [Date?]) -> [EventBar] {
+        let dated = week.enumerated().compactMap { index, day in day.map { (col: index, date: $0) } }
+        guard let weekFirst = dated.first?.date, let weekLast = dated.last?.date else { return [] }
+
+        let calendar = Calendar.current
+        func col(of date: Date) -> Int? { dated.first { $0.date.isSameDay(as: date) }?.col }
+
+        let weekSchedules = schedules
+            .filter { $0.startTime < weekLast.endOfDay && $0.endTime > weekFirst.startOfDay }
+            .sorted {
+                if $0.startTime != $1.startTime { return $0.startTime < $1.startTime }
+                return $0.endTime > $1.endTime // 긴 일정 먼저 배치
+            }
+
+        var laneLastCol: [Int] = [] // 레인별 마지막 점유 칸
+        var bars: [EventBar] = []
+
+        for schedule in weekSchedules {
+            let startDay = calendar.startOfDay(for: schedule.startTime)
+            let endDay = calendar.startOfDay(for: schedule.endTime)
+            let segStart = max(startDay, weekFirst)
+            let segEnd = min(endDay, weekLast)
+            guard let startCol = col(of: segStart), let endCol = col(of: segEnd), endCol >= startCol else { continue }
+
+            // 레인 배정(겹치지 않는 첫 레인)
+            var lane = 0
+            while lane < laneLastCol.count && laneLastCol[lane] >= startCol { lane += 1 }
+            guard lane < maxBarLanes else { continue } // 초과 막대는 생략
+
+            if lane == laneLastCol.count {
+                laneLastCol.append(endCol)
+            } else {
+                laneLastCol[lane] = endCol
+            }
+
+            bars.append(EventBar(
+                id: "\(schedule.persistentModelID)-\(startCol)",
+                title: schedule.title,
+                startCol: startCol,
+                span: endCol - startCol + 1,
+                lane: lane,
+                isMultiDay: endDay > startDay
+            ))
+        }
+        return bars
+    }
+
+    @ViewBuilder
+    private func barView(_ bar: EventBar) -> some View {
+        if bar.isMultiDay {
+            Text(bar.title)
+                .font(.system(size: 10, weight: .medium))
+                .foregroundStyle(.white)
+                .lineLimit(1)
+                .padding(.horizontal, 5)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .background(Theme.Colors.brand.opacity(0.9))
+                .clipShape(RoundedRectangle(cornerRadius: 4))
+        } else {
+            Text(bar.title)
+                .font(.system(size: 10))
+                .foregroundStyle(Theme.Colors.brand)
+                .lineLimit(1)
+                .padding(.horizontal, 5)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .background(Theme.Colors.brand.opacity(0.12))
+                .clipShape(RoundedRectangle(cornerRadius: 4))
+        }
     }
 
     private var rightPanel: some View {
