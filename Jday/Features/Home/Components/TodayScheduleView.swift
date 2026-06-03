@@ -4,6 +4,8 @@ import SwiftData
 struct TodayScheduleView: View {
     let schedules: [Schedule]
     var showHeader: Bool = true
+    /// 일정 탭 시 호출(상세 보기). nil이면 탭 비활성.
+    var onSelect: ((Schedule) -> Void)? = nil
 
     private var sorted: [Schedule] {
         schedules.sorted { $0.startTime < $1.startTime }
@@ -24,11 +26,17 @@ struct TodayScheduleView: View {
             } else {
                 VStack(alignment: .leading, spacing: 0) {
                     ForEach(Array(sorted.enumerated()), id: \.element.persistentModelID) { index, schedule in
-                        TimelineRow(
+                        let row = TimelineRow(
                             schedule: schedule,
                             isFirst: index == 0,
                             isLast: index == sorted.count - 1
                         )
+                        if let onSelect {
+                            Button { onSelect(schedule) } label: { row }
+                                .buttonStyle(.plain)
+                        } else {
+                            row
+                        }
                     }
                 }
             }

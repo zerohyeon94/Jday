@@ -1,11 +1,11 @@
 import SwiftUI
 import SwiftData
 
-/// 할 일 상세 보기·수정 시트 — 오늘 할 일 항목 탭 시 표시
-struct TaskDetailView: View {
+/// 일정 상세 보기·수정 시트 — 캘린더에서 일정 선택 시 표시.
+struct ScheduleDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
-    @Bindable var task: DailyTask
+    @Bindable var schedule: Schedule
 
     @AppStorage("workspaceSeparationEnabled") private var wsEnabled = false
     @AppStorage("activeWorkspace") private var wsActiveRaw = Workspace.personal.rawValue
@@ -13,34 +13,38 @@ struct TaskDetailView: View {
 
     private var workspaceBinding: Binding<Workspace> {
         Binding(
-            get: { task.workspace ?? (Workspace(rawValue: wsActiveRaw) ?? .personal) },
-            set: { task.workspace = $0 }
+            get: { schedule.workspace ?? (Workspace(rawValue: wsActiveRaw) ?? .personal) },
+            set: { schedule.workspace = $0 }
+        )
+    }
+
+    private var locationBinding: Binding<String> {
+        Binding(
+            get: { schedule.location ?? "" },
+            set: { schedule.location = $0.isEmpty ? nil : $0 }
         )
     }
 
     var body: some View {
         NavigationStack {
             Form {
-                Section("할 일") {
-                    TextField("제목", text: $task.title)
-
-                    TextField("메모 (선택)", text: detailBinding, axis: .vertical)
-                        .lineLimit(3...6)
+                Section("일정") {
+                    TextField("제목", text: $schedule.title)
+                    TextField("장소 (선택)", text: locationBinding)
                 }
 
-                Section("정보") {
-                    DatePicker("날짜", selection: $task.date, displayedComponents: .date)
-
-                    Picker("우선순위", selection: $task.priority) {
-                        ForEach(Priority.allCases, id: \.self) { Text($0.label).tag($0) }
+                Section("시간") {
+                    DatePicker("시작", selection: $schedule.startTime)
+                    DatePicker("종료", selection: $schedule.endTime)
+                    if schedule.endTime <= schedule.startTime {
+                        Text("종료 시간은 시작 시간 이후여야 합니다.")
+                            .font(.caption)
+                            .foregroundStyle(.red)
                     }
+                }
 
-                    Toggle("완료", isOn: Binding(
-                        get: { task.isDone },
-                        set: { task.setDone($0) }
-                    ))
-
-                    if wsEnabled {
+                if wsEnabled {
+                    Section("공간") {
                         Picker(selection: workspaceBinding) {
                             ForEach(Workspace.allCases) { ws in
                                 Label(ws.label, systemImage: ws.icon).tag(ws)
@@ -55,7 +59,7 @@ struct TaskDetailView: View {
                     Button(role: .destructive) {
                         showDeleteAlert = true
                     } label: {
-                        Text("할 일 삭제")
+                        Text("일정 삭제")
                             .frame(maxWidth: .infinity)
                     }
                 }
@@ -63,51 +67,41 @@ struct TaskDetailView: View {
             .formStyle(.grouped)
             .scrollContentBackground(.hidden)
             .background(Theme.Colors.appBackground)
-            .navigationTitle("할 일 상세")
+            .navigationTitle("일정 상세")
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("완료") { save() }
+                        .disabled(schedule.endTime <= schedule.startTime || schedule.title.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
             }
-            .alert("할 일 삭제", isPresented: $showDeleteAlert) {
+            .alert("일정 삭제", isPresented: $showDeleteAlert) {
                 Button("삭제", role: .destructive) { delete() }
                 Button("취소", role: .cancel) {}
             } message: {
-                Text("이 할 일을 삭제하면 복구할 수 없습니다.")
+                Text("이 일정을 삭제하면 복구할 수 없습니다.")
             }
         }
     }
 
-    /// 옵셔널 detail을 TextField용 비옵셔널 바인딩으로 변환
-    private var detailBinding: Binding<String> {
-        Binding(
-            get: { task.detail ?? "" },
-            set: { task.detail = $0.isEmpty ? nil : $0 }
-        )
-    }
-
     private func save() {
-        task.title = task.title.trimmingCharacters(in: .whitespaces)
-        if let detail = task.detail {
-            let trimmed = detail.trimmingCharacters(in: .whitespacesAndNewlines)
-            task.detail = trimmed.isEmpty ? nil : trimmed
-        }
-        task.updatedAt = .now
+        schedule.title = schedule.title.trimmingCharacters(in: .whitespaces)
+        schedule.updatedAt = .now
         try? context.save()
         dismiss()
     }
 
     private func delete() {
-        context.delete(task)
+        NotificationService.shared.cancelScheduleNotification(for: schedule)
+        context.delete(schedule)
         try? context.save()
         dismiss()
     }
 }
 
 #Preview {
-    TaskDetailView(task: PreviewHelpers.sampleTasks[1])
+    ScheduleDetailView(schedule: PreviewHelpers.sampleSchedules[0])
         .modelContainer(PreviewHelpers.makeContainer())
 }

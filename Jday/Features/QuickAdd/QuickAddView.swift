@@ -2,6 +2,9 @@ import SwiftUI
 import SwiftData
 
 struct QuickAddView: View {
+    /// 진입 시 기본으로 보여줄 탭(현재 화면에 맞춤). 홈→할일, 캘린더→일정, 이슈→이슈.
+    var initialTab: QuickAddTab = .task
+
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
     @StateObject private var viewModel = QuickAddViewModel()
@@ -10,7 +13,7 @@ struct QuickAddView: View {
     @State private var contentHeight: CGFloat = 0
 
     @AppStorage("workspaceSeparationEnabled") private var workspaceSeparationEnabled = false
-    @AppStorage("defaultWorkspace") private var defaultWorkspaceRaw = Workspace.personal.rawValue
+    @AppStorage("activeWorkspace") private var activeWorkspaceRaw = Workspace.personal.rawValue
 
     var body: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
@@ -26,23 +29,6 @@ struct QuickAddView: View {
                 label: { $0.rawValue },
                 selection: tabBinding
             )
-
-            if workspaceSeparationEnabled {
-                HStack {
-                    Text("공간")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                    Spacer()
-                    Picker("", selection: workspaceBinding) {
-                        ForEach(Workspace.allCases) { ws in
-                            Text(ws.label).tag(ws)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-                    .labelsHidden()
-                    .frame(maxWidth: 200)
-                }
-            }
 
             // 내용을 한 번에 모두 표시(스크롤 없이) — 시트 높이는 아래 detent로 자동 맞춤
             VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
@@ -72,8 +58,9 @@ struct QuickAddView: View {
         #endif
         .presentationDragIndicator(.hidden)
         .onAppear {
+            viewModel.selectedTab = initialTab
             viewModel.workspace = workspaceSeparationEnabled
-                ? (Workspace(rawValue: defaultWorkspaceRaw) ?? .personal)
+                ? (Workspace(rawValue: activeWorkspaceRaw) ?? .personal)
                 : nil
         }
         .alert("입력 내용 초기화", isPresented: $showTabSwitchAlert) {
@@ -88,13 +75,6 @@ struct QuickAddView: View {
         } message: {
             Text("입력한 내용이 사라집니다.")
         }
-    }
-
-    private var workspaceBinding: Binding<Workspace> {
-        Binding(
-            get: { viewModel.workspace ?? (Workspace(rawValue: defaultWorkspaceRaw) ?? .personal) },
-            set: { viewModel.workspace = $0 }
-        )
     }
 
     // 탭 전환 시 입력값이 있으면 확인 Alert

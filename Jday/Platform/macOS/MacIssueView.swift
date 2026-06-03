@@ -9,14 +9,12 @@ struct MacIssueView: View {
     @State private var selectedID: PersistentIdentifier?
 
     @AppStorage("workspaceSeparationEnabled") private var wsEnabled = false
-    @AppStorage("workspaceFilter") private var wsFilterRaw = WorkspaceFilter.all.rawValue
-    @AppStorage("defaultWorkspace") private var wsDefaultRaw = Workspace.personal.rawValue
+    @AppStorage("activeWorkspace") private var wsActiveRaw = Workspace.personal.rawValue
 
-    private var wsFilter: WorkspaceFilter { WorkspaceFilter(rawValue: wsFilterRaw) ?? .all }
-    private var wsDefault: Workspace { Workspace(rawValue: wsDefaultRaw) ?? .personal }
+    private var wsActive: Workspace { Workspace(rawValue: wsActiveRaw) ?? .personal }
 
     private var issues: [Issue] {
-        allIssues.workspaceFiltered(enabled: wsEnabled, filter: wsFilter, defaultWorkspace: wsDefault)
+        allIssues.workspaceFiltered(enabled: wsEnabled, active: wsActive)
     }
 
     private var filtered: [Issue] { viewModel.filteredIssues(issues) }
@@ -41,7 +39,7 @@ struct MacIssueView: View {
     private var listColumn: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.lg) {
             if wsEnabled {
-                WorkspaceFilterBar()
+                WorkspaceToggle()
             }
 
             PillPicker(

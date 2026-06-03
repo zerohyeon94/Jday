@@ -12,17 +12,15 @@ struct HomeView: View {
     @State private var deletedSnapshot: DeletedTaskSnapshot?
 
     @AppStorage("workspaceSeparationEnabled") private var wsEnabled = false
-    @AppStorage("workspaceFilter") private var wsFilterRaw = WorkspaceFilter.all.rawValue
-    @AppStorage("defaultWorkspace") private var wsDefaultRaw = Workspace.personal.rawValue
+    @AppStorage("activeWorkspace") private var wsActiveRaw = Workspace.personal.rawValue
 
-    private var wsFilter: WorkspaceFilter { WorkspaceFilter(rawValue: wsFilterRaw) ?? .all }
-    private var wsDefault: Workspace { Workspace(rawValue: wsDefaultRaw) ?? .personal }
+    private var wsActive: Workspace { Workspace(rawValue: wsActiveRaw) ?? .personal }
 
     private var filteredTasks: [DailyTask] {
-        allTasks.workspaceFiltered(enabled: wsEnabled, filter: wsFilter, defaultWorkspace: wsDefault)
+        allTasks.workspaceFiltered(enabled: wsEnabled, active: wsActive)
     }
     private var filteredSchedules: [Schedule] {
-        allSchedules.workspaceFiltered(enabled: wsEnabled, filter: wsFilter, defaultWorkspace: wsDefault)
+        allSchedules.workspaceFiltered(enabled: wsEnabled, active: wsActive)
     }
 
     private var todayTasks: [DailyTask] {
@@ -76,7 +74,7 @@ struct HomeView: View {
             header
 
             if wsEnabled {
-                WorkspaceFilterBar()
+                WorkspaceToggle()
             }
 
             summaryCards

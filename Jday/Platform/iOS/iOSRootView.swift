@@ -56,7 +56,7 @@ struct iOSRootView: View {
             fab
         }
         .sheet(isPresented: $showQuickAdd) {
-            QuickAddView()
+            QuickAddView(initialTab: quickAddInitialTab)
         }
         .onAppear {
             let initial: Tab = startTab == "calendar" ? .calendar : iOSRootView.defaultTab
@@ -67,6 +67,15 @@ struct iOSRootView: View {
                 showQuickAdd = true
             }
             #endif
+        }
+    }
+
+    /// 현재 화면에 맞는 빠른 추가 기본 탭. 홈→할일, 캘린더→일정, 이슈→이슈.
+    private var quickAddInitialTab: QuickAddTab {
+        switch previousTab {
+        case .calendar: .schedule
+        case .issue: .issue
+        default: .task
         }
     }
 

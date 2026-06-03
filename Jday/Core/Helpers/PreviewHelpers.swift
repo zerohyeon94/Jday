@@ -10,36 +10,39 @@ enum PreviewHelpers {
 
         let context = container.mainContext
 
-        // 샘플 DailyTask (작업 공간 분류 포함)
-        let task1 = DailyTask(title: "기획서 검토", detail: "2장 사용자 시나리오 위주로 확인", date: .now, priority: .high, workspace: .work)
-        let task2 = DailyTask(title: "디자인 피드백", date: .now, priority: .medium, workspace: .work)
-        let task3 = DailyTask(title: "코드 리뷰", date: .now, priority: .low, workspace: .personal)
-        task3.setDone(true) // 완료 시각 기록
-
-        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: .now)!
-        let oldTask = DailyTask(title: "어제 미완료 항목", date: yesterday, priority: .medium)
-
-        context.insert(task1)
-        context.insert(task2)
-        context.insert(task3)
-        context.insert(oldTask)
-
-        // 샘플 Schedule
         let now = Date()
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: now)!
+
+        // 샘플 DailyTask — 회사/개인 양쪽 (분리 검증용)
+        let workTask1 = DailyTask(title: "기획서 검토", detail: "2장 사용자 시나리오 위주로 확인", date: now, priority: .high, workspace: .work)
+        let workTask2 = DailyTask(title: "디자인 피드백", date: now, priority: .medium, workspace: .work)
+        let personalTask1 = DailyTask(title: "장보기", date: now, priority: .medium, workspace: .personal)
+        let personalTask2 = DailyTask(title: "운동하기", date: now, priority: .low, workspace: .personal)
+        personalTask2.setDone(true) // 완료 시각 기록
+        let workOld = DailyTask(title: "어제 미완료 보고서", date: yesterday, priority: .medium, workspace: .work)
+
+        [workTask1, workTask2, personalTask1, personalTask2, workOld].forEach(context.insert)
+
+        // 샘플 Schedule — 회사/개인
         let startTime = Calendar.current.date(byAdding: .hour, value: 2, to: now)!
         let endTime = Calendar.current.date(byAdding: .hour, value: 3, to: now)!
-        let schedule = Schedule(title: "팀 미팅", startTime: startTime, endTime: endTime, location: "회의실 A")
-        context.insert(schedule)
+        let workMeeting = Schedule(title: "팀 미팅", startTime: startTime, endTime: endTime, location: "회의실 A", workspace: .work)
+        context.insert(workMeeting)
 
-        // 여러 날에 걸친 일정(출장) — 어제부터 내일까지
+        let dinnerStart = Calendar.current.date(byAdding: .hour, value: 6, to: now)!
+        let dinnerEnd = Calendar.current.date(byAdding: .hour, value: 8, to: now)!
+        let personalDinner = Schedule(title: "친구 저녁 약속", startTime: dinnerStart, endTime: dinnerEnd, location: "강남", workspace: .personal)
+        context.insert(personalDinner)
+
+        // 여러 날에 걸친 일정(출장) — 어제부터 내일까지 (회사)
         let tripStart = Calendar.current.date(byAdding: .day, value: -1, to: now)!
         let tripEnd = Calendar.current.date(byAdding: .day, value: 1, to: now)!
-        let trip = Schedule(title: "출장 (3일)", startTime: tripStart, endTime: tripEnd, location: "부산")
+        let trip = Schedule(title: "출장 (3일)", startTime: tripStart, endTime: tripEnd, location: "부산", workspace: .work)
         context.insert(trip)
 
-        // 샘플 Issue
-        let issue = Issue(title: "로그인 버그", detail: "특정 기기에서 로그인 실패")
-        context.insert(issue)
+        // 샘플 Issue — 회사/개인
+        context.insert(Issue(title: "로그인 버그", detail: "특정 기기에서 로그인 실패", workspace: .work))
+        context.insert(Issue(title: "집 인터넷 AS 문의", workspace: .personal))
 
         return container
     }

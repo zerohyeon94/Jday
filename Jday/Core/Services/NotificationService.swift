@@ -76,4 +76,9 @@ final class NotificationService {
             }
         }
     }
+
+    func cancelScheduleNotification(for schedule: Schedule) {
+        let identifier = "schedule-\(schedule.persistentModelID)"
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
+    }
 }

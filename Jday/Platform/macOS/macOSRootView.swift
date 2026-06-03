@@ -90,6 +90,15 @@ struct macOSRootView: View {
         }
     }
 
+    /// 현재 화면에 맞는 빠른 추가 기본 탭. 홈→할일, 캘린더→일정, 이슈→이슈.
+    private var quickAddInitialTab: QuickAddTab {
+        switch selectedItem {
+        case .calendar: .schedule
+        case .issue: .issue
+        default: .task
+        }
+    }
+
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
@@ -99,7 +108,7 @@ struct macOSRootView: View {
                 Label("빠른 추가", systemImage: "plus")
             }
             .popover(isPresented: $showQuickAdd, arrowEdge: .top) {
-                QuickAddView()
+                QuickAddView(initialTab: quickAddInitialTab)
                     .frame(width: 360)
                     .fixedSize(horizontal: false, vertical: true)
             }

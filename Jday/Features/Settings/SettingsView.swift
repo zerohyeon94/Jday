@@ -10,16 +10,19 @@ struct SettingsView: View {
     @AppStorage("autoHideCompleted") private var autoHideCompleted = true
     @AppStorage("appearanceMode") private var appearanceModeRaw = AppearanceMode.system.rawValue
     @AppStorage("workspaceSeparationEnabled") private var workspaceSeparationEnabled = false
-    @AppStorage("defaultWorkspace") private var defaultWorkspaceRaw = Workspace.personal.rawValue
+    @AppStorage("activeWorkspace") private var activeWorkspaceRaw = Workspace.personal.rawValue
 
     @Environment(\.openURL) private var openURL
+    @Environment(\.modelContext) private var context
     @State private var notificationAuthStatus: UNAuthorizationStatus = .notDetermined
+    @State private var showResetAlert = false
 
     var body: some View {
         Form {
             notificationSection
             generalSection
             workspaceSection
+            dataSection
             accountSection
         }
         .formStyle(.grouped)
@@ -30,6 +33,12 @@ struct SettingsView: View {
         .toolbar(.hidden, for: .navigationBar)
         #endif
         .task { await checkNotificationStatus() }
+        .alert("모든 데이터 삭제", isPresented: $showResetAlert) {
+            Button("삭제", role: .destructive) { deleteAllData() }
+            Button("취소", role: .cancel) {}
+        } message: {
+            Text("모든 할 일·일정·이슈가 삭제됩니다. 이 작업은 되돌릴 수 없습니다.")
+        }
     }
 
     private var notificationSection: some View {
@@ -96,13 +105,6 @@ struct SettingsView: View {
         }
     }
 
-    private var defaultWorkspaceBinding: Binding<Workspace> {
-        Binding(
-            get: { Workspace(rawValue: defaultWorkspaceRaw) ?? .personal },
-            set: { defaultWorkspaceRaw = $0.rawValue }
-        )
-    }
-
     private var workspaceSection: some View {
         Section {
             toggleRow(
@@ -112,19 +114,26 @@ struct SettingsView: View {
             )
 
             if workspaceSeparationEnabled {
-                Picker(selection: defaultWorkspaceBinding) {
-                    ForEach(Workspace.allCases) { ws in
-                        Label(ws.label, systemImage: ws.icon).tag(ws)
-                    }
-                } label: {
-                    Text("기본 공간")
+                LabeledContent("현재 공간") {
+                    Text((Workspace(rawValue: activeWorkspaceRaw) ?? .personal).label)
+                        .foregroundStyle(.secondary)
                 }
             }
         } header: {
             Text("작업 공간")
         } footer: {
             if workspaceSeparationEnabled {
-                Text("데이터 저장소가 완전히 분리되는 것은 아닙니다. 모든 항목은 같은 iCloud에 동기화되며, 회사 기기 정책(MDM·Managed Apple Account)에 따라 개인 iCloud 동기화가 제한될 수 있습니다.")
+                Text("개인/회사는 홈 화면 상단 토글로 전환합니다. 각 공간의 항목은 해당 공간에서만 보입니다. 단, 데이터 저장소가 완전히 분리되는 것은 아니며 모든 항목은 같은 iCloud에 동기화됩니다. 회사 기기 정책(MDM·Managed Apple Account)에 따라 개인 iCloud 동기화가 제한될 수 있습니다.")
+            }
+        }
+    }
+
+    private var dataSection: some View {
+        Section("데이터") {
+            Button(role: .destructive) {
+                showResetAlert = true
+            } label: {
+                Text("모든 데이터 삭제")
             }
         }
     }
@@ -166,6 +175,13 @@ struct SettingsView: View {
                     .foregroundStyle(.secondary)
             }
         }
+    }
+
+    private func deleteAllData() {
+        try? context.delete(model: DailyTask.self)
+        try? context.delete(model: Schedule.self)
+        try? context.delete(model: Issue.self)
+        try? context.save()
     }
 
     private func checkNotificationStatus() async {

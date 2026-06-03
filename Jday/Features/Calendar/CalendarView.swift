@@ -9,17 +9,15 @@ struct CalendarView: View {
     @Query(sort: \Schedule.startTime) private var allSchedules: [Schedule]
 
     @AppStorage("workspaceSeparationEnabled") private var wsEnabled = false
-    @AppStorage("workspaceFilter") private var wsFilterRaw = WorkspaceFilter.all.rawValue
-    @AppStorage("defaultWorkspace") private var wsDefaultRaw = Workspace.personal.rawValue
+    @AppStorage("activeWorkspace") private var wsActiveRaw = Workspace.personal.rawValue
 
-    private var wsFilter: WorkspaceFilter { WorkspaceFilter(rawValue: wsFilterRaw) ?? .all }
-    private var wsDefault: Workspace { Workspace(rawValue: wsDefaultRaw) ?? .personal }
+    private var wsActive: Workspace { Workspace(rawValue: wsActiveRaw) ?? .personal }
 
     private var tasks: [DailyTask] {
-        allTasks.workspaceFiltered(enabled: wsEnabled, filter: wsFilter, defaultWorkspace: wsDefault)
+        allTasks.workspaceFiltered(enabled: wsEnabled, active: wsActive)
     }
     private var schedules: [Schedule] {
-        allSchedules.workspaceFiltered(enabled: wsEnabled, filter: wsFilter, defaultWorkspace: wsDefault)
+        allSchedules.workspaceFiltered(enabled: wsEnabled, active: wsActive)
     }
 
     private var selectedTasks: [DailyTask] {
@@ -35,6 +33,7 @@ struct CalendarView: View {
     }
 
     @State private var selectedTask: DailyTask?
+    @State private var selectedSchedule: Schedule?
     @State private var deletedSnapshot: DeletedTaskSnapshot?
 
     var body: some View {
@@ -43,7 +42,7 @@ struct CalendarView: View {
                 header
                 modePicker
                 if wsEnabled {
-                    WorkspaceFilterBar()
+                    WorkspaceToggle()
                 }
                 gridCard
                 dayDetail
@@ -57,6 +56,9 @@ struct CalendarView: View {
         #endif
         .sheet(item: $selectedTask) { task in
             TaskDetailView(task: task)
+        }
+        .sheet(item: $selectedSchedule) { schedule in
+            ScheduleDetailView(schedule: schedule)
         }
         .undoToast($deletedSnapshot) { snapshot in
             context.insert(snapshot.restored())
@@ -220,7 +222,7 @@ struct CalendarView: View {
             }
 
             if !selectedSchedules.isEmpty {
-                TodayScheduleView(schedules: selectedSchedules)
+                TodayScheduleView(schedules: selectedSchedules, onSelect: { selectedSchedule = $0 })
             }
 
             TodayTasksView(

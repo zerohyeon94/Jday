@@ -10,17 +10,15 @@ struct MacCalendarView: View {
     @Query(sort: \Schedule.startTime) private var allSchedules: [Schedule]
 
     @AppStorage("workspaceSeparationEnabled") private var wsEnabled = false
-    @AppStorage("workspaceFilter") private var wsFilterRaw = WorkspaceFilter.all.rawValue
-    @AppStorage("defaultWorkspace") private var wsDefaultRaw = Workspace.personal.rawValue
+    @AppStorage("activeWorkspace") private var wsActiveRaw = Workspace.personal.rawValue
 
-    private var wsFilter: WorkspaceFilter { WorkspaceFilter(rawValue: wsFilterRaw) ?? .all }
-    private var wsDefault: Workspace { Workspace(rawValue: wsDefaultRaw) ?? .personal }
+    private var wsActive: Workspace { Workspace(rawValue: wsActiveRaw) ?? .personal }
 
     private var tasks: [DailyTask] {
-        allTasks.workspaceFiltered(enabled: wsEnabled, filter: wsFilter, defaultWorkspace: wsDefault)
+        allTasks.workspaceFiltered(enabled: wsEnabled, active: wsActive)
     }
     private var schedules: [Schedule] {
-        allSchedules.workspaceFiltered(enabled: wsEnabled, filter: wsFilter, defaultWorkspace: wsDefault)
+        allSchedules.workspaceFiltered(enabled: wsEnabled, active: wsActive)
     }
 
     private var selectedTasks: [DailyTask] { viewModel.tasksFor(date: viewModel.selectedDate, tasks: tasks) }
@@ -28,6 +26,7 @@ struct MacCalendarView: View {
     private var completedTasks: [DailyTask] { viewModel.completedTasksFor(date: viewModel.selectedDate, tasks: tasks) }
 
     @State private var selectedTask: DailyTask?
+    @State private var selectedSchedule: Schedule?
     @State private var deletedSnapshot: DeletedTaskSnapshot?
 
     var body: some View {
@@ -40,6 +39,9 @@ struct MacCalendarView: View {
         .navigationTitle("캘린더")
         .sheet(item: $selectedTask) { task in
             TaskDetailView(task: task)
+        }
+        .sheet(item: $selectedSchedule) { schedule in
+            ScheduleDetailView(schedule: schedule)
         }
         .undoToast($deletedSnapshot) { snapshot in
             context.insert(snapshot.restored())
@@ -82,7 +84,7 @@ struct MacCalendarView: View {
             }
 
             if wsEnabled {
-                WorkspaceFilterBar()
+                WorkspaceToggle()
             }
 
             weekdayHeader
@@ -151,13 +153,14 @@ struct MacCalendarView: View {
                 ForEach(weekBars(week)) { bar in
                     barView(bar)
                         .frame(width: max(0, cellWidth * CGFloat(bar.span) - 6), height: barHeight)
+                        .contentShape(Rectangle())
+                        .onTapGesture { selectedSchedule = bar.schedule }
                         .offset(
                             x: cellWidth * CGFloat(bar.startCol) + 3,
                             y: barTopInset + CGFloat(bar.lane) * (barHeight + barLaneSpacing)
                         )
                 }
             }
-            .allowsHitTesting(false)
         }
     }
 
@@ -202,6 +205,7 @@ struct MacCalendarView: View {
 
     private struct EventBar: Identifiable {
         let id: String
+        let schedule: Schedule
         let title: String
         let startCol: Int
         let span: Int
@@ -247,6 +251,7 @@ struct MacCalendarView: View {
 
             bars.append(EventBar(
                 id: "\(schedule.persistentModelID)-\(startCol)",
+                schedule: schedule,
                 title: schedule.title,
                 startCol: startCol,
                 span: endCol - startCol + 1,
@@ -291,7 +296,7 @@ struct MacCalendarView: View {
                         .foregroundStyle(.secondary)
                 }
 
-                TodayScheduleView(schedules: selectedSchedules)
+                TodayScheduleView(schedules: selectedSchedules, onSelect: { selectedSchedule = $0 })
 
                 TodayTasksView(
                     tasks: selectedTasks,
