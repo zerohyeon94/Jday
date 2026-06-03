@@ -63,6 +63,11 @@ struct iOSRootView: View {
             selectedTab = initial
             previousTab = initial
             #if DEBUG
+            if let forced = UserDefaults.standard.string(forKey: "forceTab"),
+               let tab = Tab(rawValue: forced) {
+                selectedTab = tab
+                previousTab = tab
+            }
             if CommandLine.arguments.contains("-openQuickAdd") {
                 showQuickAdd = true
             }

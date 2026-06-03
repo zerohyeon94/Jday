@@ -33,6 +33,18 @@ struct macOSRootView: View {
             detail
                 .toolbar { toolbarContent }
         }
+        #if DEBUG
+        .onAppear {
+            if let forced = UserDefaults.standard.string(forKey: "forceTab") {
+                switch forced {
+                case "calendar": selectedItem = .calendar
+                case "issue": selectedItem = .issue
+                case "settings": selectedItem = .settings
+                default: selectedItem = .home
+                }
+            }
+        }
+        #endif
     }
 
     private var sidebar: some View {
