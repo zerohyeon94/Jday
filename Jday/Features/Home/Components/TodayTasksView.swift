@@ -6,6 +6,8 @@ struct TodayTasksView: View {
     let onToggle: (DailyTask) -> Void
     /// 항목 본문 탭 시 호출(상세/수정). nil이면 본문 탭도 완료 토글로 동작.
     var onSelect: ((DailyTask) -> Void)? = nil
+    /// 스와이프 삭제 콜백. 제공되면 행에 왼쪽 스와이프 삭제 액션이 활성화된다.
+    var onDelete: ((DailyTask) -> Void)? = nil
 
     private var ordered: [DailyTask] {
         tasks.filter { !$0.isDone } + tasks.filter { $0.isDone }
@@ -25,7 +27,7 @@ struct TodayTasksView: View {
             } else {
                 VStack(spacing: 0) {
                     ForEach(Array(ordered.enumerated()), id: \.element.persistentModelID) { index, task in
-                        row(task)
+                        swipeableRow(task)
                         if index < ordered.count - 1 {
                             DashedDivider()
                         }
@@ -51,6 +53,19 @@ struct TodayTasksView: View {
             Text("완료 \(completedAt.hourMinuteLabel)")
         } else {
             Text(task.date.amPmLabel)
+        }
+    }
+
+    /// onDelete가 있으면 스와이프 삭제 래퍼를 적용하고, VoiceOver 삭제 액션도 추가.
+    @ViewBuilder
+    private func swipeableRow(_ task: DailyTask) -> some View {
+        if let onDelete {
+            SwipeToDeleteRow(onDelete: { onDelete(task) }) {
+                row(task)
+            }
+            .accessibilityAction(named: "삭제") { onDelete(task) }
+        } else {
+            row(task)
         }
     }
 

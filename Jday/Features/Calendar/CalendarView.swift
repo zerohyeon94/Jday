@@ -21,6 +21,7 @@ struct CalendarView: View {
     }
 
     @State private var selectedTask: DailyTask?
+    @State private var deletedSnapshot: DeletedTaskSnapshot?
 
     var body: some View {
         ScrollView {
@@ -40,6 +41,17 @@ struct CalendarView: View {
         .sheet(item: $selectedTask) { task in
             TaskDetailView(task: task)
         }
+        .undoToast($deletedSnapshot) { snapshot in
+            context.insert(snapshot.restored())
+            try? context.save()
+        }
+    }
+
+    private func deleteTask(_ task: DailyTask) {
+        let snapshot = DeletedTaskSnapshot(task)
+        context.delete(task)
+        try? context.save()
+        deletedSnapshot = snapshot
     }
 
     private var header: some View {
@@ -200,7 +212,8 @@ struct CalendarView: View {
                     task.setDone(!task.isDone)
                     try? context.save()
                 },
-                onSelect: { selectedTask = $0 }
+                onSelect: { selectedTask = $0 },
+                onDelete: { deleteTask($0) }
             )
 
             if !completedTasks.isEmpty {

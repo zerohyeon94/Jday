@@ -17,6 +17,16 @@ final class HomeViewModel: ObservableObject {
         save(context: context)
     }
 
+    func deleteTask(_ task: DailyTask, context: ModelContext) {
+        context.delete(task)
+        save(context: context)
+    }
+
+    func restoreTask(_ snapshot: DeletedTaskSnapshot, context: ModelContext) {
+        context.insert(snapshot.restored())
+        save(context: context)
+    }
+
     func moveYesterdayTasksToToday(_ tasks: [DailyTask], context: ModelContext) {
         for task in tasks {
             task.date = .now

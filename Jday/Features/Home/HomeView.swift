@@ -9,6 +9,7 @@ struct HomeView: View {
     @Query(sort: \Schedule.startTime) private var allSchedules: [Schedule]
 
     @State private var selectedTask: DailyTask?
+    @State private var deletedSnapshot: DeletedTaskSnapshot?
 
     private var todayTasks: [DailyTask] {
         allTasks.filter { $0.date.isToday }
@@ -45,6 +46,15 @@ struct HomeView: View {
         .sheet(item: $selectedTask) { task in
             TaskDetailView(task: task)
         }
+        .undoToast($deletedSnapshot) { snapshot in
+            viewModel.restoreTask(snapshot, context: context)
+        }
+    }
+
+    private func deleteTask(_ task: DailyTask) {
+        let snapshot = DeletedTaskSnapshot(task)
+        viewModel.deleteTask(task, context: context)
+        deletedSnapshot = snapshot
     }
 
     private var content: some View {
@@ -63,7 +73,8 @@ struct HomeView: View {
             TodayTasksView(
                 tasks: todayTasks,
                 onToggle: { viewModel.toggleTask($0, context: context) },
-                onSelect: { selectedTask = $0 }
+                onSelect: { selectedTask = $0 },
+                onDelete: { deleteTask($0) }
             )
 
             TodayScheduleView(schedules: todaySchedules)
