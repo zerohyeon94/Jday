@@ -56,16 +56,52 @@ struct TodayTasksView: View {
         }
     }
 
-    /// onDelete가 있으면 스와이프 삭제 래퍼를 적용하고, VoiceOver 삭제 액션도 추가.
+    /// 행에 컨텍스트 메뉴(양 플랫폼)를 달고, iOS에서는 스와이프 삭제 래퍼를 추가한다.
+    /// macOS는 우클릭 컨텍스트 메뉴로 삭제 등을 수행한다.
     @ViewBuilder
     private func swipeableRow(_ task: DailyTask) -> some View {
+        let base = row(task)
+            .contextMenu { contextMenuItems(task) }
+
+        #if os(iOS)
         if let onDelete {
             SwipeToDeleteRow(onDelete: { onDelete(task) }) {
-                row(task)
+                base
             }
             .accessibilityAction(named: "삭제") { onDelete(task) }
         } else {
-            row(task)
+            base
+        }
+        #else
+        base
+        #endif
+    }
+
+    /// 우클릭(macOS) / 길게 누르기(iOS) 컨텍스트 메뉴.
+    @ViewBuilder
+    private func contextMenuItems(_ task: DailyTask) -> some View {
+        Button {
+            onToggle(task)
+        } label: {
+            Label(task.isDone ? "완료 해제" : "완료됨으로 표시",
+                  systemImage: task.isDone ? "circle" : "checkmark.circle")
+        }
+
+        if let onSelect {
+            Button {
+                onSelect(task)
+            } label: {
+                Label("상세 보기", systemImage: "info.circle")
+            }
+        }
+
+        if let onDelete {
+            Divider()
+            Button(role: .destructive) {
+                onDelete(task)
+            } label: {
+                Label("삭제", systemImage: "trash")
+            }
         }
     }
 
