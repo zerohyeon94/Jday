@@ -7,20 +7,6 @@ struct JdayApp: App {
 
     init() {
         let schema = Schema([DailyTask.self, Schedule.self, Issue.self])
-
-        #if DEBUG
-        // App Store 스크린샷용 데모 데이터
-        if CommandLine.arguments.contains("-storeDemoData") {
-            container = MainActor.assumeIsolated { PreviewHelpers.makeStoreDemoContainer() }
-            return
-        }
-        // UI 검증용 인메모리 시드 데이터
-        if CommandLine.arguments.contains("-seedPreviewData") {
-            container = MainActor.assumeIsolated { PreviewHelpers.makeContainer() }
-            return
-        }
-        #endif
-
         let config = ModelConfiguration(schema: schema, cloudKitDatabase: .automatic)
         do {
             container = try ModelContainer(for: schema, configurations: config)

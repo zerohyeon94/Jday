@@ -62,16 +62,6 @@ struct iOSRootView: View {
             let initial: Tab = startTab == "calendar" ? .calendar : iOSRootView.defaultTab
             selectedTab = initial
             previousTab = initial
-            #if DEBUG
-            if let forced = UserDefaults.standard.string(forKey: "forceTab"),
-               let tab = Tab(rawValue: forced) {
-                selectedTab = tab
-                previousTab = tab
-            }
-            if CommandLine.arguments.contains("-openQuickAdd") {
-                showQuickAdd = true
-            }
-            #endif
         }
     }
 
