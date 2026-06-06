@@ -36,6 +36,10 @@ struct SidebarRootView: View {
                 .toolbar { toolbarContent }
                 #if os(iOS)
                 .navigationBarTitleDisplayMode(.inline)
+                // iPad: 빠른 추가를 화면 중앙 모달 카드로 표시
+                .sheet(isPresented: $showQuickAdd) {
+                    QuickAddView(initialTab: quickAddInitialTab)
+                }
                 #endif
         }
         .navigationSplitViewStyle(.balanced)
@@ -104,6 +108,20 @@ struct SidebarRootView: View {
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
+            #if os(iOS)
+            // iPad: "+ 빠른 추가" 텍스트가 보이는 강조 버튼 (아이콘만 축약되지 않도록 명시)
+            Button {
+                showQuickAdd = true
+            } label: {
+                HStack(spacing: 4) {
+                    Image(systemName: "plus")
+                    Text("빠른 추가")
+                }
+                .font(.subheadline.weight(.semibold))
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(Theme.Colors.brand)
+            #else
             Button {
                 showQuickAdd = true
             } label: {
@@ -114,6 +132,7 @@ struct SidebarRootView: View {
                     .frame(width: 360)
                     .fixedSize(horizontal: false, vertical: true)
             }
+            #endif
         }
     }
 }

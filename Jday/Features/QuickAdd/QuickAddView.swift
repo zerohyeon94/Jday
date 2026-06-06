@@ -15,10 +15,18 @@ struct QuickAddView: View {
     @AppStorage("workspaceSeparationEnabled") private var workspaceSeparationEnabled = false
     @AppStorage("activeWorkspace") private var activeWorkspaceRaw = Workspace.personal.rawValue
 
+    #if os(iOS)
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    /// iPhone(컴팩트)은 내용맞춤 바텀시트, iPad(레귤러)는 중앙 폼시트로 표시.
+    private var isCompactSheet: Bool { horizontalSizeClass == .compact }
+    #endif
+
     var body: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
             #if os(iOS)
-            handle
+            if isCompactSheet {
+                handle
+            }
             #endif
 
             Text("빠른 추가")
@@ -51,10 +59,7 @@ struct QuickAddView: View {
         .background(Theme.Colors.appBackground)
         .background(heightReader)
         #if os(iOS)
-        // 키보드가 올라와도 시트 높이를 유지(콘텐츠가 밀려 측정값이 커지는 것 방지)
-        .ignoresSafeArea(.keyboard, edges: .bottom)
-        // 단일 height detent로 고정 → 키보드가 올라와도 시트가 .large로 점프하지 않음
-        .presentationDetents(detents)
+        .modifier(CompactBottomSheet(isActive: isCompactSheet, detents: detents))
         #endif
         .presentationDragIndicator(.hidden)
         .onAppear {
@@ -257,6 +262,27 @@ private struct ContentHeightKey: PreferenceKey {
         value = max(value, nextValue())
     }
 }
+
+#if os(iOS)
+/// iPhone(컴팩트)에서만 내용맞춤 바텀시트 동작을 적용한다.
+/// iPad(레귤러)는 modifier를 적용하지 않아 기본 중앙 폼시트로 표시된다.
+private struct CompactBottomSheet: ViewModifier {
+    let isActive: Bool
+    let detents: Set<PresentationDetent>
+
+    func body(content: Content) -> some View {
+        if isActive {
+            content
+                // 키보드가 올라와도 시트 높이를 유지(콘텐츠가 밀려 측정값이 커지는 것 방지)
+                .ignoresSafeArea(.keyboard, edges: .bottom)
+                // 단일 height detent로 고정 → 키보드가 올라와도 시트가 .large로 점프하지 않음
+                .presentationDetents(detents)
+        } else {
+            content
+        }
+    }
+}
+#endif
 
 #Preview {
     Color.black.opacity(0.2)
