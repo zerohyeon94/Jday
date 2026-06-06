@@ -42,7 +42,27 @@ struct SidebarRootView: View {
     }
 
     private var sidebar: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        List(selection: $selectedItem) {
+            Section("메뉴") {
+                ForEach(SidebarItem.allCases) { item in
+                    HStack {
+                        Label(item.rawValue, systemImage: item.icon)
+                        Spacer()
+                        if item == .issue, unresolvedCount > 0 {
+                            Text("\(unresolvedCount)")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    .tag(item)
+                }
+            }
+        }
+        #if os(iOS)
+        .listStyle(.sidebar)
+        #endif
+        // 로고 헤더를 상단에 고정(스크롤·안전영역과 분리)하고 배경을 맞춰 잘림/이질감 제거
+        .safeAreaInset(edge: .top, spacing: 0) {
             HStack(spacing: Theme.Spacing.sm) {
                 Image("AppLogo")
                     .resizable()
@@ -53,28 +73,11 @@ struct SidebarRootView: View {
                     .accessibilityHidden(true)
                 Text("Jday")
                     .font(.headline)
+                Spacer(minLength: 0)
             }
-            .padding(.horizontal, Theme.Spacing.md)
-            .padding(.vertical, Theme.Spacing.lg)
-
-            List(selection: $selectedItem) {
-                Section("메뉴") {
-                    ForEach(SidebarItem.allCases) { item in
-                        HStack {
-                            Label(item.rawValue, systemImage: item.icon)
-                            Spacer()
-                            if item == .issue, unresolvedCount > 0 {
-                                Text("\(unresolvedCount)")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
-                        }
-                        .tag(item)
-                    }
-                }
-            }
-
-            Spacer()
+            .padding(.horizontal, Theme.Spacing.lg)
+            .padding(.vertical, Theme.Spacing.md)
+            .background(.bar)
         }
         .navigationSplitViewColumnWidth(min: 200, ideal: 220)
     }
