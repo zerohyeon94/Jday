@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,12 +11,14 @@
 		05FFE39E09D430254236A8CB /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835E9EA647E8A777EAFC1AFB /* HomeView.swift */; };
 		06F2B4E6F9F287606D8BA129 /* QuickAddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055CBCF5018493DB663361D /* QuickAddViewModel.swift */; };
 		0F3871F9F8C5D18B1150F9ED /* Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EA92AE35FCCCC60ADF0018 /* Issue.swift */; };
+		0F6258DF263D1FEF7A3FEFFD /* MacHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49920543B3C27F2FAAFFF2F4 /* MacHomeView.swift */; };
 		141962B8F4A6417BAD75006A /* SharedComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE7CF19D2869B82C387DEB6 /* SharedComponents.swift */; };
 		16EB02C394BDCCCE0F8D47DD /* AppearanceMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394FB1660EB764765FBB6CE1 /* AppearanceMode.swift */; };
 		17C814BCAB30538D88D13BBF /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2405B20EB286DF5E96E6BF /* Toast.swift */; };
 		18DA63BC8515F65C7B446D32 /* IssueDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D56E31B023DDB69ADD3C96 /* IssueDetailView.swift */; };
 		1CFFDEC372858AD93AAD61FB /* IssueListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF98025765C748986CD103EB /* IssueListView.swift */; };
 		1E58DFC03785573B82D2AEAA /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7745CA1AE7D0B753A6FCA2B /* Priority.swift */; };
+		1E9E04F02AC9C3C7EAA660F2 /* SidebarRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D32CF9EC64C6D2F8DE2A49 /* SidebarRootView.swift */; };
 		241355C5A70FE7D48FE2F144 /* DailyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C3674DECE5748A01FEB615 /* DailyTask.swift */; };
 		2452D2C27BC5F0637B73D604 /* QuickAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2AE13F09497DBAA9E9B12C /* QuickAddView.swift */; };
 		2489B0969D662618F27E8CF1 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2DF13F0D93A22F0F99AD5B /* Color+Extensions.swift */; };
@@ -29,17 +31,15 @@
 		3ABC01EA42E63348D8EB8EA0 /* TodayScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C36B8DAAF0F4D1D4D91B7BC /* TodayScheduleView.swift */; };
 		4930D0A980A1AC5D1BEDD800 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157127C7C036A5189D81182B /* Theme.swift */; };
 		499F6A218BE82C374CA129E0 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2405B20EB286DF5E96E6BF /* Toast.swift */; };
-		4E141DC7BD7C5164D0F1FE7F /* MacCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3046959B0FCF64E81B9BC763 /* MacCalendarView.swift */; };
 		51A223E3AC8A2867A03D735C /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2DF13F0D93A22F0F99AD5B /* Color+Extensions.swift */; };
 		557D2949FE35210A197D02DD /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61574E5F5EE807DAD85E43A3 /* Schedule.swift */; };
 		575295483F89812B4469BC91 /* YesterdayTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BF7F19BE7E443A893EDFB3 /* YesterdayTasksView.swift */; };
 		5A8940EACA1A29C6B466247A /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59406FC5C9473B03E90E6672 /* TaskDetailView.swift */; };
-		5C47C95D135E513C04B5EEFF /* ScreenshotWindowConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A20F10B189F1ED6C91DEF1 /* ScreenshotWindowConfigurator.swift */; };
 		5DD21AEDA0FF187634EE3550 /* TodayTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB5A4F7A9F192E8EDC142FE /* TodayTasksView.swift */; };
 		5F3304F028FC65B72326ACDB /* WorkspaceFilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A110AE2DDA6F1EE74CBDB241 /* WorkspaceFilterBar.swift */; };
 		5F6A1CDEFF5096AEDCDAAC20 /* QuickAddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055CBCF5018493DB663361D /* QuickAddViewModel.swift */; };
+		64CDFB09FCC77EA80BE9E92C /* MacCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C0E08A74E6C797D268A0E8 /* MacCalendarView.swift */; };
 		658D6F3C5ADD806905EF4494 /* IssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCD9704ABA6BCED42FEE040 /* IssueViewModel.swift */; };
-		65D38C34EE6FB2C7C796191D /* MacHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72527D085D9BBF47CADDB6D7 /* MacHomeView.swift */; };
 		663D9DF12E3D6C5A9DC5C30B /* JdayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483E0D1333BC41C47CE541D /* JdayApp.swift */; };
 		67390BF5AD17934108659851 /* Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EA92AE35FCCCC60ADF0018 /* Issue.swift */; };
 		6B60266E83677EF94534F4C8 /* Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A34DA33798EB9EC761D235 /* Workspace.swift */; };
@@ -48,21 +48,19 @@
 		73A6FFE92092742D5F02C615 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C83A4E39ACFC8FC0BA4AFC /* HomeViewModel.swift */; };
 		74B335D5D8895D9DF8F17451 /* ScheduleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91990E13997B5824166D39C2 /* ScheduleDetailView.swift */; };
 		767ED8FF28B44249315D6063 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBA9A683594763A847F7B3E /* NotificationService.swift */; };
-		7B99C74AFA1CE1D5F18F597E /* macOSRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F73561B21F580E0DDF48FF0 /* macOSRootView.swift */; };
 		7F2BADBA8BE530E06F56E33F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBA9A683594763A847F7B3E /* NotificationService.swift */; };
 		801530727B60B30C6EA17CFC /* TaskDeletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE51868642C2913506F5555A /* TaskDeletion.swift */; };
+		859667A54502ACC2FFF3135D /* SidebarRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D32CF9EC64C6D2F8DE2A49 /* SidebarRootView.swift */; };
 		867962C1BCB211F6DA928504 /* PreviewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786C8E67AA2979A0AF277B11 /* PreviewHelpers.swift */; };
 		8C6B54373FBFED3B6DA4173B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 644CB144E5C052CBE5E35BBC /* Assets.xcassets */; };
 		90E3CC39C6D893F4F765FE8B /* IssueRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B83C52848D656A79E0A801 /* IssueRowView.swift */; };
-		9107F4B93927860B0EAF3309 /* MacCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3046959B0FCF64E81B9BC763 /* MacCalendarView.swift */; };
 		922A0E323DBB0D7D7D79D566 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61574E5F5EE807DAD85E43A3 /* Schedule.swift */; };
 		9299B208FE149300CA393A22 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38843B376C3C091734C26907 /* CalendarView.swift */; };
 		9505DF1CAFDD010BE083201E /* DailyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C3674DECE5748A01FEB615 /* DailyTask.swift */; };
-		9BA54A7C57B860F5439E53FD /* MacIssueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EF3AF3368917224D2F80B /* MacIssueView.swift */; };
 		9D9EE8F7EBECA0F9869D50CF /* IssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCD9704ABA6BCED42FEE040 /* IssueViewModel.swift */; };
 		9DAB1C559FD384FC55B11E55 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38843B376C3C091734C26907 /* CalendarView.swift */; };
-		9E3C60201A4924FEB9343E70 /* MacHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72527D085D9BBF47CADDB6D7 /* MacHomeView.swift */; };
 		9EC6F4FF62EB661502842952 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 644CB144E5C052CBE5E35BBC /* Assets.xcassets */; };
+		A18DF29F42EA170FCA6A52E2 /* MacCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C0E08A74E6C797D268A0E8 /* MacCalendarView.swift */; };
 		A215906B3FF58E272D5B0B34 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C934F49F589D8DA94837FB1 /* CalendarViewModel.swift */; };
 		A4BC887CC6398A847B5185D7 /* WorkspaceFilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A110AE2DDA6F1EE74CBDB241 /* WorkspaceFilterBar.swift */; };
 		A5BA8DE24EB6DBE06B711A92 /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59406FC5C9473B03E90E6672 /* TaskDetailView.swift */; };
@@ -76,43 +74,43 @@
 		B17E99D81CAF61CE3CDF7CD7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF64F21112F9CB9C4D1D0F /* ContentView.swift */; };
 		B4F1FF884544A9964F6E7F89 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECCFE4D6C69F87509594B48 /* Date+Extensions.swift */; };
 		B5FFE9EE9DCF9AF6BEBAE4A4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF64F21112F9CB9C4D1D0F /* ContentView.swift */; };
-		B8D4F38DEEA8D6D0686D8B27 /* MacIssueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2EF3AF3368917224D2F80B /* MacIssueView.swift */; };
+		B94F570F08AA2457C216DF88 /* MacHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49920543B3C27F2FAAFFF2F4 /* MacHomeView.swift */; };
 		BB10E6751F4E01254A7EFDA0 /* PreviewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786C8E67AA2979A0AF277B11 /* PreviewHelpers.swift */; };
 		BD6FE66ED645FEA6D8334207 /* TodayTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB5A4F7A9F192E8EDC142FE /* TodayTasksView.swift */; };
 		C28AEFE4E7C81C197F9DA2F7 /* JdayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483E0D1333BC41C47CE541D /* JdayApp.swift */; };
 		C74838D63D2C150B3C9F6154 /* QuickAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2AE13F09497DBAA9E9B12C /* QuickAddView.swift */; };
-		CA74E243734ED1033F76AC8E /* ScreenshotWindowConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A20F10B189F1ED6C91DEF1 /* ScreenshotWindowConfigurator.swift */; };
 		CAC676AB9B0FCC26F5A5B4FF /* Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A34DA33798EB9EC761D235 /* Workspace.swift */; };
 		CACD52FAEEB66020A654251D /* SummaryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F921E1C837EF3AAABA7319 /* SummaryCardView.swift */; };
 		CEE9A156A9358B9608B93970 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157127C7C036A5189D81182B /* Theme.swift */; };
 		D3516AC018153FE471B20557 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECCFE4D6C69F87509594B48 /* Date+Extensions.swift */; };
 		D4DA964A12065B2A35790262 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383A95A5C0ED57C537FB6190 /* SettingsView.swift */; };
 		DE8878830970EBA47FD1E98F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835E9EA647E8A777EAFC1AFB /* HomeView.swift */; };
+		E0611AB2A5BA91EA9C30C3AA /* MacIssueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2757CB0E0BD464A84E497A4A /* MacIssueView.swift */; };
 		E2904634C67076CFFEA18BCB /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C934F49F589D8DA94837FB1 /* CalendarViewModel.swift */; };
 		EF5DD7AE56B1B2096C217E5E /* TaskDeletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE51868642C2913506F5555A /* TaskDeletion.swift */; };
 		F0D7BDD0C8E9BBEA0413A5DF /* iOSRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D36E89E4B02D5C63BB41C3 /* iOSRootView.swift */; };
 		F0EEE1880B1D756DC23AF9D2 /* AppearanceMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394FB1660EB764765FBB6CE1 /* AppearanceMode.swift */; };
+		FB2CF1EC69CF33C61F51914A /* MacIssueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2757CB0E0BD464A84E497A4A /* MacIssueView.swift */; };
 		FB75D2299B2BBC7C42D34FD0 /* IssueRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B83C52848D656A79E0A801 /* IssueRowView.swift */; };
-		FED044D26622422CC7FD1AEE /* macOSRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F73561B21F580E0DDF48FF0 /* macOSRootView.swift */; };
 		FF0555FDE43D0E9C78BA4378 /* ScheduleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91990E13997B5824166D39C2 /* ScheduleDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0E2EF3AF3368917224D2F80B /* MacIssueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIssueView.swift; sourceTree = "<group>"; };
-		11475CAC72A97A361328EFEE /* Jday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jday.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		11475CAC72A97A361328EFEE /* Jday.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Jday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13AC70FB29B59CA5B986FC87 /* Jday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Jday.entitlements; sourceTree = "<group>"; };
 		157127C7C036A5189D81182B /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		16D36E89E4B02D5C63BB41C3 /* iOSRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSRootView.swift; sourceTree = "<group>"; };
 		24C83A4E39ACFC8FC0BA4AFC /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		2757CB0E0BD464A84E497A4A /* MacIssueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIssueView.swift; sourceTree = "<group>"; };
 		28B83C52848D656A79E0A801 /* IssueRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueRowView.swift; sourceTree = "<group>"; };
 		29BF7F19BE7E443A893EDFB3 /* YesterdayTasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YesterdayTasksView.swift; sourceTree = "<group>"; };
 		2E2DF13F0D93A22F0F99AD5B /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		2F2AE13F09497DBAA9E9B12C /* QuickAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddView.swift; sourceTree = "<group>"; };
-		3046959B0FCF64E81B9BC763 /* MacCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacCalendarView.swift; sourceTree = "<group>"; };
 		383A95A5C0ED57C537FB6190 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		38843B376C3C091734C26907 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		394FB1660EB764765FBB6CE1 /* AppearanceMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceMode.swift; sourceTree = "<group>"; };
 		3C36B8DAAF0F4D1D4D91B7BC /* TodayScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayScheduleView.swift; sourceTree = "<group>"; };
+		49920543B3C27F2FAAFFF2F4 /* MacHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacHomeView.swift; sourceTree = "<group>"; };
 		4C934F49F589D8DA94837FB1 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		55D56E31B023DDB69ADD3C96 /* IssueDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailView.swift; sourceTree = "<group>"; };
 		58EE8F45C8C156F105568370 /* IssueDetailContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailContent.swift; sourceTree = "<group>"; };
@@ -120,19 +118,18 @@
 		61574E5F5EE807DAD85E43A3 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		644CB144E5C052CBE5E35BBC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6ECCFE4D6C69F87509594B48 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
-		72527D085D9BBF47CADDB6D7 /* MacHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacHomeView.swift; sourceTree = "<group>"; };
+		70C0E08A74E6C797D268A0E8 /* MacCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacCalendarView.swift; sourceTree = "<group>"; };
 		786C8E67AA2979A0AF277B11 /* PreviewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewHelpers.swift; sourceTree = "<group>"; };
 		7B2405B20EB286DF5E96E6BF /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		7CCD9704ABA6BCED42FEE040 /* IssueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueViewModel.swift; sourceTree = "<group>"; };
 		82218CB4870F46A6838D6052 /* CompletedTasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedTasksView.swift; sourceTree = "<group>"; };
 		835E9EA647E8A777EAFC1AFB /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		91990E13997B5824166D39C2 /* ScheduleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDetailView.swift; sourceTree = "<group>"; };
-		9F73561B21F580E0DDF48FF0 /* macOSRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = macOSRootView.swift; sourceTree = "<group>"; };
 		9FCF64F21112F9CB9C4D1D0F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A110AE2DDA6F1EE74CBDB241 /* WorkspaceFilterBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceFilterBar.swift; sourceTree = "<group>"; };
 		A483E0D1333BC41C47CE541D /* JdayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JdayApp.swift; sourceTree = "<group>"; };
-		A4A20F10B189F1ED6C91DEF1 /* ScreenshotWindowConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotWindowConfigurator.swift; sourceTree = "<group>"; };
 		A83B9F894969AB4D17E07058 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B6D32CF9EC64C6D2F8DE2A49 /* SidebarRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarRootView.swift; sourceTree = "<group>"; };
 		B7F921E1C837EF3AAABA7319 /* SummaryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCardView.swift; sourceTree = "<group>"; };
 		C5EA92AE35FCCCC60ADF0018 /* Issue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Issue.swift; sourceTree = "<group>"; };
 		C7745CA1AE7D0B753A6FCA2B /* Priority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Priority.swift; sourceTree = "<group>"; };
@@ -162,7 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				12F32F61D3A6E937BD50F61D /* iOS */,
-				E7B2BD9736B82072E3C8059A /* macOS */,
+				0F767C9DEA2D7F9F58C854E3 /* Shared */,
 			);
 			path = Platform;
 			sourceTree = "<group>";
@@ -190,6 +187,17 @@
 				E7A34DA33798EB9EC761D235 /* Workspace.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		0F767C9DEA2D7F9F58C854E3 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				70C0E08A74E6C797D268A0E8 /* MacCalendarView.swift */,
+				49920543B3C27F2FAAFFF2F4 /* MacHomeView.swift */,
+				2757CB0E0BD464A84E497A4A /* MacIssueView.swift */,
+				B6D32CF9EC64C6D2F8DE2A49 /* SidebarRootView.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		12F32F61D3A6E937BD50F61D /* iOS */ = {
@@ -331,18 +339,6 @@
 			path = Issue;
 			sourceTree = "<group>";
 		};
-		E7B2BD9736B82072E3C8059A /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				3046959B0FCF64E81B9BC763 /* MacCalendarView.swift */,
-				72527D085D9BBF47CADDB6D7 /* MacHomeView.swift */,
-				0E2EF3AF3368917224D2F80B /* MacIssueView.swift */,
-				9F73561B21F580E0DDF48FF0 /* macOSRootView.swift */,
-				A4A20F10B189F1ED6C91DEF1 /* ScreenshotWindowConfigurator.swift */,
-			);
-			path = macOS;
-			sourceTree = "<group>";
-		};
 		E8F0532499E70F5CFBB91BBF /* Features */ = {
 			isa = PBXGroup;
 			children = (
@@ -412,9 +408,11 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					46A95BA7C6074D164A09C50A = {
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					BB0212611C99A9398EB2B50D = {
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -429,6 +427,7 @@
 			);
 			mainGroup = 5923BCCDD0B9C1CDB3D6F862;
 			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -479,9 +478,9 @@
 				90E3CC39C6D893F4F765FE8B /* IssueRowView.swift in Sources */,
 				658D6F3C5ADD806905EF4494 /* IssueViewModel.swift in Sources */,
 				663D9DF12E3D6C5A9DC5C30B /* JdayApp.swift in Sources */,
-				9107F4B93927860B0EAF3309 /* MacCalendarView.swift in Sources */,
-				9E3C60201A4924FEB9343E70 /* MacHomeView.swift in Sources */,
-				9BA54A7C57B860F5439E53FD /* MacIssueView.swift in Sources */,
+				64CDFB09FCC77EA80BE9E92C /* MacCalendarView.swift in Sources */,
+				0F6258DF263D1FEF7A3FEFFD /* MacHomeView.swift in Sources */,
+				E0611AB2A5BA91EA9C30C3AA /* MacIssueView.swift in Sources */,
 				767ED8FF28B44249315D6063 /* NotificationService.swift in Sources */,
 				BB10E6751F4E01254A7EFDA0 /* PreviewHelpers.swift in Sources */,
 				1E58DFC03785573B82D2AEAA /* Priority.swift in Sources */,
@@ -489,9 +488,9 @@
 				5F6A1CDEFF5096AEDCDAAC20 /* QuickAddViewModel.swift in Sources */,
 				557D2949FE35210A197D02DD /* Schedule.swift in Sources */,
 				FF0555FDE43D0E9C78BA4378 /* ScheduleDetailView.swift in Sources */,
-				CA74E243734ED1033F76AC8E /* ScreenshotWindowConfigurator.swift in Sources */,
 				2AF2C3FA0ED1E1EFE3447E56 /* SettingsView.swift in Sources */,
 				141962B8F4A6417BAD75006A /* SharedComponents.swift in Sources */,
+				1E9E04F02AC9C3C7EAA660F2 /* SidebarRootView.swift in Sources */,
 				02992D9534B32C937FCDA2D7 /* SummaryCardView.swift in Sources */,
 				ACB8F845AFBFD8DA4B08C1C6 /* SwipeToDeleteRow.swift in Sources */,
 				801530727B60B30C6EA17CFC /* TaskDeletion.swift in Sources */,
@@ -504,7 +503,6 @@
 				A4BC887CC6398A847B5185D7 /* WorkspaceFilterBar.swift in Sources */,
 				B0EB42C840BB63D7BE4843FF /* YesterdayTasksView.swift in Sources */,
 				F0D7BDD0C8E9BBEA0413A5DF /* iOSRootView.swift in Sources */,
-				FED044D26622422CC7FD1AEE /* macOSRootView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -529,9 +527,9 @@
 				FB75D2299B2BBC7C42D34FD0 /* IssueRowView.swift in Sources */,
 				9D9EE8F7EBECA0F9869D50CF /* IssueViewModel.swift in Sources */,
 				C28AEFE4E7C81C197F9DA2F7 /* JdayApp.swift in Sources */,
-				4E141DC7BD7C5164D0F1FE7F /* MacCalendarView.swift in Sources */,
-				65D38C34EE6FB2C7C796191D /* MacHomeView.swift in Sources */,
-				B8D4F38DEEA8D6D0686D8B27 /* MacIssueView.swift in Sources */,
+				A18DF29F42EA170FCA6A52E2 /* MacCalendarView.swift in Sources */,
+				B94F570F08AA2457C216DF88 /* MacHomeView.swift in Sources */,
+				FB2CF1EC69CF33C61F51914A /* MacIssueView.swift in Sources */,
 				7F2BADBA8BE530E06F56E33F /* NotificationService.swift in Sources */,
 				867962C1BCB211F6DA928504 /* PreviewHelpers.swift in Sources */,
 				351C7197D837F3277DCF9616 /* Priority.swift in Sources */,
@@ -539,9 +537,9 @@
 				06F2B4E6F9F287606D8BA129 /* QuickAddViewModel.swift in Sources */,
 				922A0E323DBB0D7D7D79D566 /* Schedule.swift in Sources */,
 				74B335D5D8895D9DF8F17451 /* ScheduleDetailView.swift in Sources */,
-				5C47C95D135E513C04B5EEFF /* ScreenshotWindowConfigurator.swift in Sources */,
 				D4DA964A12065B2A35790262 /* SettingsView.swift in Sources */,
 				A6895A72B8C48E1CA32A90CE /* SharedComponents.swift in Sources */,
+				859667A54502ACC2FFF3135D /* SidebarRootView.swift in Sources */,
 				CACD52FAEEB66020A654251D /* SummaryCardView.swift in Sources */,
 				31A4D504F73D18425F6B29D8 /* SwipeToDeleteRow.swift in Sources */,
 				EF5DD7AE56B1B2096C217E5E /* TaskDeletion.swift in Sources */,
@@ -554,7 +552,6 @@
 				5F3304F028FC65B72326ACDB /* WorkspaceFilterBar.swift in Sources */,
 				575295483F89812B4469BC91 /* YesterdayTasksView.swift in Sources */,
 				AA3C0BD422C64A4B6254685D /* iOSRootView.swift in Sources */,
-				7B99C74AFA1CE1D5F18F597E /* macOSRootView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -568,14 +565,14 @@
 				CODE_SIGN_ENTITLEMENTS = Jday/Resources/Jday.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 5G6N83PM9C;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Jday/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.zerohyeon.jday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.j.jday;
 				PRODUCT_NAME = Jday;
 				SDKROOT = macosx;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -654,14 +651,14 @@
 				CODE_SIGN_ENTITLEMENTS = Jday/Resources/Jday.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 5G6N83PM9C;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Jday/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.zerohyeon.jday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.j.jday;
 				PRODUCT_NAME = Jday;
 				SDKROOT = macosx;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -733,14 +730,14 @@
 				CODE_SIGN_ENTITLEMENTS = Jday/Resources/Jday.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5G6N83PM9C;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Jday/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zerohyeon.jday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.j.jday;
 				PRODUCT_NAME = Jday;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -754,14 +751,14 @@
 				CODE_SIGN_ENTITLEMENTS = Jday/Resources/Jday.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5G6N83PM9C;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Jday/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zerohyeon.jday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.j.jday;
 				PRODUCT_NAME = Jday;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

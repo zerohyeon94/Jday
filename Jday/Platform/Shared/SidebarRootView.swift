@@ -19,20 +19,26 @@ enum SidebarItem: String, CaseIterable, Identifiable {
     }
 }
 
-struct macOSRootView: View {
+/// 사이드바 + 디테일 2단 레이아웃. 넓은 화면(macOS · iPad)에서 사용한다.
+struct SidebarRootView: View {
     @State private var selectedItem: SidebarItem? = .home
     @State private var showQuickAdd = false
+    @State private var columnVisibility: NavigationSplitViewVisibility = .all
 
     @Query private var issues: [Issue]
     private var unresolvedCount: Int { issues.filter { !$0.isResolved }.count }
 
     var body: some View {
-        NavigationSplitView {
+        NavigationSplitView(columnVisibility: $columnVisibility) {
             sidebar
         } detail: {
             detail
                 .toolbar { toolbarContent }
+                #if os(iOS)
+                .navigationBarTitleDisplayMode(.inline)
+                #endif
         }
+        .navigationSplitViewStyle(.balanced)
     }
 
     private var sidebar: some View {
@@ -110,6 +116,6 @@ struct macOSRootView: View {
 }
 
 #Preview {
-    macOSRootView()
+    SidebarRootView()
         .modelContainer(PreviewHelpers.makeContainer())
 }
