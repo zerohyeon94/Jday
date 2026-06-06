@@ -408,11 +408,11 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					46A95BA7C6074D164A09C50A = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = 5G6N83PM9C;
 						ProvisioningStyle = Automatic;
 					};
 					BB0212611C99A9398EB2B50D = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = 5G6N83PM9C;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -565,14 +565,14 @@
 				CODE_SIGN_ENTITLEMENTS = Jday/Resources/Jday.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5G6N83PM9C;
 				INFOPLIST_FILE = Jday/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.j.jday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zerohyeon.jday;
 				PRODUCT_NAME = Jday;
 				SDKROOT = macosx;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -651,14 +651,14 @@
 				CODE_SIGN_ENTITLEMENTS = Jday/Resources/Jday.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5G6N83PM9C;
 				INFOPLIST_FILE = Jday/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.j.jday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zerohyeon.jday;
 				PRODUCT_NAME = Jday;
 				SDKROOT = macosx;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -730,14 +730,14 @@
 				CODE_SIGN_ENTITLEMENTS = Jday/Resources/Jday.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5G6N83PM9C;
 				INFOPLIST_FILE = Jday/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.j.jday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zerohyeon.jday;
 				PRODUCT_NAME = Jday;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -751,14 +751,14 @@
 				CODE_SIGN_ENTITLEMENTS = Jday/Resources/Jday.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5G6N83PM9C;
 				INFOPLIST_FILE = Jday/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.j.jday;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zerohyeon.jday;
 				PRODUCT_NAME = Jday;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
