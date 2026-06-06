@@ -1,23 +1,32 @@
-#if os(macOS)
+#if os(iOS)
 import SwiftUI
 import SwiftData
 
-/// macOS 전용 루트 — 사이드바 + 디테일 2단 레이아웃.
-/// (iPad는 Platform/iPad/iPadRootView 에서 별도 처리)
-struct SidebarRootView: View {
+/// iPad 전용 루트 — 사이드바 + 디테일 2단 레이아웃.
+/// 디테일 콘텐츠 뷰(MacHomeView 등)와 공용 컴포넌트를 재사용하고,
+/// "껍데기(사이드바 구성·툴바·빠른추가 배치)"만 iPad에 맞게 둔다.
+/// → 여기만 고치면 iPhone(iOSRootView)·macOS(SidebarRootView)에 영향 없이 iPad만 바뀐다.
+struct iPadRootView: View {
     @State private var selectedItem: SidebarItem? = .home
     @State private var showQuickAdd = false
+    @State private var columnVisibility: NavigationSplitViewVisibility = .all
 
     @Query private var issues: [Issue]
     private var unresolvedCount: Int { issues.filter { !$0.isResolved }.count }
 
     var body: some View {
-        NavigationSplitView {
+        NavigationSplitView(columnVisibility: $columnVisibility) {
             sidebar
         } detail: {
             detail
                 .toolbar { toolbarContent }
+                .navigationBarTitleDisplayMode(.inline)
+                // iPad: 빠른 추가를 화면 중앙 폼시트로 표시
+                .sheet(isPresented: $showQuickAdd) {
+                    QuickAddView(initialTab: quickAddInitialTab)
+                }
         }
+        .navigationSplitViewStyle(.balanced)
     }
 
     private var sidebar: some View {
@@ -37,6 +46,8 @@ struct SidebarRootView: View {
                 }
             }
         }
+        .listStyle(.sidebar)
+        // 로고 헤더를 상단에 고정(스크롤·안전영역과 분리)하고 배경을 맞춰 잘림/이질감 제거
         .safeAreaInset(edge: .top, spacing: 0) {
             HStack(spacing: Theme.Spacing.sm) {
                 Image("AppLogo")
@@ -54,7 +65,7 @@ struct SidebarRootView: View {
             .padding(.vertical, Theme.Spacing.md)
             .background(.bar)
         }
-        .navigationSplitViewColumnWidth(min: 200, ideal: 220)
+        .navigationSplitViewColumnWidth(min: 220, ideal: 260)
     }
 
     @ViewBuilder
@@ -82,19 +93,20 @@ struct SidebarRootView: View {
             Button {
                 showQuickAdd = true
             } label: {
-                Label("빠른 추가", systemImage: "plus")
+                HStack(spacing: 4) {
+                    Image(systemName: "plus")
+                    Text("빠른 추가")
+                }
+                .font(.subheadline.weight(.semibold))
             }
-            .popover(isPresented: $showQuickAdd, arrowEdge: .top) {
-                QuickAddView(initialTab: quickAddInitialTab)
-                    .frame(width: 360)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
+            .buttonStyle(.borderedProminent)
+            .tint(Theme.Colors.brand)
         }
     }
 }
 
 #Preview {
-    SidebarRootView()
+    iPadRootView()
         .modelContainer(PreviewHelpers.makeContainer())
 }
 #endif

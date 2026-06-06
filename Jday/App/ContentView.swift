@@ -21,9 +21,9 @@ struct ContentView: View {
         #if os(macOS)
         SidebarRootView()
         #else
-        // 넓은 화면(iPad)은 사이드바 2단 레이아웃, iPhone은 탭바 레이아웃
+        // 넓은 화면(iPad)은 iPad 전용 레이아웃, iPhone(컴팩트)은 탭바 레이아웃
         if horizontalSizeClass == .regular {
-            SidebarRootView()
+            iPadRootView()
         } else {
             iOSRootView()
         }

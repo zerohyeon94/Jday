@@ -19,6 +19,7 @@
 		1CFFDEC372858AD93AAD61FB /* IssueListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF98025765C748986CD103EB /* IssueListView.swift */; };
 		1E58DFC03785573B82D2AEAA /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7745CA1AE7D0B753A6FCA2B /* Priority.swift */; };
 		1E9E04F02AC9C3C7EAA660F2 /* SidebarRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D32CF9EC64C6D2F8DE2A49 /* SidebarRootView.swift */; };
+		205A8664A236B6995A17D730 /* iPadRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088AFD659744E9C88054232E /* iPadRootView.swift */; };
 		241355C5A70FE7D48FE2F144 /* DailyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C3674DECE5748A01FEB615 /* DailyTask.swift */; };
 		2452D2C27BC5F0637B73D604 /* QuickAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2AE13F09497DBAA9E9B12C /* QuickAddView.swift */; };
 		2489B0969D662618F27E8CF1 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2DF13F0D93A22F0F99AD5B /* Color+Extensions.swift */; };
@@ -31,6 +32,7 @@
 		3ABC01EA42E63348D8EB8EA0 /* TodayScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C36B8DAAF0F4D1D4D91B7BC /* TodayScheduleView.swift */; };
 		4930D0A980A1AC5D1BEDD800 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157127C7C036A5189D81182B /* Theme.swift */; };
 		499F6A218BE82C374CA129E0 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2405B20EB286DF5E96E6BF /* Toast.swift */; };
+		504341439BCFE3CFD55B1F65 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CDDF432E950E3152857FAC /* SidebarItem.swift */; };
 		51A223E3AC8A2867A03D735C /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2DF13F0D93A22F0F99AD5B /* Color+Extensions.swift */; };
 		557D2949FE35210A197D02DD /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61574E5F5EE807DAD85E43A3 /* Schedule.swift */; };
 		575295483F89812B4469BC91 /* YesterdayTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BF7F19BE7E443A893EDFB3 /* YesterdayTasksView.swift */; };
@@ -44,6 +46,7 @@
 		67390BF5AD17934108659851 /* Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EA92AE35FCCCC60ADF0018 /* Issue.swift */; };
 		6B60266E83677EF94534F4C8 /* Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A34DA33798EB9EC761D235 /* Workspace.swift */; };
 		6D731C4855ABCCDD7F0AB8DA /* CompletedTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82218CB4870F46A6838D6052 /* CompletedTasksView.swift */; };
+		700F746FACE59CFC0D9BBBBA /* iPadRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088AFD659744E9C88054232E /* iPadRootView.swift */; };
 		73935BF7E92E4001EE0D7B6E /* IssueListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF98025765C748986CD103EB /* IssueListView.swift */; };
 		73A6FFE92092742D5F02C615 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C83A4E39ACFC8FC0BA4AFC /* HomeViewModel.swift */; };
 		74B335D5D8895D9DF8F17451 /* ScheduleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91990E13997B5824166D39C2 /* ScheduleDetailView.swift */; };
@@ -72,6 +75,7 @@
 		ACB8F845AFBFD8DA4B08C1C6 /* SwipeToDeleteRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E763E9F2D87DAFF47BCBDC6F /* SwipeToDeleteRow.swift */; };
 		B0EB42C840BB63D7BE4843FF /* YesterdayTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BF7F19BE7E443A893EDFB3 /* YesterdayTasksView.swift */; };
 		B17E99D81CAF61CE3CDF7CD7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF64F21112F9CB9C4D1D0F /* ContentView.swift */; };
+		B3BB1570CB5298A9281DE280 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CDDF432E950E3152857FAC /* SidebarItem.swift */; };
 		B4F1FF884544A9964F6E7F89 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECCFE4D6C69F87509594B48 /* Date+Extensions.swift */; };
 		B5FFE9EE9DCF9AF6BEBAE4A4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF64F21112F9CB9C4D1D0F /* ContentView.swift */; };
 		B94F570F08AA2457C216DF88 /* MacHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49920543B3C27F2FAAFFF2F4 /* MacHomeView.swift */; };
@@ -96,6 +100,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		088AFD659744E9C88054232E /* iPadRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadRootView.swift; sourceTree = "<group>"; };
 		11475CAC72A97A361328EFEE /* Jday.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Jday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13AC70FB29B59CA5B986FC87 /* Jday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Jday.entitlements; sourceTree = "<group>"; };
 		157127C7C036A5189D81182B /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -130,6 +135,7 @@
 		A483E0D1333BC41C47CE541D /* JdayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JdayApp.swift; sourceTree = "<group>"; };
 		A83B9F894969AB4D17E07058 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B6D32CF9EC64C6D2F8DE2A49 /* SidebarRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarRootView.swift; sourceTree = "<group>"; };
+		B7CDDF432E950E3152857FAC /* SidebarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
 		B7F921E1C837EF3AAABA7319 /* SummaryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCardView.swift; sourceTree = "<group>"; };
 		C5EA92AE35FCCCC60ADF0018 /* Issue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Issue.swift; sourceTree = "<group>"; };
 		C7745CA1AE7D0B753A6FCA2B /* Priority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Priority.swift; sourceTree = "<group>"; };
@@ -159,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				12F32F61D3A6E937BD50F61D /* iOS */,
+				931A6FCE8404BEDB2D6E8B3C /* iPad */,
 				0F767C9DEA2D7F9F58C854E3 /* Shared */,
 			);
 			path = Platform;
@@ -195,6 +202,7 @@
 				70C0E08A74E6C797D268A0E8 /* MacCalendarView.swift */,
 				49920543B3C27F2FAAFFF2F4 /* MacHomeView.swift */,
 				2757CB0E0BD464A84E497A4A /* MacIssueView.swift */,
+				B7CDDF432E950E3152857FAC /* SidebarItem.swift */,
 				B6D32CF9EC64C6D2F8DE2A49 /* SidebarRootView.swift */,
 			);
 			path = Shared;
@@ -304,6 +312,14 @@
 				29BF7F19BE7E443A893EDFB3 /* YesterdayTasksView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		931A6FCE8404BEDB2D6E8B3C /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				088AFD659744E9C88054232E /* iPadRootView.swift */,
+			);
+			path = iPad;
 			sourceTree = "<group>";
 		};
 		9775D65F99CF59BF51CEE48F /* Home */ = {
@@ -490,6 +506,7 @@
 				FF0555FDE43D0E9C78BA4378 /* ScheduleDetailView.swift in Sources */,
 				2AF2C3FA0ED1E1EFE3447E56 /* SettingsView.swift in Sources */,
 				141962B8F4A6417BAD75006A /* SharedComponents.swift in Sources */,
+				B3BB1570CB5298A9281DE280 /* SidebarItem.swift in Sources */,
 				1E9E04F02AC9C3C7EAA660F2 /* SidebarRootView.swift in Sources */,
 				02992D9534B32C937FCDA2D7 /* SummaryCardView.swift in Sources */,
 				ACB8F845AFBFD8DA4B08C1C6 /* SwipeToDeleteRow.swift in Sources */,
@@ -503,6 +520,7 @@
 				A4BC887CC6398A847B5185D7 /* WorkspaceFilterBar.swift in Sources */,
 				B0EB42C840BB63D7BE4843FF /* YesterdayTasksView.swift in Sources */,
 				F0D7BDD0C8E9BBEA0413A5DF /* iOSRootView.swift in Sources */,
+				700F746FACE59CFC0D9BBBBA /* iPadRootView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -539,6 +557,7 @@
 				74B335D5D8895D9DF8F17451 /* ScheduleDetailView.swift in Sources */,
 				D4DA964A12065B2A35790262 /* SettingsView.swift in Sources */,
 				A6895A72B8C48E1CA32A90CE /* SharedComponents.swift in Sources */,
+				504341439BCFE3CFD55B1F65 /* SidebarItem.swift in Sources */,
 				859667A54502ACC2FFF3135D /* SidebarRootView.swift in Sources */,
 				CACD52FAEEB66020A654251D /* SummaryCardView.swift in Sources */,
 				31A4D504F73D18425F6B29D8 /* SwipeToDeleteRow.swift in Sources */,
@@ -552,6 +571,7 @@
 				5F3304F028FC65B72326ACDB /* WorkspaceFilterBar.swift in Sources */,
 				575295483F89812B4469BC91 /* YesterdayTasksView.swift in Sources */,
 				AA3C0BD422C64A4B6254685D /* iOSRootView.swift in Sources */,
+				205A8664A236B6995A17D730 /* iPadRootView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
