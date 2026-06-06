@@ -14,7 +14,7 @@ enum SidebarItem: String, CaseIterable, Identifiable {
         case .home: "house"
         case .calendar: "calendar"
         case .issue: "exclamationmark.triangle"
-        case .settings: "sun.max"
+        case .settings: "gearshape"
         }
     }
 }

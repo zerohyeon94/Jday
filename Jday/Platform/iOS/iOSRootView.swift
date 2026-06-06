@@ -40,7 +40,7 @@ struct iOSRootView: View {
                     .tag(Tab.issue)
 
                 NavigationStack { SettingsView() }
-                    .tabItem { Label("설정", systemImage: "sun.max") }
+                    .tabItem { Label("설정", systemImage: "gearshape") }
                     .tag(Tab.settings)
             }
             .tint(Theme.Colors.brand)
