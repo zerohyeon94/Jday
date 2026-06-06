@@ -23,7 +23,6 @@ struct SettingsView: View {
             generalSection
             workspaceSection
             dataSection
-            accountSection
         }
         .formStyle(.grouped)
         .scrollContentBackground(.hidden)
@@ -134,30 +133,6 @@ struct SettingsView: View {
                 showResetAlert = true
             } label: {
                 Text("모든 데이터 삭제")
-            }
-        }
-    }
-
-    private var accountSection: some View {
-        Section("계정") {
-            HStack(spacing: Theme.Spacing.md) {
-                Circle()
-                    .fill(Theme.Colors.cardStroke)
-                    .frame(width: 36, height: 36)
-                    .overlay(Image(systemName: "person.fill").foregroundStyle(.secondary))
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("프로필")
-                        .font(.subheadline.weight(.medium))
-                    Text("김도현 · dohyun@dayflow.app")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-            }
-
-            Button(role: .destructive) {
-                // 로그아웃 동작 (추후 구현)
-            } label: {
-                Text("로그아웃")
             }
         }
     }

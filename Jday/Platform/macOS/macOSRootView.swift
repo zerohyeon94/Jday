@@ -69,13 +69,6 @@ struct macOSRootView: View {
             }
 
             Spacer()
-
-            HStack(spacing: Theme.Spacing.sm) {
-                Circle().fill(Theme.Colors.cardStroke).frame(width: 24, height: 24)
-                    .overlay(Image(systemName: "person.fill").font(.caption).foregroundStyle(.secondary))
-                Text("김도현").font(.subheadline)
-            }
-            .padding(Theme.Spacing.md)
         }
         .navigationSplitViewColumnWidth(min: 200, ideal: 220)
     }
