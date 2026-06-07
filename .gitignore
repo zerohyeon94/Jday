@@ -1,0 +1,33 @@
+# macOS
+.DS_Store
+
+# Xcode user state
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+
+# Build products and archives
+DerivedData/
+build/
+*.ipa
+*.dSYM
+*.dSYM.zip
+
+# Swift Package Manager local state
+.build/
+.swiftpm/
+
+# Local assistant/workspace files
+.claude/
+claude design file/
+design file/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Editor state
+.vscode/
+.idea/
+*.swp
