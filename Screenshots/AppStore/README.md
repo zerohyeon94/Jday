@@ -1,6 +1,6 @@
 # Jday App Store Screenshots
 
-Generated from the raw captures in `Screenshots/iOS` and `Screenshots/macOS`.
+Generated from the raw captures in `Screenshots/iOS`, `Screenshots/iPadOS`, and `Screenshots/macOS`.
 
 ## Upload Files
 
@@ -11,6 +11,14 @@ Use the PNG files in `Screenshots/AppStore/iOS`.
 - Size: `1290 x 2796`
 - Source: iPhone simulator captures
 - Style: App Store marketing frame with headline and device mockup
+
+### iPadOS
+
+Use the PNG files in `Screenshots/AppStore/iPadOS`.
+
+- Size: `2752 x 2064`
+- Source: iPadOS simulator captures
+- Style: App Store marketing frame with headline and large iPad screen mockup
 
 ### macOS
 

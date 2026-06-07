@@ -8,12 +8,14 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 ROOT = Path(__file__).resolve().parents[1]
 SCREENSHOTS = ROOT / "Screenshots"
 OUT_IOS = SCREENSHOTS / "AppStore" / "iOS"
+OUT_IPAD = SCREENSHOTS / "AppStore" / "iPadOS"
 OUT_MAC = SCREENSHOTS / "AppStore" / "macOS"
 
 FONT_PATH = Path("/System/Library/Fonts/AppleSDGothicNeo.ttc")
 ICON_PATH = ROOT / "Jday/Resources/Assets.xcassets/AppIcon.appiconset/JdayIcon-iOS-1024.png"
 
 IOS_SIZE = (1290, 2796)
+IPAD_SIZE = (2752, 2064)
 MAC_SIZE = (2880, 1800)
 
 BLUE = (56, 103, 163)
@@ -172,6 +174,46 @@ def make_ios_image(source: str, title: str, subtitle: str, output: str, accent: 
     canvas.convert("RGB").save(OUT_IOS / output, quality=95)
 
 
+def make_ipad_image(
+    source: str,
+    title: str,
+    subtitle: str,
+    output: str,
+    accent: tuple[int, int, int],
+) -> None:
+    canvas = gradient(IPAD_SIZE, (245, 250, 255), (221, 236, 252))
+    add_subtle_pattern(canvas, accent)
+    draw = ImageDraw.Draw(canvas, "RGBA")
+    draw_brand_pill(canvas, 136, 100)
+    draw_text_block(
+        draw,
+        title,
+        subtitle,
+        center_x=IPAD_SIZE[0] // 2,
+        top=126,
+        title_size=90,
+        subtitle_size=34,
+        max_width=1680,
+    )
+
+    screenshot = Image.open(SCREENSHOTS / "iPadOS" / source).convert("RGBA")
+    tablet_w = 2120
+    tablet_h = round(tablet_w * screenshot.height / screenshot.width)
+    tablet_x = (IPAD_SIZE[0] - tablet_w) // 2
+    tablet_y = 410
+
+    screenshot = screenshot.resize((tablet_w, tablet_h), Image.Resampling.LANCZOS)
+    tablet = Image.new("RGBA", (tablet_w + 44, tablet_h + 44), (0, 0, 0, 0))
+    tablet_draw = ImageDraw.Draw(tablet, "RGBA")
+    tablet_draw.rounded_rectangle((0, 0, tablet.width, tablet.height), radius=70, fill=(12, 18, 30, 255))
+    tablet.paste(screenshot, (22, 22), rounded_mask(screenshot.size, 48))
+    tablet_draw.rounded_rectangle((0, 0, tablet.width - 1, tablet.height - 1), radius=70, outline=(255, 255, 255, 145), width=4)
+    paste_shadowed(canvas, tablet, (tablet_x - 22, tablet_y), radius=72, shadow=42)
+
+    OUT_IPAD.mkdir(parents=True, exist_ok=True)
+    canvas.convert("RGB").save(OUT_IPAD / output, quality=95)
+
+
 def crop_black_edges(image: Image.Image) -> Image.Image:
     rgb = image.convert("RGB")
     px = rgb.load()
@@ -248,10 +290,52 @@ def main() -> None:
 
     for item in ios_items:
         make_ios_image(*item)
+
+    ipad_items = [
+        (
+            "Jday_iPadOS_home.png",
+            "iPad에서도 오늘 업무를 한눈에",
+            "할 일, 일정, 진행률을 넓은 화면에서 함께 확인하세요.",
+            "01_ipad_today_dashboard.png",
+            BLUE,
+        ),
+        (
+            "Jday_iPadOS_add.png",
+            "업무 중 떠오른 일을 바로 기록",
+            "할 일, 일정, 이슈를 같은 추가 흐름으로 정리하세요.",
+            "02_ipad_quick_add.png",
+            (45, 121, 184),
+        ),
+        (
+            "Jday_iPadOS_calendar.png",
+            "계획과 완료 기록을 날짜별로",
+            "오늘과 선택 날짜를 구분하고 일정 흐름을 확인하세요.",
+            "03_ipad_calendar.png",
+            (57, 132, 112),
+        ),
+        (
+            "Jday_iPadOS_issue.png",
+            "놓치면 안 되는 이슈까지 정리",
+            "미해결 항목과 알림을 한곳에서 관리하세요.",
+            "04_ipad_issues.png",
+            (72, 91, 156),
+        ),
+        (
+            "Jday_iPadOS_settings.png",
+            "나에게 맞는 업무 환경",
+            "알림, 시작 화면, 작업 공간을 내 방식대로 조정하세요.",
+            "05_ipad_settings.png",
+            (91, 104, 128),
+        ),
+    ]
+
+    for item in ipad_items:
+        make_ipad_image(*item)
     for item in mac_items:
         make_mac_image(*item)
 
     print(f"Created {len(ios_items)} iOS screenshots in {OUT_IOS}")
+    print(f"Created {len(ipad_items)} iPad screenshots in {OUT_IPAD}")
     print(f"Created {len(mac_items)} macOS screenshots in {OUT_MAC}")
 
 
