@@ -7,6 +7,16 @@ struct JdayApp: App {
 
     init() {
         let schema = Schema([DailyTask.self, Schedule.self, Issue.self])
+
+        #if DEBUG
+        if CommandLine.arguments.contains("-seedPreviewData") {
+            container = MainActor.assumeIsolated {
+                PreviewHelpers.makeContainer()
+            }
+            return
+        }
+        #endif
+
         let config = ModelConfiguration(schema: schema, cloudKitDatabase: .automatic)
         do {
             container = try ModelContainer(for: schema, configurations: config)
