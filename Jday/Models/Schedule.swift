@@ -3,14 +3,14 @@ import SwiftData
 
 @Model
 final class Schedule {
-    var title: String
-    var startTime: Date
-    var endTime: Date
+    var title: String = ""
+    var startTime: Date = Date()
+    var endTime: Date = Date()
     var location: String?
     /// 작업 공간(개인/회사). nil = 미분류(기본 공간).
     var workspace: Workspace?
-    var createdAt: Date
-    var updatedAt: Date
+    var createdAt: Date = Date()
+    var updatedAt: Date = Date()
 
     init(title: String, startTime: Date, endTime: Date, location: String? = nil, workspace: Workspace? = nil) {
         self.title = title

@@ -3,14 +3,14 @@ import SwiftData
 
 @Model
 final class Issue {
-    var title: String
+    var title: String = ""
     var detail: String?
-    var isResolved: Bool
+    var isResolved: Bool = false
     var notifyAt: Date?
     /// 작업 공간(개인/회사). nil = 미분류(기본 공간).
     var workspace: Workspace?
-    var createdAt: Date
-    var updatedAt: Date
+    var createdAt: Date = Date()
+    var updatedAt: Date = Date()
 
     init(title: String, detail: String? = nil, notifyAt: Date? = nil, workspace: Workspace? = nil) {
         self.title = title

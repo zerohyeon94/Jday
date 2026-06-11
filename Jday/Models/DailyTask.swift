@@ -3,17 +3,17 @@ import SwiftData
 
 @Model
 final class DailyTask {
-    var title: String
+    var title: String = ""
     var detail: String?
-    var isDone: Bool
+    var isDone: Bool = false
     /// 완료로 체크한 시각. 미완료면 nil.
     var completedAt: Date?
-    var date: Date
-    var priority: Priority
+    var date: Date = Date()
+    var priority: Priority = Priority.medium
     /// 작업 공간(개인/회사). nil = 미분류(기본 공간).
     var workspace: Workspace?
-    var createdAt: Date
-    var updatedAt: Date
+    var createdAt: Date = Date()
+    var updatedAt: Date = Date()
 
     init(title: String, detail: String? = nil, date: Date = .now, priority: Priority = .medium, workspace: Workspace? = nil) {
         self.title = title

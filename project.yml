@@ -11,7 +11,7 @@ settings:
   base:
     SWIFT_VERSION: "5.9"
     MARKETING_VERSION: "1.0.0"
-    CURRENT_PROJECT_VERSION: "1"
+    CURRENT_PROJECT_VERSION: "2"
 
 targets:
   Jday:
@@ -29,8 +29,10 @@ targets:
         TARGETED_DEVICE_FAMILY: "1,2"
         CODE_SIGN_STYLE: Automatic
         DEVELOPMENT_TEAM: 5G6N83PM9C
-    entitlements:
-      path: Jday/Resources/Jday.entitlements
+        # 플랫폼별 entitlements: iOS는 푸시(aps-environment), macOS는 App Sandbox + iCloud
+        CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]: Jday/Resources/Jday.entitlements
+        CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]: Jday/Resources/Jday.entitlements
+        CODE_SIGN_ENTITLEMENTS[sdk=macosx*]: Jday/Resources/Jday-macOS.entitlements
     info:
       path: Jday/Resources/Info.plist
       properties:

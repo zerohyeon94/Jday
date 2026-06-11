@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -106,6 +106,7 @@
 		157127C7C036A5189D81182B /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		16D36E89E4B02D5C63BB41C3 /* iOSRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSRootView.swift; sourceTree = "<group>"; };
 		24C83A4E39ACFC8FC0BA4AFC /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		25E89C18D58848E8AADB7AC4 /* Jday-macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Jday-macOS.entitlements"; sourceTree = "<group>"; };
 		2757CB0E0BD464A84E497A4A /* MacIssueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIssueView.swift; sourceTree = "<group>"; };
 		28B83C52848D656A79E0A801 /* IssueRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueRowView.swift; sourceTree = "<group>"; };
 		29BF7F19BE7E443A893EDFB3 /* YesterdayTasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YesterdayTasksView.swift; sourceTree = "<group>"; };
@@ -286,6 +287,7 @@
 			children = (
 				644CB144E5C052CBE5E35BBC /* Assets.xcassets */,
 				A83B9F894969AB4D17E07058 /* Info.plist */,
+				25E89C18D58848E8AADB7AC4 /* Jday-macOS.entitlements */,
 				13AC70FB29B59CA5B986FC87 /* Jday.entitlements */,
 			);
 			path = Resources;
@@ -443,6 +445,7 @@
 			);
 			mainGroup = 5923BCCDD0B9C1CDB3D6F862;
 			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -581,7 +584,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Jday/Resources/Jday.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = Jday/Resources/Jday.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]" = Jday/Resources/Jday.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = "Jday/Resources/Jday-macOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 5G6N83PM9C;
@@ -632,7 +637,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -667,7 +672,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Jday/Resources/Jday.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = Jday/Resources/Jday.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]" = Jday/Resources/Jday.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = "Jday/Resources/Jday-macOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 5G6N83PM9C;
@@ -718,7 +725,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -746,7 +753,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Jday/Resources/Jday.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = Jday/Resources/Jday.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]" = Jday/Resources/Jday.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = "Jday/Resources/Jday-macOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5G6N83PM9C;
@@ -767,7 +776,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Jday/Resources/Jday.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = Jday/Resources/Jday.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]" = Jday/Resources/Jday.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = "Jday/Resources/Jday-macOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5G6N83PM9C;

@@ -22,8 +22,14 @@ struct JdayApp: App {
             container = try ModelContainer(for: schema, configurations: config)
         } catch {
             // CloudKit 사용 불가 시 로컬 전용으로 폴백
-            let localConfig = ModelConfiguration(schema: schema)
-            container = try! ModelContainer(for: schema, configurations: localConfig)
+            let localConfig = ModelConfiguration(schema: schema, cloudKitDatabase: .none)
+            do {
+                container = try ModelContainer(for: schema, configurations: localConfig)
+            } catch {
+                assertionFailure("Failed to create local SwiftData container: \(error)")
+                let memoryConfig = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true, cloudKitDatabase: .none)
+                container = try! ModelContainer(for: schema, configurations: memoryConfig)
+            }
         }
     }
 
