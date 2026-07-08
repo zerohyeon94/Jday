@@ -7,6 +7,7 @@ struct MacIssueView: View {
     @StateObject private var viewModel = IssueViewModel()
     @Query(sort: \Issue.createdAt, order: .reverse) private var allIssues: [Issue]
     @State private var selectedID: PersistentIdentifier?
+    @State private var editingIssue: Issue?
 
     @AppStorage("workspaceSeparationEnabled") private var wsEnabled = false
     @AppStorage("activeWorkspace") private var wsActiveRaw = Workspace.personal.rawValue
@@ -75,10 +76,13 @@ struct MacIssueView: View {
     private var detailColumn: some View {
         if let issue = selectedIssue {
             ScrollView {
-                IssueDetailContent(issue: issue) {
+                IssueDetailContent(issue: issue, onEdit: { editingIssue = issue }) {
                     viewModel.resolve(issue, context: context)
                 }
                 .padding(Theme.screenPadding)
+            }
+            .sheet(item: $editingIssue) { issue in
+                IssueEditView(issue: issue)
             }
         } else {
             ContentUnavailableView("이슈를 선택하세요", systemImage: "sidebar.right")

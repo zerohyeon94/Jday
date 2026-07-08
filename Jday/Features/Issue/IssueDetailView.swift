@@ -7,11 +7,12 @@ struct IssueDetailView: View {
     @Environment(\.modelContext) private var context
     let issue: Issue
     @StateObject private var viewModel = IssueViewModel()
+    @State private var isEditing = false
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                IssueDetailContent(issue: issue) {
+                IssueDetailContent(issue: issue, onEdit: { isEditing = true }) {
                     viewModel.resolve(issue, context: context)
                     dismiss()
                 }
@@ -26,6 +27,9 @@ struct IssueDetailView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("닫기") { dismiss() }
                 }
+            }
+            .sheet(isPresented: $isEditing) {
+                IssueEditView(issue: issue)
             }
         }
     }

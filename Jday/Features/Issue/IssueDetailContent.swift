@@ -3,6 +3,7 @@ import SwiftUI
 /// 이슈 상세 본문 — iOS 시트 / macOS 우측 패널 공용
 struct IssueDetailContent: View {
     let issue: Issue
+    var onEdit: (() -> Void)?
     let onResolve: () -> Void
 
     var body: some View {
@@ -29,6 +30,15 @@ struct IssueDetailContent: View {
     private var header: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.sm) {
             HStack {
+                if let onEdit {
+                    Button(action: onEdit) {
+                        Label("수정", systemImage: "pencil")
+                            .font(.subheadline.weight(.semibold))
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundStyle(Theme.Colors.brand)
+                    .accessibilityHint("이슈 제목, 상세 내용, 알림 시간을 수정합니다")
+                }
                 Spacer()
                 StatusBadge(isResolved: issue.isResolved)
             }
@@ -57,7 +67,7 @@ struct IssueDetailContent: View {
             DashedDivider().padding(.vertical, Theme.Spacing.sm)
             metaRow(
                 label: "알림 시간",
-                value: issue.notifyAt.map { _ in "30분 전" } ?? "없음"
+                value: issue.notifyAt.map { $0.fullTimestamp } ?? "없음"
             )
             DashedDivider().padding(.vertical, Theme.Spacing.sm)
             metaRow(

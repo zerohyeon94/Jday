@@ -22,6 +22,26 @@ final class IssueViewModel: ObservableObject {
         }
     }
 
+    func update(
+        _ issue: Issue,
+        title: String,
+        detail: String?,
+        notifyAt: Date?,
+        context: ModelContext
+    ) {
+        issue.title = title
+        issue.detail = detail
+        issue.notifyAt = notifyAt
+        issue.updatedAt = .now
+        save(context: context)
+
+        // 제목/알림 시간이 바뀌었을 수 있으므로 기존 예약을 취소하고 다시 등록
+        NotificationService.shared.cancelIssueNotification(for: issue)
+        if !issue.isResolved {
+            NotificationService.shared.scheduleIssueNotification(for: issue)
+        }
+    }
+
     func resolve(_ issue: Issue, context: ModelContext) {
         issue.isResolved = true
         issue.updatedAt = .now
