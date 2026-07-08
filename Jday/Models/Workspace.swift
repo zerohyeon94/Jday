@@ -37,8 +37,9 @@ protocol WorkspaceTaggable {
 extension Array where Element: WorkspaceTaggable {
     /// 분리 기능이 켜졌을 때만 현재 활성 공간의 항목만 남긴다(엄격 분리).
     /// 분리가 꺼져 있으면 원본 그대로.
+    /// 미분류(nil) 항목은 분리 이전에 만든 데이터이므로 "개인" 공간으로 취급한다.
     func workspaceFiltered(enabled: Bool, active: Workspace) -> [Element] {
         guard enabled else { return self }
-        return self.filter { $0.workspace == active }
+        return self.filter { ($0.workspace ?? .personal) == active }
     }
 }
