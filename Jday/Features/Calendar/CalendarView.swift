@@ -119,6 +119,16 @@ struct CalendarView: View {
             }
         }
         .cardStyle()
+        // 좌우 스와이프로 이전/다음 달(주) 이동. 세로 제스처는 스크롤에 양보.
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 25)
+                .onEnded { value in
+                    let horizontal = value.translation.width
+                    let vertical = value.translation.height
+                    guard abs(horizontal) > 50, abs(horizontal) > abs(vertical) * 1.5 else { return }
+                    shiftMonth(horizontal < 0 ? 1 : -1)
+                }
+        )
     }
 
     private var weekdayHeader: some View {
