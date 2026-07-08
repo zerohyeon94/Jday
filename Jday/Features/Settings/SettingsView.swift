@@ -1,5 +1,6 @@
 import SwiftUI
 import UserNotifications
+import CloudKit
 
 struct SettingsView: View {
     @AppStorage("notificationsEnabled") private var notificationsEnabled = true
@@ -17,11 +18,14 @@ struct SettingsView: View {
     @State private var notificationAuthStatus: UNAuthorizationStatus = .notDetermined
     @State private var showResetAlert = false
 
+    private var syncStatus: CloudSyncStatus { .shared }
+
     var body: some View {
         Form {
             notificationSection
             generalSection
             workspaceSection
+            iCloudSection
             dataSection
         }
         .formStyle(.grouped)
@@ -32,6 +36,7 @@ struct SettingsView: View {
         .toolbar(.hidden, for: .navigationBar)
         #endif
         .task { await checkNotificationStatus() }
+        .task { await syncStatus.refreshAccountStatus() }
         .alert("모든 데이터 삭제", isPresented: $showResetAlert) {
             Button("삭제", role: .destructive) { deleteAllData() }
             Button("취소", role: .cancel) {}
@@ -124,6 +129,68 @@ struct SettingsView: View {
             if workspaceSeparationEnabled {
                 Text("개인/회사는 홈 화면 상단 토글로 전환합니다. 각 공간의 항목은 해당 공간에서만 보입니다. 단, 데이터 저장소가 완전히 분리되는 것은 아니며 모든 항목은 같은 iCloud에 동기화됩니다. 회사 기기 정책(MDM·Managed Apple Account)에 따라 개인 iCloud 동기화가 제한될 수 있습니다.")
             }
+        }
+    }
+
+    private var iCloudSection: some View {
+        Section {
+            LabeledContent("동기화 상태") {
+                Label(syncStatusLabel, systemImage: syncStatusIcon)
+                    .foregroundStyle(syncStatusColor)
+            }
+
+            if syncStatus.storageMode == .cloudKit, syncStatus.accountStatus == .noAccount {
+                Label("iCloud에 로그인하면 기기 간 동기화가 활성화됩니다", systemImage: "person.icloud")
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+            }
+        } header: {
+            Text("iCloud")
+        } footer: {
+            Text(syncStatusFooter)
+        }
+    }
+
+    private var syncStatusLabel: LocalizedStringKey {
+        switch syncStatus.storageMode {
+        case .cloudKit:
+            switch syncStatus.accountStatus {
+            case .available: "동기화 사용 중"
+            case .noAccount: "iCloud 로그인 필요"
+            case .restricted, .temporarilyUnavailable: "iCloud 사용 제한됨"
+            default: "확인 중…"
+            }
+        case .localOnly: "로컬 전용 (동기화 꺼짐)"
+        case .inMemory: "저장소 오류 (임시 저장)"
+        }
+    }
+
+    private var syncStatusIcon: String {
+        switch syncStatus.storageMode {
+        case .cloudKit:
+            syncStatus.accountStatus == .available ? "checkmark.icloud" : "icloud"
+        case .localOnly: "xmark.icloud"
+        case .inMemory: "exclamationmark.icloud"
+        }
+    }
+
+    private var syncStatusColor: Color {
+        switch syncStatus.storageMode {
+        case .cloudKit:
+            syncStatus.accountStatus == .available ? .green : .secondary
+        case .localOnly: .orange
+        case .inMemory: .red
+        }
+    }
+
+    private var syncStatusFooter: LocalizedStringKey {
+        switch syncStatus.storageMode {
+        case .cloudKit:
+            "모든 데이터는 iCloud를 통해 iPhone·iPad·Mac 간에 자동 동기화됩니다. 각 기기에서 동일한 Apple 계정으로 로그인하고 설정 > Apple 계정 > iCloud에서 Jday가 켜져 있는지 확인하세요."
+        case .localOnly:
+            "iCloud 저장소를 사용할 수 없어 이 기기에만 데이터가 저장됩니다. iCloud 로그인 상태를 확인한 뒤 앱을 다시 실행하면 동기화가 복구됩니다."
+        case .inMemory:
+            "저장소를 초기화하지 못해 데이터가 임시로만 보관됩니다. 앱을 다시 실행해 주세요."
         }
     }
 
