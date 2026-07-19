@@ -29,6 +29,14 @@ struct IssueEditView: View {
         hasNotify && notifyAt <= .now
     }
 
+    /// 필기는 텍스트와 달리 취소 개념 없이 첨부 즉시 저장한다.
+    private var drawingBinding: Binding<Data?> {
+        Binding(
+            get: { issue.drawingData },
+            set: { issue.drawingData = $0 }
+        )
+    }
+
     var body: some View {
         NavigationStack {
             Form {
@@ -39,6 +47,13 @@ struct IssueEditView: View {
                 Section("상세 내용") {
                     TextEditor(text: $detail)
                         .frame(minHeight: 120)
+                }
+
+                Section("필기 메모") {
+                    DrawingAttachmentRow(drawingData: drawingBinding) {
+                        issue.updatedAt = .now
+                        try? context.save()
+                    }
                 }
 
                 Section("알림") {

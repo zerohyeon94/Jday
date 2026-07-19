@@ -14,6 +14,10 @@ struct IssueDetailContent: View {
                 detailCard(detail)
             }
 
+            if issue.drawingData != nil {
+                drawingCard
+            }
+
             metaCard
 
             Spacer(minLength: 0)
@@ -56,6 +60,17 @@ struct IssueDetailContent: View {
             Text(detail)
                 .font(.body)
                 .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cardStyle()
+    }
+
+    private var drawingCard: some View {
+        VStack(alignment: .leading, spacing: Theme.Spacing.sm) {
+            Text("필기 메모")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            DrawingPreview(data: issue.drawingData)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .cardStyle()

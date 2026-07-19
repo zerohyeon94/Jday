@@ -2,6 +2,15 @@
 
 *git 커밋 이력 기반으로 정리한 변경 내역입니다. 최신이 위에 옵니다.*
 
+## [미배포] Apple Pencil 필기 메모 (2026-07-19)
+
+### 신규
+- 할 일·일정·이슈에 필기 메모 첨부 (iOS/iPadOS)
+  - 상세/수정 화면에 "필기 추가" → PencilKit 캔버스 시트 (iPad는 Apple Pencil + 도구 팔레트, iPhone은 손가락)
+  - 미리보기 탭으로 수정, 삭제 가능. 이슈 상세에는 읽기 전용 카드 표시
+- `drawingData` 필드 추가 (DailyTask·Schedule·Issue, externalStorage) — CloudKit으로 기기 간 동기화
+- macOS는 보기 전용 (이미지 렌더링), 수정은 iPhone·iPad에서
+
 ## [미배포] Apple 캘린더 연동 1단계 (2026-07-19)
 
 ### 신규

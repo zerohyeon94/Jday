@@ -26,6 +26,11 @@ struct TaskDetailView: View {
 
                     TextField("메모 (선택)", text: detailBinding, axis: .vertical)
                         .lineLimit(3...6)
+
+                    DrawingAttachmentRow(drawingData: $task.drawingData) {
+                        task.updatedAt = .now
+                        try? context.save()
+                    }
                 }
 
                 Section("정보") {

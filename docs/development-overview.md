@@ -58,6 +58,11 @@
 - 홈·캘린더 화면에 읽기 전용 카드(`ExternalEventListView`)로 표시, 월간 그리드 이벤트 도트 포함
 - `EKEventStoreChanged` 감지로 캘린더 앱 변경 자동 반영. macOS 표시는 후속.
 
+### Apple Pencil 필기 메모 (iOS/iPadOS)
+- 할 일·일정·이슈 상세/수정 화면에서 필기 첨부 (`DrawingAttachmentRow` + PencilKit 캔버스 시트)
+- `drawingData: Data?` (externalStorage) 필드로 저장 — CloudKit 동기화, macOS는 보기 전용 렌더링
+- iPad는 Apple Pencil + PKToolPicker, iPhone은 손가락 입력 (`drawingPolicy: .anyInput`)
+
 ### 플랫폼 대응
 - iOS: 하단 탭바 + FAB (`iOSRootView`)
 - iPadOS: 사이드바 레이아웃 전용 루트 (`iPadRootView`)
@@ -69,9 +74,9 @@
 ### SwiftData 모델
 | 모델 | 주요 필드 |
 |------|-----------|
-| `DailyTask` | title, isDone, date, priority, completedAt, memo, workspace |
-| `Schedule` | title, startTime, endTime, location, workspace |
-| `Issue` | title, detail, createdAt, isResolved, notifyAt, workspace |
+| `DailyTask` | title, isDone, date, priority, completedAt, memo, workspace, drawingData |
+| `Schedule` | title, startTime, endTime, location, workspace, drawingData |
+| `Issue` | title, detail, createdAt, isResolved, notifyAt, workspace, drawingData |
 | `Workspace` (enum) | personal / work — `nil`은 미분류 (분리 OFF 시 저장된 항목) |
 
 ### CloudKit
@@ -101,10 +106,9 @@ Jday/
 
 - macOS 위젯 / 메뉴바 (iOS 위젯 인프라 재사용) + macOS Apple 캘린더 표시
 - EventKit 2·3단계 (내보내기 → 양방향) · 미리 알림 연동 ([계획](widgets-and-integrations-plan.md))
-- Apple Pencil 필기 첨부 (iPad, PencilKit) — 메모 필드 첨부형 ([계획](widgets-and-integrations-plan.md))
 - iCloud 실기기 동기화 검증 + CloudKit Production 스키마 배포 확인 (수동)
 - App Group `group.com.zerohyeon.jday` 포털 등록 확인 + 실기기에서 저장소 이전 검증 (수동)
 - (3단계) 회고 기록, Claude API 일일 업무 분석
 
-2026-07-19에 완료: WidgetKit 위젯 4종(홈 3 + 잠금화면 3형태), App Group 저장소 이전, Apple 캘린더 읽기 표시(1단계)
+2026-07-19에 완료: WidgetKit 위젯 4종(홈 3 + 잠금화면 3형태), App Group 저장소 이전, Apple 캘린더 읽기 표시(1단계), Apple Pencil 필기 메모
 2026-07-08에 완료: 캘린더 좌우 스와이프, 이슈 수정 기능, 작업 공간 분리 데이터 미표시 버그, iCloud 동기화 상태 표시

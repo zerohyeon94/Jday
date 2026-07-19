@@ -46,6 +46,7 @@
 		504341439BCFE3CFD55B1F65 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CDDF432E950E3152857FAC /* SidebarItem.swift */; };
 		522B93E942D743A9757D8EE2 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD42E8A5F9E40DC0A4C1397 /* Color+Extensions.swift */; };
 		557D2949FE35210A197D02DD /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61574E5F5EE807DAD85E43A3 /* Schedule.swift */; };
+		55F5EDD88E1FEB9BE1DB8B88 /* DrawingAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8EDE096B3030E608ECDFD9 /* DrawingAttachment.swift */; };
 		575295483F89812B4469BC91 /* YesterdayTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BF7F19BE7E443A893EDFB3 /* YesterdayTasksView.swift */; };
 		5A8940EACA1A29C6B466247A /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59406FC5C9473B03E90E6672 /* TaskDetailView.swift */; };
 		5C3355C5D72363065F80D647 /* Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EA92AE35FCCCC60ADF0018 /* Issue.swift */; };
@@ -53,6 +54,7 @@
 		5F3304F028FC65B72326ACDB /* WorkspaceFilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A110AE2DDA6F1EE74CBDB241 /* WorkspaceFilterBar.swift */; };
 		5F61DD38D8CA9F7E5CD49A8B /* ExternalEventListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B2782EE034852DA03D0F30 /* ExternalEventListView.swift */; };
 		5F6A1CDEFF5096AEDCDAAC20 /* QuickAddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055CBCF5018493DB663361D /* QuickAddViewModel.swift */; };
+		627F55DD22292EA56D940F12 /* DrawingAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8EDE096B3030E608ECDFD9 /* DrawingAttachment.swift */; };
 		64CDFB09FCC77EA80BE9E92C /* MacCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C0E08A74E6C797D268A0E8 /* MacCalendarView.swift */; };
 		658D6F3C5ADD806905EF4494 /* IssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCD9704ABA6BCED42FEE040 /* IssueViewModel.swift */; };
 		663D9DF12E3D6C5A9DC5C30B /* JdayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483E0D1333BC41C47CE541D /* JdayApp.swift */; };
@@ -158,6 +160,7 @@
 		157127C7C036A5189D81182B /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		16D36E89E4B02D5C63BB41C3 /* iOSRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSRootView.swift; sourceTree = "<group>"; };
 		1B76BC307C11613576B1CD8E /* CloudSyncStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncStatus.swift; sourceTree = "<group>"; };
+		1C8EDE096B3030E608ECDFD9 /* DrawingAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingAttachment.swift; sourceTree = "<group>"; };
 		24C83A4E39ACFC8FC0BA4AFC /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		25E89C18D58848E8AADB7AC4 /* Jday-macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Jday-macOS.entitlements"; sourceTree = "<group>"; };
 		2757CB0E0BD464A84E497A4A /* MacIssueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIssueView.swift; sourceTree = "<group>"; };
@@ -360,6 +363,7 @@
 			isa = PBXGroup;
 			children = (
 				394FB1660EB764765FBB6CE1 /* AppearanceMode.swift */,
+				1C8EDE096B3030E608ECDFD9 /* DrawingAttachment.swift */,
 				CCE7CF19D2869B82C387DEB6 /* SharedComponents.swift */,
 				157127C7C036A5189D81182B /* Theme.swift */,
 				7B2405B20EB286DF5E96E6BF /* Toast.swift */,
@@ -610,6 +614,7 @@
 				B5FFE9EE9DCF9AF6BEBAE4A4 /* ContentView.swift in Sources */,
 				241355C5A70FE7D48FE2F144 /* DailyTask.swift in Sources */,
 				D6A329B9672872D0DEA983C9 /* Date+Extensions.swift in Sources */,
+				627F55DD22292EA56D940F12 /* DrawingAttachment.swift in Sources */,
 				C5C25CA46B94EE5873F0E5F0 /* EventKitService.swift in Sources */,
 				5F61DD38D8CA9F7E5CD49A8B /* ExternalEventListView.swift in Sources */,
 				05FFE39E09D430254236A8CB /* HomeView.swift in Sources */,
@@ -689,6 +694,7 @@
 				B17E99D81CAF61CE3CDF7CD7 /* ContentView.swift in Sources */,
 				9505DF1CAFDD010BE083201E /* DailyTask.swift in Sources */,
 				A682D65118F6B3A90C600DC7 /* Date+Extensions.swift in Sources */,
+				55F5EDD88E1FEB9BE1DB8B88 /* DrawingAttachment.swift in Sources */,
 				D746DA7220EEC6C181E6FDB3 /* EventKitService.swift in Sources */,
 				8D5CD9B4188514A0004601CE /* ExternalEventListView.swift in Sources */,
 				DE8878830970EBA47FD1E98F /* HomeView.swift in Sources */,

@@ -31,6 +31,11 @@ struct ScheduleDetailView: View {
                 Section("일정") {
                     TextField("제목", text: $schedule.title)
                     TextField("장소 (선택)", text: locationBinding)
+
+                    DrawingAttachmentRow(drawingData: $schedule.drawingData) {
+                        schedule.updatedAt = .now
+                        try? context.save()
+                    }
                 }
 
                 Section("시간") {

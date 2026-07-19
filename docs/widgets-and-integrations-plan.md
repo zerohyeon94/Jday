@@ -83,6 +83,7 @@ JdayWidgets/                     # 신규 앱 익스텐션 타겟 (iOS 전용)
 
 1. **EventKit 1단계 (읽기 표시)** — ✅ 2026-07-19 구현 완료 (iOS/iPadOS). `EventKitService` + 설정 "연동" 섹션 토글/캘린더 선택,
    홈·캘린더에 읽기 전용 카드 표시. 남은 것: macOS 표시, 2단계(내보내기), 3단계(양방향), 미리 알림(EKReminder) 연동.
-2. **Apple Pencil 메모 (첨부형)** — `DailyTask`/`Issue`/`Schedule` 상세의 메모 영역에 "필기 추가" 버튼 →
-   `PKCanvasView` 시트에서 작성, `drawingData: Data?` 필드 추가(CloudKit 호환: 옵셔널). iPhone은 손가락 입력, macOS는 이미지 보기 전용.
+2. **Apple Pencil 메모 (첨부형)** — ✅ 2026-07-19 구현 완료. 할 일·일정·이슈 상세/수정 화면에 필기 첨부
+   (`DrawingAttachmentRow` + PencilKit 캔버스 시트), `drawingData` 필드(externalStorage, CloudKit 동기화).
+   iPhone 손가락 입력, macOS 보기 전용 렌더링.
 3. **macOS 위젯 / 메뉴바** — 위젯 인프라 재사용.

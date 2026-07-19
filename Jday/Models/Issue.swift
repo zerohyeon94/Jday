@@ -9,6 +9,8 @@ final class Issue {
     var notifyAt: Date?
     /// 작업 공간(개인/회사). nil = 미분류(기본 공간).
     var workspace: Workspace?
+    /// 필기 메모 (PencilKit PKDrawing 직렬화 데이터). CloudKit 호환을 위해 옵셔널.
+    @Attribute(.externalStorage) var drawingData: Data?
     var createdAt: Date = Date()
     var updatedAt: Date = Date()
 
