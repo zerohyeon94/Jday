@@ -22,6 +22,11 @@ targets:
       macOS: "14.0"
     sources:
       - Jday
+    dependencies:
+      # 위젯 익스텐션은 iOS 전용 — macOS 타겟에는 포함하지 않음
+      - target: JdayWidgets
+        embed: true
+        platforms: [iOS]
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.zerohyeon.jday
@@ -59,3 +64,31 @@ targets:
           - UIInterfaceOrientationLandscapeRight
         UILaunchScreen:
           UIColorName: ""
+
+  JdayWidgets:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: JdayWidgets
+      # 앱 타겟과 공유하는 모델·유틸 (파일 이동 없이 타겟 멤버십만 추가)
+      - path: Jday/Models
+      - path: Jday/Core/Extensions/Date+Extensions.swift
+      - path: Jday/Core/Extensions/Color+Extensions.swift
+      - path: Jday/Core/Services/AppGroup.swift
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.zerohyeon.jday.widgets
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: 5G6N83PM9C
+        TARGETED_DEVICE_FAMILY: "1,2"
+        CODE_SIGN_ENTITLEMENTS: JdayWidgets/JdayWidgets.entitlements
+        SKIP_INSTALL: true
+    info:
+      path: JdayWidgets/Info.plist
+      properties:
+        CFBundleDisplayName: Jday 위젯
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension

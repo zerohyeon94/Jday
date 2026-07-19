@@ -2,6 +2,19 @@
 
 *git 커밋 이력 기반으로 정리한 변경 내역입니다. 최신이 위에 옵니다.*
 
+## [미배포] 위젯 추가 (2026-07-19)
+
+### 신규
+- WidgetKit 위젯 4종 (iOS/iPadOS 17+, `JdayWidgets` 익스텐션 타겟)
+  - 홈 소형 "오늘 요약" (진행률 링) / 중형 "오늘 할 일" (위젯에서 바로 완료 체크 — AppIntents) / 대형 "월간 캘린더"
+  - 잠금화면 원형(진행률 Gauge)·직사각형·인라인 "오늘 브리핑"
+- 앱 백그라운드 전환 시 위젯 타임라인 자동 갱신
+
+### 기타
+- iOS SwiftData 저장소를 App Group(`group.com.zerohyeon.jday`) 컨테이너로 이전 — 기존 저장소는 최초 실행 시 자동 이동(실패 시 기존 위치 유지)
+- 작업 공간·주 시작 요일 설정을 App Group defaults로 이전 (위젯과 공유)
+- 설계 문서: [widgets-and-integrations-plan.md](widgets-and-integrations-plan.md)
+
 ## [미배포] 버그 수정 및 개선 (2026-07-08)
 
 ### 수정

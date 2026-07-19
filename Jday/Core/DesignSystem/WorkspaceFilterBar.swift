@@ -3,7 +3,7 @@ import SwiftUI
 /// 작업 공간 분리가 켜졌을 때 개인 ⇄ 회사를 전환하는 토글(세그먼트).
 /// AppStorage("activeWorkspace")를 공유하므로 어느 화면에 두어도 동기화된다.
 struct WorkspaceToggle: View {
-    @AppStorage("activeWorkspace") private var activeRaw = Workspace.personal.rawValue
+    @AppStorage("activeWorkspace", store: AppGroup.defaults) private var activeRaw = Workspace.personal.rawValue
 
     private var binding: Binding<Workspace> {
         Binding(

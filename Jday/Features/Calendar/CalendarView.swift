@@ -8,8 +8,8 @@ struct CalendarView: View {
     @Query(sort: \DailyTask.date) private var allTasks: [DailyTask]
     @Query(sort: \Schedule.startTime) private var allSchedules: [Schedule]
 
-    @AppStorage("workspaceSeparationEnabled") private var wsEnabled = false
-    @AppStorage("activeWorkspace") private var wsActiveRaw = Workspace.personal.rawValue
+    @AppStorage("workspaceSeparationEnabled", store: AppGroup.defaults) private var wsEnabled = false
+    @AppStorage("activeWorkspace", store: AppGroup.defaults) private var wsActiveRaw = Workspace.personal.rawValue
 
     private var wsActive: Workspace { Workspace(rawValue: wsActiveRaw) ?? .personal }
 

@@ -1,12 +1,14 @@
 import SwiftUI
 import SwiftData
 import OSLog
+import WidgetKit
 
 private let logger = Logger(subsystem: "com.j.jday", category: "App")
 
 @main
 struct JdayApp: App {
     let container: ModelContainer
+    @Environment(\.scenePhase) private var scenePhase
 
     init() {
         let schema = Schema([DailyTask.self, Schedule.self, Issue.self])
@@ -20,14 +22,25 @@ struct JdayApp: App {
         }
         #endif
 
+        // iOS는 위젯과 저장소를 공유하기 위해 App Group 컨테이너 사용, macOS는 기존 위치 유지
+        #if os(iOS)
+        AppGroup.migrateDefaultsIfNeeded()
+        AppGroup.migrateStoreIfNeeded()
+        let config = ModelConfiguration(schema: schema, groupContainer: .identifier(AppGroup.id), cloudKitDatabase: .automatic)
+        #else
         let config = ModelConfiguration(schema: schema, cloudKitDatabase: .automatic)
+        #endif
         var storageMode = CloudSyncStatus.StorageMode.cloudKit
         do {
             container = try ModelContainer(for: schema, configurations: config)
         } catch {
             // CloudKit 사용 불가 시 로컬 전용으로 폴백
             logger.error("CloudKit 컨테이너 생성 실패: \(error.localizedDescription)")
+            #if os(iOS)
+            let localConfig = ModelConfiguration(schema: schema, groupContainer: .identifier(AppGroup.id), cloudKitDatabase: .none)
+            #else
             let localConfig = ModelConfiguration(schema: schema, cloudKitDatabase: .none)
+            #endif
             do {
                 container = try ModelContainer(for: schema, configurations: localConfig)
                 storageMode = .localOnly
@@ -51,6 +64,14 @@ struct JdayApp: App {
             ContentView()
         }
         .modelContainer(container)
+        .onChange(of: scenePhase) { _, newPhase in
+            // 앱에서 변경한 데이터를 위젯에 즉시 반영
+            #if os(iOS)
+            if newPhase == .background {
+                WidgetCenter.shared.reloadAllTimelines()
+            }
+            #endif
+        }
 
         #if os(macOS)
         Settings {

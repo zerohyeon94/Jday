@@ -12,8 +12,8 @@ struct QuickAddView: View {
     @State private var pendingTab: QuickAddTab?
     @State private var contentHeight: CGFloat = 0
 
-    @AppStorage("workspaceSeparationEnabled") private var workspaceSeparationEnabled = false
-    @AppStorage("activeWorkspace") private var activeWorkspaceRaw = Workspace.personal.rawValue
+    @AppStorage("workspaceSeparationEnabled", store: AppGroup.defaults) private var workspaceSeparationEnabled = false
+    @AppStorage("activeWorkspace", store: AppGroup.defaults) private var activeWorkspaceRaw = Workspace.personal.rawValue
 
     #if os(iOS)
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass

@@ -1,6 +1,6 @@
 # Jday 개발 현황 정리
 
-*최종 업데이트: 2026-07-08*
+*최종 업데이트: 2026-07-19*
 
 ## 개요
 
@@ -46,6 +46,13 @@
 - iCloud 동기화 상태 표시 (동기화 사용 중 / 로그인 필요 / 로컬 전용 / 오류)
 - 알림 관련 설정
 
+### 위젯 (iOS/iPadOS 17+)
+- `JdayWidgets` 익스텐션 타겟 — 설계: [widgets-and-integrations-plan.md](widgets-and-integrations-plan.md)
+- 홈: 소형 "오늘 요약"(진행률 링) / 중형 "오늘 할 일"(AppIntents로 위젯에서 완료 체크) / 대형 "월간 캘린더"
+- 잠금화면: 원형(진행률) · 직사각형 · 인라인 "오늘 브리핑" (StandBy 모드 포함)
+- 데이터 공유: App Group `group.com.zerohyeon.jday` — SwiftData 저장소·작업 공간 설정 공유, 앱 백그라운드 전환 시 타임라인 갱신
+- 위젯 익스텐션은 CloudKit sync를 하지 않음(로컬 읽기 전용 + 완료 토글 쓰기, 업로드는 앱 실행 시)
+
 ### 플랫폼 대응
 - iOS: 하단 탭바 + FAB (`iOSRootView`)
 - iPadOS: 사이드바 레이아웃 전용 루트 (`iPadRootView`)
@@ -87,9 +94,12 @@ Jday/
 
 자세한 분석은 [bugs-and-improvements.md](bugs-and-improvements.md) 참고.
 
-- WidgetKit 위젯 (홈 화면 / 맥 메뉴바)
-- EventKit 연동 (Apple 캘린더 · 미리 알림)
+- macOS 위젯 / 메뉴바 (iOS 위젯 인프라 재사용)
+- EventKit 연동 (Apple 캘린더 · 미리 알림) — 1단계 읽기 표시부터 ([계획](widgets-and-integrations-plan.md))
+- Apple Pencil 필기 첨부 (iPad, PencilKit) — 메모 필드 첨부형 ([계획](widgets-and-integrations-plan.md))
 - iCloud 실기기 동기화 검증 + CloudKit Production 스키마 배포 확인 (수동)
+- App Group `group.com.zerohyeon.jday` 포털 등록 확인 + 실기기에서 저장소 이전 검증 (수동)
 - (3단계) 회고 기록, Claude API 일일 업무 분석
 
+2026-07-19에 완료: WidgetKit 위젯 4종(홈 3 + 잠금화면 3형태), App Group 저장소 이전
 2026-07-08에 완료: 캘린더 좌우 스와이프, 이슈 수정 기능, 작업 공간 분리 데이터 미표시 버그, iCloud 동기화 상태 표시

@@ -7,8 +7,8 @@ struct TaskDetailView: View {
     @Environment(\.modelContext) private var context
     @Bindable var task: DailyTask
 
-    @AppStorage("workspaceSeparationEnabled") private var wsEnabled = false
-    @AppStorage("activeWorkspace") private var wsActiveRaw = Workspace.personal.rawValue
+    @AppStorage("workspaceSeparationEnabled", store: AppGroup.defaults) private var wsEnabled = false
+    @AppStorage("activeWorkspace", store: AppGroup.defaults) private var wsActiveRaw = Workspace.personal.rawValue
     @State private var showDeleteAlert = false
 
     private var workspaceBinding: Binding<Workspace> {

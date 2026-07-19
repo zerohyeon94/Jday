@@ -7,11 +7,11 @@ struct SettingsView: View {
     @AppStorage("emailSummaryEnabled") private var emailSummaryEnabled = false
     @AppStorage("notifyMinutesBefore") private var notifyMinutesBefore = 30
     @AppStorage("startTab") private var startTab = "home"
-    @AppStorage("weekStartsOnMonday") private var weekStartsOnMonday = false
+    @AppStorage("weekStartsOnMonday", store: AppGroup.defaults) private var weekStartsOnMonday = false
     @AppStorage("autoHideCompleted") private var autoHideCompleted = true
     @AppStorage("appearanceMode") private var appearanceModeRaw = AppearanceMode.system.rawValue
-    @AppStorage("workspaceSeparationEnabled") private var workspaceSeparationEnabled = false
-    @AppStorage("activeWorkspace") private var activeWorkspaceRaw = Workspace.personal.rawValue
+    @AppStorage("workspaceSeparationEnabled", store: AppGroup.defaults) private var workspaceSeparationEnabled = false
+    @AppStorage("activeWorkspace", store: AppGroup.defaults) private var activeWorkspaceRaw = Workspace.personal.rawValue
 
     @Environment(\.openURL) private var openURL
     @Environment(\.modelContext) private var context
