@@ -1,6 +1,7 @@
 import SwiftUI
 import UserNotifications
 import CloudKit
+import EventKit
 
 struct SettingsView: View {
     @AppStorage("notificationsEnabled") private var notificationsEnabled = true
@@ -12,6 +13,7 @@ struct SettingsView: View {
     @AppStorage("appearanceMode") private var appearanceModeRaw = AppearanceMode.system.rawValue
     @AppStorage("workspaceSeparationEnabled", store: AppGroup.defaults) private var workspaceSeparationEnabled = false
     @AppStorage("activeWorkspace", store: AppGroup.defaults) private var activeWorkspaceRaw = Workspace.personal.rawValue
+    @AppStorage(EventKitService.enabledKey, store: AppGroup.defaults) private var appleCalendarEnabled = false
 
     @Environment(\.openURL) private var openURL
     @Environment(\.modelContext) private var context
@@ -25,6 +27,9 @@ struct SettingsView: View {
             notificationSection
             generalSection
             workspaceSection
+            #if os(iOS)
+            integrationSection
+            #endif
             iCloudSection
             dataSection
         }
@@ -131,6 +136,91 @@ struct SettingsView: View {
             }
         }
     }
+
+    #if os(iOS)
+    private var eventService: EventKitService { .shared }
+
+    /// 토글 ON 시 권한을 먼저 요청하고, 거부되면 켜지지 않도록 한다.
+    private var appleCalendarBinding: Binding<Bool> {
+        Binding(
+            get: { appleCalendarEnabled },
+            set: { newValue in
+                if newValue && !eventService.hasFullAccess {
+                    Task {
+                        appleCalendarEnabled = await eventService.requestFullAccess()
+                    }
+                } else {
+                    appleCalendarEnabled = newValue
+                }
+            }
+        )
+    }
+
+    private var integrationSection: some View {
+        Section {
+            toggleRow(
+                title: "Apple 캘린더 표시",
+                subtitle: "Apple 캘린더 일정을 홈·캘린더에 함께 표시",
+                isOn: appleCalendarBinding
+            )
+
+            if appleCalendarEnabled && eventService.isAccessDenied {
+                Label("캘린더 접근 권한이 필요합니다", systemImage: "calendar.badge.exclamationmark")
+                    .foregroundStyle(.orange)
+                Button("시스템 설정 열기") { openSystemSettings() }
+            }
+
+            if appleCalendarEnabled && eventService.hasFullAccess {
+                DisclosureGroup("표시할 캘린더") {
+                    ForEach(eventService.availableCalendars) { calendar in
+                        calendarSelectRow(calendar)
+                    }
+                }
+                // selectedCalendarIDs는 defaults에 저장되므로 changeCount를 읽어 갱신을 유도한다
+                .id(eventService.changeCount)
+            }
+        } header: {
+            Text("연동")
+        } footer: {
+            if appleCalendarEnabled {
+                Text("Apple 캘린더 일정은 읽기 전용으로 표시되며 Jday에서 수정할 수 없습니다. Mac 지원은 준비 중입니다.")
+            }
+        }
+    }
+
+    private func calendarSelectRow(_ calendar: EventKitService.CalendarInfo) -> some View {
+        let selected = eventService.selectedCalendarIDs?.contains(calendar.id) ?? true
+        return Button {
+            toggleCalendarSelection(calendar.id)
+        } label: {
+            HStack(spacing: Theme.Spacing.md) {
+                Circle()
+                    .fill(calendar.color)
+                    .frame(width: 10, height: 10)
+                Text(calendar.title)
+                    .foregroundStyle(.primary)
+                Spacer()
+                if selected {
+                    Image(systemName: "checkmark")
+                        .foregroundStyle(Theme.Colors.brand)
+                }
+            }
+        }
+        .accessibilityLabel("\(calendar.title), \(selected ? String(localized: "표시 중") : String(localized: "숨김"))")
+    }
+
+    private func toggleCalendarSelection(_ id: String) {
+        let allIDs = Set(eventService.availableCalendars.map(\.id))
+        var selected = eventService.selectedCalendarIDs ?? allIDs
+        if selected.contains(id) {
+            selected.remove(id)
+        } else {
+            selected.insert(id)
+        }
+        // 전체 선택이면 저장값을 비워 "전체 표시" 기본값으로 돌린다 (새 캘린더 자동 포함)
+        eventService.selectedCalendarIDs = selected == allIDs ? nil : selected
+    }
+    #endif
 
     private var iCloudSection: some View {
         Section {

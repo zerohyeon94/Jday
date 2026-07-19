@@ -36,6 +36,21 @@ struct CalendarView: View {
     @State private var selectedSchedule: Schedule?
     @State private var deletedSnapshot: DeletedTaskSnapshot?
 
+    @AppStorage(EventKitService.enabledKey, store: AppGroup.defaults) private var appleCalendarEnabled = false
+    /// 표시 중인 달의 Apple 캘린더 이벤트 (읽기 전용)
+    @State private var externalEvents: [ExternalEvent] = []
+
+    /// 달 이동·설정·캘린더 DB 변경 시 다시 조회하기 위한 키
+    private var externalFetchKey: String {
+        let service = EventKitService.shared
+        let month = Calendar.current.dateInterval(of: .month, for: viewModel.selectedDate)?.start ?? .now
+        return "\(appleCalendarEnabled)-\(month.timeIntervalSince1970)-\(service.changeCount)-\(service.hasFullAccess)"
+    }
+
+    private var selectedExternalEvents: [ExternalEvent] {
+        externalEvents.filter { $0.occurs(on: viewModel.selectedDate) }
+    }
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Theme.Spacing.lg) {
@@ -64,6 +79,16 @@ struct CalendarView: View {
             context.insert(snapshot.restored())
             try? context.save()
         }
+        .task(id: externalFetchKey) { reloadExternalEvents() }
+    }
+
+    private func reloadExternalEvents() {
+        guard appleCalendarEnabled,
+              let monthInterval = Calendar.current.dateInterval(of: .month, for: viewModel.selectedDate) else {
+            externalEvents = []
+            return
+        }
+        externalEvents = EventKitService.shared.events(from: monthInterval.start, to: monthInterval.end)
     }
 
     private func deleteTask(_ task: DailyTask) {
@@ -164,6 +189,7 @@ struct CalendarView: View {
         let isSelected = date.isSameDay(as: viewModel.selectedDate)
         let isToday = date.isToday
         let hasEvents = viewModel.hasEvents(on: date, tasks: tasks, schedules: schedules)
+            || externalEvents.contains { $0.occurs(on: date) }
         let hasCompletions = viewModel.hasCompletions(on: date, tasks: tasks)
 
         return Button {
@@ -233,6 +259,10 @@ struct CalendarView: View {
 
             if !selectedSchedules.isEmpty {
                 TodayScheduleView(schedules: selectedSchedules, onSelect: { selectedSchedule = $0 })
+            }
+
+            if !selectedExternalEvents.isEmpty {
+                ExternalEventListView(events: selectedExternalEvents)
             }
 
             TodayTasksView(

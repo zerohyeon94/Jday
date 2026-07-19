@@ -62,6 +62,13 @@ struct JdayApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                #if DEBUG
+                .task {
+                    if CommandLine.arguments.contains("-seedAppleCalendarEvent") {
+                        await EventKitService.shared.seedTodayEventForTesting()
+                    }
+                }
+                #endif
         }
         .modelContainer(container)
         .onChange(of: scenePhase) { _, newPhase in

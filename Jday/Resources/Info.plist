@@ -24,6 +24,8 @@
 	<string>public.app-category.productivity</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>Apple 캘린더 일정을 홈·캘린더 화면에 함께 표시하기 위해 캘린더 접근 권한이 필요합니다.</string>
 	<key>NSUserNotificationsUsageDescription</key>
 	<string>할 일, 일정, 이슈 알림을 위해 알림 권한이 필요합니다.</string>
 	<key>UIApplicationSceneManifest</key>

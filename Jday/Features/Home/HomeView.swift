@@ -11,6 +11,16 @@ struct HomeView: View {
     @State private var selectedTask: DailyTask?
     @State private var deletedSnapshot: DeletedTaskSnapshot?
 
+    @AppStorage(EventKitService.enabledKey, store: AppGroup.defaults) private var appleCalendarEnabled = false
+    /// 오늘의 Apple 캘린더 이벤트 (읽기 전용)
+    @State private var todayExternalEvents: [ExternalEvent] = []
+
+    /// 설정·캘린더 DB 변경 시 다시 조회하기 위한 키
+    private var externalFetchKey: String {
+        let service = EventKitService.shared
+        return "\(appleCalendarEnabled)-\(service.changeCount)-\(service.hasFullAccess)"
+    }
+
     @AppStorage("workspaceSeparationEnabled", store: AppGroup.defaults) private var wsEnabled = false
     @AppStorage("activeWorkspace", store: AppGroup.defaults) private var wsActiveRaw = Workspace.personal.rawValue
 
@@ -61,6 +71,15 @@ struct HomeView: View {
         .undoToast($deletedSnapshot) { snapshot in
             viewModel.restoreTask(snapshot, context: context)
         }
+        .task(id: externalFetchKey) { reloadExternalEvents() }
+    }
+
+    private func reloadExternalEvents() {
+        guard appleCalendarEnabled else {
+            todayExternalEvents = []
+            return
+        }
+        todayExternalEvents = EventKitService.shared.events(from: Date.now.startOfDay, to: Date.now.endOfDay)
     }
 
     private func deleteTask(_ task: DailyTask) {
@@ -96,6 +115,10 @@ struct HomeView: View {
             )
 
             TodayScheduleView(schedules: todaySchedules)
+
+            if !todayExternalEvents.isEmpty {
+                ExternalEventListView(events: todayExternalEvents)
+            }
         }
     }
 

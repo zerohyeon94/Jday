@@ -53,6 +53,11 @@
 - 데이터 공유: App Group `group.com.zerohyeon.jday` — SwiftData 저장소·작업 공간 설정 공유, 앱 백그라운드 전환 시 타임라인 갱신
 - 위젯 익스텐션은 CloudKit sync를 하지 않음(로컬 읽기 전용 + 완료 토글 쓰기, 업로드는 앱 실행 시)
 
+### Apple 캘린더 연동 — 1단계 읽기 표시 (iOS/iPadOS)
+- 설정 > 연동 > "Apple 캘린더 표시" 토글 + 표시할 캘린더 선택 (`EventKitService`)
+- 홈·캘린더 화면에 읽기 전용 카드(`ExternalEventListView`)로 표시, 월간 그리드 이벤트 도트 포함
+- `EKEventStoreChanged` 감지로 캘린더 앱 변경 자동 반영. macOS 표시는 후속.
+
 ### 플랫폼 대응
 - iOS: 하단 탭바 + FAB (`iOSRootView`)
 - iPadOS: 사이드바 레이아웃 전용 루트 (`iPadRootView`)
@@ -94,12 +99,12 @@ Jday/
 
 자세한 분석은 [bugs-and-improvements.md](bugs-and-improvements.md) 참고.
 
-- macOS 위젯 / 메뉴바 (iOS 위젯 인프라 재사용)
-- EventKit 연동 (Apple 캘린더 · 미리 알림) — 1단계 읽기 표시부터 ([계획](widgets-and-integrations-plan.md))
+- macOS 위젯 / 메뉴바 (iOS 위젯 인프라 재사용) + macOS Apple 캘린더 표시
+- EventKit 2·3단계 (내보내기 → 양방향) · 미리 알림 연동 ([계획](widgets-and-integrations-plan.md))
 - Apple Pencil 필기 첨부 (iPad, PencilKit) — 메모 필드 첨부형 ([계획](widgets-and-integrations-plan.md))
 - iCloud 실기기 동기화 검증 + CloudKit Production 스키마 배포 확인 (수동)
 - App Group `group.com.zerohyeon.jday` 포털 등록 확인 + 실기기에서 저장소 이전 검증 (수동)
 - (3단계) 회고 기록, Claude API 일일 업무 분석
 
-2026-07-19에 완료: WidgetKit 위젯 4종(홈 3 + 잠금화면 3형태), App Group 저장소 이전
+2026-07-19에 완료: WidgetKit 위젯 4종(홈 3 + 잠금화면 3형태), App Group 저장소 이전, Apple 캘린더 읽기 표시(1단계)
 2026-07-08에 완료: 캘린더 좌우 스와이프, 이슈 수정 기능, 작업 공간 분리 데이터 미표시 버그, iCloud 동기화 상태 표시
