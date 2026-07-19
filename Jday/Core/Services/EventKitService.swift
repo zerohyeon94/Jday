@@ -240,6 +240,108 @@ final class EventKitService {
         }
     }
 
+    // MARK: - 양방향 동기화 (3단계)
+
+    /// 역동기화 대상 기간 — 이 범위 밖 일정은 삭제 판정에서 제외해 오삭제를 방지한다.
+    private var syncBackInterval: (start: Date, end: Date) {
+        let now = Date.now
+        let start = Calendar.current.date(byAdding: .year, value: -1, to: now) ?? now
+        let end = Calendar.current.date(byAdding: .year, value: 2, to: now) ?? now
+        return (start, end)
+    }
+
+    /// Apple 캘린더의 'Jday' 캘린더에서 일어난 변경(수정·삭제·직접 추가)을 Jday로 역반영한다.
+    /// 충돌은 수정 시각 비교로 최신 쪽을 채택한다 (Apple이 최신이면 가져오고, Jday가 최신이면 다시 내보낸다).
+    @discardableResult
+    func syncBack(context: ModelContext) -> Bool {
+        guard isExportEnabled, hasFullAccess else { return false }
+
+        let schedules = (try? context.fetch(FetchDescriptor<Schedule>())) ?? []
+
+        guard let calendar = exportCalendar(createIfNeeded: false) else {
+            // 사용자가 'Jday' 캘린더 자체를 삭제한 경우 — 일정은 보존하고 내보내기만 중단
+            if AppGroup.defaults.string(forKey: Self.exportCalendarIDKey) != nil {
+                AppGroup.defaults.removeObject(forKey: Self.exportCalendarIDKey)
+                AppGroup.defaults.set(false, forKey: Self.exportEnabledKey)
+                for schedule in schedules {
+                    schedule.exportedEventID = nil
+                }
+                try? context.save()
+                logger.notice("'Jday' 캘린더가 삭제되어 내보내기를 중단함 (일정은 보존)")
+            }
+            return false
+        }
+
+        var exportedByID: [String: Schedule] = [:]
+        for schedule in schedules {
+            if let id = schedule.exportedEventID {
+                exportedByID[id] = schedule
+            }
+        }
+
+        let interval = syncBackInterval
+        let predicate = store.predicateForEvents(withStart: interval.start, end: interval.end, calendars: [calendar])
+        let events = store.events(matching: predicate)
+
+        var seenIDs = Set<String>()
+        var changed = false
+
+        for event in events {
+            guard let externalID = event.calendarItemExternalIdentifier,
+                  !seenIDs.contains(externalID),   // 반복 일정 전개 중복 방지
+                  let startTime = event.startDate, let endTime = event.endDate else { continue }
+            seenIDs.insert(externalID)
+
+            if let schedule = exportedByID[externalID] {
+                let differs = schedule.title != (event.title ?? "")
+                    || schedule.startTime != startTime
+                    || schedule.endTime != endTime
+                    || schedule.location != event.location
+                guard differs else { continue }
+
+                if let modified = event.lastModifiedDate, modified > schedule.updatedAt {
+                    // Apple 캘린더 쪽이 최신 → 가져오기
+                    schedule.title = event.title ?? schedule.title
+                    schedule.startTime = startTime
+                    schedule.endTime = endTime
+                    schedule.location = event.location
+                    schedule.updatedAt = .now
+                    NotificationService.shared.scheduleScheduleNotification(for: schedule)
+                    changed = true
+                } else {
+                    // Jday 쪽이 최신 → 다시 내보내기
+                    syncExport(for: schedule)
+                }
+            } else {
+                // Apple 캘린더에서 직접 추가한 이벤트 → Jday 일정으로 가져오기
+                let imported = Schedule(
+                    title: event.title ?? String(localized: "제목 없음"),
+                    startTime: startTime,
+                    endTime: endTime,
+                    location: event.location
+                )
+                imported.exportedEventID = externalID
+                context.insert(imported)
+                NotificationService.shared.scheduleScheduleNotification(for: imported)
+                changed = true
+            }
+        }
+
+        // Apple 캘린더에서 삭제된 이벤트 → Jday 일정도 삭제 (조회 범위 안의 일정만)
+        for (id, schedule) in exportedByID where !seenIDs.contains(id) {
+            guard schedule.startTime >= interval.start, schedule.startTime <= interval.end else { continue }
+            NotificationService.shared.cancelScheduleNotification(for: schedule)
+            context.delete(schedule)
+            changed = true
+        }
+
+        if changed {
+            try? context.save()
+            logger.info("역동기화 완료 — 변경 반영됨")
+        }
+        return changed
+    }
+
     private func exportedEvent(for schedule: Schedule) -> EKEvent? {
         guard let id = schedule.exportedEventID else { return nil }
         // externalIdentifier 우선(기기 간 안정적), eventIdentifier 폴백
@@ -250,6 +352,35 @@ final class EventKitService {
     }
 
     #if DEBUG
+    /// 역동기화 검증용 — 내보낸 이벤트를 Apple 캘린더에서 수정·추가한 상황을 재현하고 syncBack을 실행한다 (`-seedSyncBackTest`).
+    func runSyncBackTestSeed(container: ModelContainer) async {
+        AppGroup.defaults.set(true, forKey: Self.exportEnabledKey)
+        guard await requestFullAccess(), let calendar = exportCalendar(createIfNeeded: false) else {
+            logger.error("역동기화 테스트: 권한 또는 'Jday' 캘린더 없음 — 먼저 -seedExportTest 실행 필요")
+            return
+        }
+        let context = container.mainContext
+
+        // 1) 내보낸 이벤트를 Apple 캘린더에서 수정한 상황 재현 (제목 변경)
+        let predicate = store.predicateForEvents(withStart: Date.now.startOfDay, end: Date.now.endOfDay, calendars: [calendar])
+        if let event = store.events(matching: predicate).first {
+            event.title = "수정된 테스트 일정 (Apple)"
+            try? store.save(event, span: .thisEvent, commit: true)
+        }
+
+        // 2) Apple 캘린더에서 'Jday' 캘린더에 직접 새 이벤트를 추가한 상황 재현
+        let newEvent = EKEvent(eventStore: store)
+        newEvent.calendar = calendar
+        newEvent.title = "Apple에서 추가한 일정"
+        newEvent.startDate = .now
+        newEvent.endDate = Calendar.current.date(byAdding: .minute, value: 30, to: .now)
+        try? store.save(newEvent, span: .thisEvent, commit: true)
+
+        // 3) 역동기화 실행
+        let changed = syncBack(context: context)
+        logger.info("역동기화 테스트 결과: changed=\(changed)")
+    }
+
     /// 내보내기 검증용 — 내보내기를 켜고 테스트 일정을 만들어 Apple 캘린더 반영까지 확인한다 (`-seedExportTest` 실행 인자).
     func runExportTestSeed(container: ModelContainer) async {
         AppGroup.defaults.set(true, forKey: Self.exportEnabledKey)

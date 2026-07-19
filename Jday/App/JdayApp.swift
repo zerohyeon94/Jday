@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 import OSLog
 import WidgetKit
+import EventKit
 
 private let logger = Logger(subsystem: "com.j.jday", category: "App")
 
@@ -62,6 +63,14 @@ struct JdayApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                #if os(iOS)
+                // 앱 사용 중 Apple 캘린더가 바뀌면 즉시 역반영
+                .task {
+                    for await _ in NotificationCenter.default.notifications(named: .EKEventStoreChanged) {
+                        EventKitService.shared.syncBack(context: container.mainContext)
+                    }
+                }
+                #endif
                 #if DEBUG
                 .task {
                     if CommandLine.arguments.contains("-seedAppleCalendarEvent") {
@@ -70,15 +79,22 @@ struct JdayApp: App {
                     if CommandLine.arguments.contains("-seedExportTest") {
                         await EventKitService.shared.runExportTestSeed(container: container)
                     }
+                    if CommandLine.arguments.contains("-seedSyncBackTest") {
+                        await EventKitService.shared.runSyncBackTestSeed(container: container)
+                    }
                 }
                 #endif
         }
         .modelContainer(container)
         .onChange(of: scenePhase) { _, newPhase in
-            // 앱에서 변경한 데이터를 위젯에 즉시 반영
             #if os(iOS)
+            // 앱에서 변경한 데이터를 위젯에 즉시 반영
             if newPhase == .background {
                 WidgetCenter.shared.reloadAllTimelines()
+            }
+            // 백그라운드 동안 Apple 캘린더에서 바뀐 내용을 역반영 (3단계)
+            if newPhase == .active {
+                EventKitService.shared.syncBack(context: container.mainContext)
             }
             #endif
         }

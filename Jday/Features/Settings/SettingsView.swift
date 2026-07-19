@@ -167,8 +167,8 @@ struct SettingsView: View {
             )
 
             toggleRow(
-                title: "일정을 Apple 캘린더에 내보내기",
-                subtitle: "'Jday' 캘린더를 만들어 일정을 자동 반영",
+                title: "일정을 Apple 캘린더와 동기화",
+                subtitle: "'Jday' 캘린더를 만들어 양방향으로 반영",
                 isOn: exportBinding
             )
 
@@ -191,7 +191,7 @@ struct SettingsView: View {
             Text("연동")
         } footer: {
             if appleCalendarEnabled || appleCalendarExportEnabled {
-                Text("Apple 캘린더 일정은 읽기 전용으로 표시됩니다. 내보내기를 켜면 Jday 일정이 'Jday' 캘린더에 추가·수정·삭제로 반영되며, 끄더라도 이미 내보낸 일정은 Apple 캘린더에 남습니다. Mac 지원은 준비 중입니다.")
+                Text("Apple 캘린더 일정은 읽기 전용으로 표시됩니다. 동기화를 켜면 Jday 일정이 'Jday' 캘린더와 양방향으로 반영됩니다 — Apple 캘린더의 'Jday' 캘린더에서 수정·삭제·추가한 내용도 Jday에 적용되니 주의하세요. 동기화를 끄더라도 이미 내보낸 일정은 Apple 캘린더에 남습니다. Mac 지원은 준비 중입니다.")
             }
         }
     }
