@@ -1,5 +1,6 @@
 import EventKit
 import SwiftUI
+import SwiftData
 import Observation
 import OSLog
 
@@ -36,6 +37,10 @@ final class EventKitService {
     /// 설정 키 — App Group defaults에 저장해 이후 위젯에서도 읽을 수 있게 한다.
     static let enabledKey = "appleCalendarEnabled"
     static let selectedCalendarsKey = "appleCalendarSelectedIDs"
+    static let exportEnabledKey = "appleCalendarExportEnabled"
+    static let exportCalendarIDKey = "appleCalendarExportCalendarID"
+    /// 내보내기 전용 캘린더 이름
+    static let exportCalendarTitle = "Jday"
 
     private let store = EKEventStore()
     private(set) var authorizationStatus = EKEventStore.authorizationStatus(for: .event)
@@ -82,9 +87,15 @@ final class EventKitService {
 
     var availableCalendars: [CalendarInfo] {
         guard hasFullAccess else { return [] }
-        return store.calendars(for: .event)
+        return displayCandidateCalendars()
             .map { CalendarInfo(id: $0.calendarIdentifier, title: $0.title, color: Self.color(of: $0)) }
             .sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
+    }
+
+    /// 표시 대상 후보 캘린더 — Jday가 내보낸 전용 캘린더는 중복 표시를 막기 위해 제외.
+    private func displayCandidateCalendars() -> [EKCalendar] {
+        let exportID = AppGroup.defaults.string(forKey: Self.exportCalendarIDKey)
+        return store.calendars(for: .event).filter { $0.calendarIdentifier != exportID }
     }
 
     /// 표시할 캘린더 ID 목록. nil = 전체 표시(기본값).
@@ -110,15 +121,14 @@ final class EventKitService {
         logger.debug("이벤트 조회 요청 — 권한 상태 \(self.authorizationStatus.rawValue)")
         guard hasFullAccess else { return [] }
 
-        var calendars: [EKCalendar]?
+        var candidates = displayCandidateCalendars()
         if let selected = selectedCalendarIDs {
-            let matched = store.calendars(for: .event).filter { selected.contains($0.calendarIdentifier) }
-            // 빈 배열을 predicate에 넘기면 전체 조회가 되므로 명시적으로 빈 결과 반환
-            guard !matched.isEmpty else { return [] }
-            calendars = matched
+            candidates = candidates.filter { selected.contains($0.calendarIdentifier) }
         }
+        // 빈 배열을 predicate에 넘기면 전체 조회가 되므로 명시적으로 빈 결과 반환
+        guard !candidates.isEmpty else { return [] }
 
-        let predicate = store.predicateForEvents(withStart: start, end: end, calendars: calendars)
+        let predicate = store.predicateForEvents(withStart: start, end: end, calendars: candidates)
         let matched = store.events(matching: predicate)
         logger.debug("이벤트 조회 결과 \(matched.count)건")
         return matched
@@ -138,7 +148,129 @@ final class EventKitService {
             .sorted { $0.startTime < $1.startTime }
     }
 
+    // MARK: - 내보내기 (2단계)
+
+    var isExportEnabled: Bool {
+        AppGroup.defaults.bool(forKey: Self.exportEnabledKey)
+    }
+
+    /// 내보내기 전용 "Jday" 캘린더를 찾거나 생성한다.
+    /// iCloud(CalDAV) 소스를 우선 사용해 다른 기기의 Apple 캘린더에도 동기화되게 한다.
+    func exportCalendar(createIfNeeded: Bool) -> EKCalendar? {
+        guard hasFullAccess else { return nil }
+
+        if let id = AppGroup.defaults.string(forKey: Self.exportCalendarIDKey),
+           let calendar = store.calendar(withIdentifier: id) {
+            return calendar
+        }
+        // 재설치 등으로 저장된 ID가 유실된 경우 이름으로 재발견
+        if let existing = store.calendars(for: .event).first(where: { $0.title == Self.exportCalendarTitle }) {
+            AppGroup.defaults.set(existing.calendarIdentifier, forKey: Self.exportCalendarIDKey)
+            return existing
+        }
+        guard createIfNeeded else { return nil }
+
+        let calendar = EKCalendar(for: .event, eventStore: store)
+        calendar.title = Self.exportCalendarTitle
+        #if os(iOS)
+        calendar.cgColor = UIColor.systemBlue.cgColor
+        #endif
+        let source = store.sources.first { $0.sourceType == .calDAV && $0.title.localizedCaseInsensitiveContains("icloud") }
+            ?? store.defaultCalendarForNewEvents?.source
+            ?? store.sources.first { $0.sourceType == .local }
+        guard let source else {
+            logger.error("내보내기 캘린더 생성 실패: 사용 가능한 캘린더 소스 없음")
+            return nil
+        }
+        calendar.source = source
+        do {
+            try store.saveCalendar(calendar, commit: true)
+            AppGroup.defaults.set(calendar.calendarIdentifier, forKey: Self.exportCalendarIDKey)
+            logger.info("내보내기 캘린더 'Jday' 생성 완료")
+            return calendar
+        } catch {
+            logger.error("내보내기 캘린더 생성 실패: \(error.localizedDescription)")
+            return nil
+        }
+    }
+
+    /// Jday 일정을 Apple 캘린더 이벤트로 생성/갱신하고 외부 식별자를 기록한다.
+    /// 호출 후 ModelContext 저장은 호출부 책임.
+    @discardableResult
+    func syncExport(for schedule: Schedule) -> Bool {
+        guard isExportEnabled, hasFullAccess,
+              let calendar = exportCalendar(createIfNeeded: true) else { return false }
+
+        let event: EKEvent
+        if let existing = exportedEvent(for: schedule) {
+            event = existing
+        } else {
+            event = EKEvent(eventStore: store)
+            event.calendar = calendar
+        }
+        event.title = schedule.title
+        event.startDate = schedule.startTime
+        event.endDate = schedule.endTime
+        event.location = schedule.location
+        do {
+            try store.save(event, span: .thisEvent, commit: true)
+            schedule.exportedEventID = event.calendarItemExternalIdentifier ?? event.eventIdentifier
+            return true
+        } catch {
+            logger.error("일정 내보내기 실패: \(error.localizedDescription)")
+            return false
+        }
+    }
+
+    /// 내보낸 이벤트를 Apple 캘린더에서 제거한다 (일정 삭제 시).
+    func removeExport(for schedule: Schedule) {
+        guard hasFullAccess, let event = exportedEvent(for: schedule) else { return }
+        do {
+            try store.remove(event, span: .thisEvent, commit: true)
+            schedule.exportedEventID = nil
+        } catch {
+            logger.error("내보낸 이벤트 제거 실패: \(error.localizedDescription)")
+        }
+    }
+
+    /// 내보내기를 켠 시점의 일괄 내보내기 — 아직 끝나지 않은 일정만 대상.
+    func exportFutureSchedules(_ schedules: [Schedule]) {
+        for schedule in schedules where schedule.endTime >= .now {
+            syncExport(for: schedule)
+        }
+    }
+
+    private func exportedEvent(for schedule: Schedule) -> EKEvent? {
+        guard let id = schedule.exportedEventID else { return nil }
+        // externalIdentifier 우선(기기 간 안정적), eventIdentifier 폴백
+        if let item = store.calendarItems(withExternalIdentifier: id).first(where: { $0 is EKEvent }) as? EKEvent {
+            return item
+        }
+        return store.event(withIdentifier: id)
+    }
+
     #if DEBUG
+    /// 내보내기 검증용 — 내보내기를 켜고 테스트 일정을 만들어 Apple 캘린더 반영까지 확인한다 (`-seedExportTest` 실행 인자).
+    func runExportTestSeed(container: ModelContainer) async {
+        AppGroup.defaults.set(true, forKey: Self.exportEnabledKey)
+        guard await requestFullAccess() else {
+            logger.error("내보내기 테스트: 권한 없음 (상태 \(self.authorizationStatus.rawValue))")
+            return
+        }
+        let context = container.mainContext
+        let schedule = Schedule(
+            title: "내보내기 테스트 일정",
+            startTime: .now,
+            endTime: Calendar.current.date(byAdding: .minute, value: 30, to: .now) ?? .now,
+            location: "시뮬레이터"
+        )
+        context.insert(schedule)
+        try? context.save()
+        let exported = syncExport(for: schedule)
+        try? context.save()
+        logger.info("내보내기 테스트 결과: \(exported ? "성공" : "실패"), externalID=\(schedule.exportedEventID ?? "nil")")
+    }
+
     /// UI 검증용 — 표시 설정을 켜고 기본 캘린더에 오늘 이벤트를 1개 추가한다 (`-seedAppleCalendarEvent` 실행 인자).
     func seedTodayEventForTesting() async {
         AppGroup.defaults.set(true, forKey: Self.enabledKey)

@@ -67,6 +67,9 @@ struct JdayApp: App {
                     if CommandLine.arguments.contains("-seedAppleCalendarEvent") {
                         await EventKitService.shared.seedTodayEventForTesting()
                     }
+                    if CommandLine.arguments.contains("-seedExportTest") {
+                        await EventKitService.shared.runExportTestSeed(container: container)
+                    }
                 }
                 #endif
         }

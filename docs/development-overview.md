@@ -53,10 +53,14 @@
 - 데이터 공유: App Group `group.com.zerohyeon.jday` — SwiftData 저장소·작업 공간 설정 공유, 앱 백그라운드 전환 시 타임라인 갱신
 - 위젯 익스텐션은 CloudKit sync를 하지 않음(로컬 읽기 전용 + 완료 토글 쓰기, 업로드는 앱 실행 시)
 
-### Apple 캘린더 연동 — 1단계 읽기 표시 (iOS/iPadOS)
-- 설정 > 연동 > "Apple 캘린더 표시" 토글 + 표시할 캘린더 선택 (`EventKitService`)
-- 홈·캘린더 화면에 읽기 전용 카드(`ExternalEventListView`)로 표시, 월간 그리드 이벤트 도트 포함
-- `EKEventStoreChanged` 감지로 캘린더 앱 변경 자동 반영. macOS 표시는 후속.
+### Apple 캘린더 연동 — 1·2단계 (iOS/iPadOS)
+- **1단계 읽기 표시**: 설정 > 연동 > "Apple 캘린더 표시" 토글 + 표시할 캘린더 선택 (`EventKitService`)
+  - 홈·캘린더 화면에 읽기 전용 카드(`ExternalEventListView`)로 표시, 월간 그리드 이벤트 도트 포함
+  - `EKEventStoreChanged` 감지로 캘린더 앱 변경 자동 반영
+- **2단계 내보내기**: "일정을 Apple 캘린더에 내보내기" 토글 — 전용 "Jday" 캘린더(iCloud 소스 우선)에
+  일정 추가·수정·삭제 자동 반영, 켤 때 기존 미종료 일정 일괄 내보내기, `exportedEventID`로 중복 방지
+  - 내보낸 캘린더는 1단계 표시에서 제외 (중복 표시 방지)
+- macOS 표시·내보내기는 후속.
 
 ### Apple Pencil 필기 메모 (iOS/iPadOS)
 - 할 일·일정·이슈 상세/수정 화면에서 필기 첨부 (`DrawingAttachmentRow` + PencilKit 캔버스 시트)
@@ -75,7 +79,7 @@
 | 모델 | 주요 필드 |
 |------|-----------|
 | `DailyTask` | title, isDone, date, priority, completedAt, memo, workspace, drawingData |
-| `Schedule` | title, startTime, endTime, location, workspace, drawingData |
+| `Schedule` | title, startTime, endTime, location, workspace, drawingData, exportedEventID |
 | `Issue` | title, detail, createdAt, isResolved, notifyAt, workspace, drawingData |
 | `Workspace` (enum) | personal / work — `nil`은 미분류 (분리 OFF 시 저장된 항목) |
 
@@ -105,10 +109,10 @@ Jday/
 자세한 분석은 [bugs-and-improvements.md](bugs-and-improvements.md) 참고.
 
 - macOS 위젯 / 메뉴바 (iOS 위젯 인프라 재사용) + macOS Apple 캘린더 표시
-- EventKit 2·3단계 (내보내기 → 양방향) · 미리 알림 연동 ([계획](widgets-and-integrations-plan.md))
+- EventKit 3단계 (양방향 동기화) · 미리 알림 연동 ([계획](widgets-and-integrations-plan.md))
 - iCloud 실기기 동기화 검증 + CloudKit Production 스키마 배포 확인 (수동)
 - App Group `group.com.zerohyeon.jday` 포털 등록 확인 + 실기기에서 저장소 이전 검증 (수동)
 - (3단계) 회고 기록, Claude API 일일 업무 분석
 
-2026-07-19에 완료: WidgetKit 위젯 4종(홈 3 + 잠금화면 3형태), App Group 저장소 이전, Apple 캘린더 읽기 표시(1단계), Apple Pencil 필기 메모
+2026-07-19에 완료: WidgetKit 위젯 4종(홈 3 + 잠금화면 3형태), App Group 저장소 이전, Apple 캘린더 읽기 표시(1단계)·내보내기(2단계), Apple Pencil 필기 메모
 2026-07-08에 완료: 캘린더 좌우 스와이프, 이슈 수정 기능, 작업 공간 분리 데이터 미표시 버그, iCloud 동기화 상태 표시

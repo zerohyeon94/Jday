@@ -74,6 +74,12 @@ final class QuickAddViewModel: ObservableObject {
         let saved = save(context: context)
         if saved {
             NotificationService.shared.scheduleScheduleNotification(for: schedule)
+            #if os(iOS)
+            // Apple 캘린더 내보내기 (켜져 있을 때만) — 외부 식별자 기록 후 재저장
+            if EventKitService.shared.syncExport(for: schedule) {
+                _ = save(context: context)
+            }
+            #endif
         }
         return saved
     }

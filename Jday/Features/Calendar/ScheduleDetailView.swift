@@ -94,12 +94,18 @@ struct ScheduleDetailView: View {
     private func save() {
         schedule.title = schedule.title.trimmingCharacters(in: .whitespaces)
         schedule.updatedAt = .now
+        #if os(iOS)
+        EventKitService.shared.syncExport(for: schedule)
+        #endif
         try? context.save()
         dismiss()
     }
 
     private func delete() {
         NotificationService.shared.cancelScheduleNotification(for: schedule)
+        #if os(iOS)
+        EventKitService.shared.removeExport(for: schedule)
+        #endif
         context.delete(schedule)
         try? context.save()
         dismiss()

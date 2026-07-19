@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 import UserNotifications
 import CloudKit
 import EventKit
@@ -14,6 +15,7 @@ struct SettingsView: View {
     @AppStorage("workspaceSeparationEnabled", store: AppGroup.defaults) private var workspaceSeparationEnabled = false
     @AppStorage("activeWorkspace", store: AppGroup.defaults) private var activeWorkspaceRaw = Workspace.personal.rawValue
     @AppStorage(EventKitService.enabledKey, store: AppGroup.defaults) private var appleCalendarEnabled = false
+    @AppStorage(EventKitService.exportEnabledKey, store: AppGroup.defaults) private var appleCalendarExportEnabled = false
 
     @Environment(\.openURL) private var openURL
     @Environment(\.modelContext) private var context
@@ -164,7 +166,13 @@ struct SettingsView: View {
                 isOn: appleCalendarBinding
             )
 
-            if appleCalendarEnabled && eventService.isAccessDenied {
+            toggleRow(
+                title: "일정을 Apple 캘린더에 내보내기",
+                subtitle: "'Jday' 캘린더를 만들어 일정을 자동 반영",
+                isOn: exportBinding
+            )
+
+            if (appleCalendarEnabled || appleCalendarExportEnabled) && eventService.isAccessDenied {
                 Label("캘린더 접근 권한이 필요합니다", systemImage: "calendar.badge.exclamationmark")
                     .foregroundStyle(.orange)
                 Button("시스템 설정 열기") { openSystemSettings() }
@@ -182,10 +190,33 @@ struct SettingsView: View {
         } header: {
             Text("연동")
         } footer: {
-            if appleCalendarEnabled {
-                Text("Apple 캘린더 일정은 읽기 전용으로 표시되며 Jday에서 수정할 수 없습니다. Mac 지원은 준비 중입니다.")
+            if appleCalendarEnabled || appleCalendarExportEnabled {
+                Text("Apple 캘린더 일정은 읽기 전용으로 표시됩니다. 내보내기를 켜면 Jday 일정이 'Jday' 캘린더에 추가·수정·삭제로 반영되며, 끄더라도 이미 내보낸 일정은 Apple 캘린더에 남습니다. Mac 지원은 준비 중입니다.")
             }
         }
+    }
+
+    /// 내보내기 토글 — 켤 때 권한 요청 후 아직 끝나지 않은 기존 일정을 일괄 내보낸다.
+    private var exportBinding: Binding<Bool> {
+        Binding(
+            get: { appleCalendarExportEnabled },
+            set: { newValue in
+                if newValue {
+                    Task {
+                        guard await eventService.requestFullAccess() else {
+                            appleCalendarExportEnabled = false
+                            return
+                        }
+                        appleCalendarExportEnabled = true
+                        let schedules = (try? context.fetch(FetchDescriptor<Schedule>())) ?? []
+                        eventService.exportFutureSchedules(schedules)
+                        try? context.save()
+                    }
+                } else {
+                    appleCalendarExportEnabled = false
+                }
+            }
+        )
     }
 
     private func calendarSelectRow(_ calendar: EventKitService.CalendarInfo) -> some View {

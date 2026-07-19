@@ -11,6 +11,9 @@ final class Schedule {
     var workspace: Workspace?
     /// 필기 메모 (PencilKit PKDrawing 직렬화 데이터). CloudKit 호환을 위해 옵셔널.
     @Attribute(.externalStorage) var drawingData: Data?
+    /// Apple 캘린더로 내보낸 이벤트의 외부 식별자(calendarItemExternalIdentifier).
+    /// iCloud 캘린더면 기기 간에도 안정적이라 중복 내보내기를 방지한다.
+    var exportedEventID: String?
     var createdAt: Date = Date()
     var updatedAt: Date = Date()
 

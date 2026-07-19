@@ -82,7 +82,10 @@ JdayWidgets/                     # 신규 앱 익스텐션 타겟 (iOS 전용)
 ## 후속 로드맵
 
 1. **EventKit 1단계 (읽기 표시)** — ✅ 2026-07-19 구현 완료 (iOS/iPadOS). `EventKitService` + 설정 "연동" 섹션 토글/캘린더 선택,
-   홈·캘린더에 읽기 전용 카드 표시. 남은 것: macOS 표시, 2단계(내보내기), 3단계(양방향), 미리 알림(EKReminder) 연동.
+   홈·캘린더에 읽기 전용 카드 표시.
+   **2단계 (내보내기)** — ✅ 2026-07-19 구현 완료. 전용 "Jday" 캘린더(iCloud 소스 우선)에 일정 추가·수정·삭제 자동 반영,
+   `exportedEventID`(externalIdentifier)로 기기 간 중복 방지, 내보낸 캘린더는 표시에서 제외.
+   남은 것: macOS 표시·내보내기, 3단계(양방향), 미리 알림(EKReminder) 연동.
 2. **Apple Pencil 메모 (첨부형)** — ✅ 2026-07-19 구현 완료. 할 일·일정·이슈 상세/수정 화면에 필기 첨부
    (`DrawingAttachmentRow` + PencilKit 캔버스 시트), `drawingData` 필드(externalStorage, CloudKit 동기화).
    iPhone 손가락 입력, macOS 보기 전용 렌더링.
