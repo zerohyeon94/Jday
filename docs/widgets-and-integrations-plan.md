@@ -87,7 +87,9 @@ JdayWidgets/                     # 신규 앱 익스텐션 타겟 (iOS 전용)
    `exportedEventID`(externalIdentifier)로 기기 간 중복 방지, 내보낸 캘린더는 표시에서 제외.
    **3단계 (양방향)** — ✅ 2026-07-19 구현 완료. 'Jday' 캘린더에서의 수정·삭제·직접 추가를 역반영(`syncBack`),
    수정 시각 비교로 충돌 해소, 캘린더 삭제 시 일정 보존 + 동기화 자동 해제.
-   남은 것: macOS 표시·동기화, 미리 알림(EKReminder) 연동.
+   **미리 알림 연동** — ✅ 2026-07-20 구현 완료. `ReminderService`로 할 일 ↔ EKReminder 양방향 동기화
+   (전용 "Jday" 목록, 완료 상태·마감일·우선순위 매핑, 재진입 가드로 중복 방지).
+   남은 것: macOS 표시·동기화.
 2. **Apple Pencil 메모 (첨부형)** — ✅ 2026-07-19 구현 완료. 할 일·일정·이슈 상세/수정 화면에 필기 첨부
    (`DrawingAttachmentRow` + PencilKit 캔버스 시트), `drawingData` 필드(externalStorage, CloudKit 동기화).
    iPhone 손가락 입력, macOS 보기 전용 렌더링.

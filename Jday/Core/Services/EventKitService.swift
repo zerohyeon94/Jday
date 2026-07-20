@@ -272,11 +272,22 @@ final class EventKitService {
             return false
         }
 
+        // 같은 이벤트에 연결된 일정이 여럿이면(여러 기기에서 동시에 가져온 경우 등)
+        // 가장 먼저 만들어진 것만 남기고 정리한다.
         var exportedByID: [String: Schedule] = [:]
-        for schedule in schedules {
-            if let id = schedule.exportedEventID {
+        var duplicatesRemoved = false
+        for schedule in schedules.sorted(by: { $0.createdAt < $1.createdAt }) {
+            guard let id = schedule.exportedEventID else { continue }
+            if exportedByID[id] == nil {
                 exportedByID[id] = schedule
+            } else {
+                NotificationService.shared.cancelScheduleNotification(for: schedule)
+                context.delete(schedule)
+                duplicatesRemoved = true
             }
+        }
+        if duplicatesRemoved {
+            logger.notice("중복 연결된 일정을 정리함")
         }
 
         let interval = syncBackInterval
@@ -284,7 +295,7 @@ final class EventKitService {
         let events = store.events(matching: predicate)
 
         var seenIDs = Set<String>()
-        var changed = false
+        var changed = duplicatesRemoved
 
         for event in events {
             guard let externalID = event.calendarItemExternalIdentifier,

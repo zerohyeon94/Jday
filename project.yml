@@ -49,6 +49,7 @@ targets:
         LSRequiresIPhoneOS: true
         NSUserNotificationsUsageDescription: "할 일, 일정, 이슈 알림을 위해 알림 권한이 필요합니다."
         NSCalendarsFullAccessUsageDescription: "Apple 캘린더 일정을 홈·캘린더 화면에 함께 표시하기 위해 캘린더 접근 권한이 필요합니다."
+        NSRemindersFullAccessUsageDescription: "Jday 할 일을 Apple 미리 알림과 동기화하기 위해 미리 알림 접근 권한이 필요합니다."
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: true
         # CloudKit 변경 푸시를 받아 백그라운드에서 즉시 동기화

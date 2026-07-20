@@ -68,6 +68,7 @@ struct JdayApp: App {
                 .task {
                     for await _ in NotificationCenter.default.notifications(named: .EKEventStoreChanged) {
                         EventKitService.shared.syncBack(context: container.mainContext)
+                        await ReminderService.shared.syncBack(context: container.mainContext)
                     }
                 }
                 #endif
@@ -82,6 +83,9 @@ struct JdayApp: App {
                     if CommandLine.arguments.contains("-seedSyncBackTest") {
                         await EventKitService.shared.runSyncBackTestSeed(container: container)
                     }
+                    if CommandLine.arguments.contains("-seedReminderTest") {
+                        await ReminderService.shared.runReminderTestSeed(container: container)
+                    }
                 }
                 #endif
         }
@@ -92,9 +96,10 @@ struct JdayApp: App {
             if newPhase == .background {
                 WidgetCenter.shared.reloadAllTimelines()
             }
-            // 백그라운드 동안 Apple 캘린더에서 바뀐 내용을 역반영 (3단계)
+            // 백그라운드 동안 Apple 캘린더·미리 알림에서 바뀐 내용을 역반영
             if newPhase == .active {
                 EventKitService.shared.syncBack(context: container.mainContext)
+                Task { await ReminderService.shared.syncBack(context: container.mainContext) }
             }
             #endif
         }

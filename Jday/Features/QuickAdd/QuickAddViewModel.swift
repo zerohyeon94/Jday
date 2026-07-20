@@ -58,7 +58,18 @@ final class QuickAddViewModel: ObservableObject {
             workspace: workspace
         )
         context.insert(task)
-        return save(context: context)
+        let saved = save(context: context)
+        #if os(iOS)
+        // Apple 미리 알림 내보내기 (켜져 있을 때만) — 외부 식별자 기록 후 재저장
+        if saved {
+            Task {
+                if await ReminderService.shared.syncExport(for: task) {
+                    _ = save(context: context)
+                }
+            }
+        }
+        #endif
+        return saved
     }
 
     func saveSchedule(context: ModelContext) -> Bool {

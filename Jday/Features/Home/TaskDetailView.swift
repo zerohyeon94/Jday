@@ -102,12 +102,26 @@ struct TaskDetailView: View {
         }
         task.updatedAt = .now
         try? context.save()
+        #if os(iOS)
+        Task {
+            if await ReminderService.shared.syncExport(for: task) {
+                try? context.save()
+            }
+        }
+        #endif
         dismiss()
     }
 
     private func delete() {
+        // 삭제 후에는 모델에 접근할 수 없으므로 식별자를 먼저 확보한다
+        let reminderID = task.exportedReminderID
         context.delete(task)
         try? context.save()
+        #if os(iOS)
+        if let reminderID {
+            Task { await ReminderService.shared.removeExport(reminderID: reminderID) }
+        }
+        #endif
         dismiss()
     }
 }

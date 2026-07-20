@@ -62,9 +62,11 @@
 		6B60266E83677EF94534F4C8 /* Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A34DA33798EB9EC761D235 /* Workspace.swift */; };
 		6D731C4855ABCCDD7F0AB8DA /* CompletedTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82218CB4870F46A6838D6052 /* CompletedTasksView.swift */; };
 		700F746FACE59CFC0D9BBBBA /* iPadRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088AFD659744E9C88054232E /* iPadRootView.swift */; };
+		71EF309C531CE6157C5BBF9C /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFFC0EFCAB9616AEC73AEE9 /* ReminderService.swift */; };
 		73935BF7E92E4001EE0D7B6E /* IssueListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF98025765C748986CD103EB /* IssueListView.swift */; };
 		73A6FFE92092742D5F02C615 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C83A4E39ACFC8FC0BA4AFC /* HomeViewModel.swift */; };
 		74B335D5D8895D9DF8F17451 /* ScheduleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91990E13997B5824166D39C2 /* ScheduleDetailView.swift */; };
+		75C7BF432EAF6F55AE47307E /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFFC0EFCAB9616AEC73AEE9 /* ReminderService.swift */; };
 		767ED8FF28B44249315D6063 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBA9A683594763A847F7B3E /* NotificationService.swift */; };
 		7C12776A298E64632AF427CB /* DailyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C3674DECE5748A01FEB615 /* DailyTask.swift */; };
 		7F2BADBA8BE530E06F56E33F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBA9A683594763A847F7B3E /* NotificationService.swift */; };
@@ -176,6 +178,7 @@
 		49920543B3C27F2FAAFFF2F4 /* MacHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacHomeView.swift; sourceTree = "<group>"; };
 		4A61E93DC048FA090D108FBB /* TodayTasksWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayTasksWidget.swift; sourceTree = "<group>"; };
 		4C934F49F589D8DA94837FB1 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
+		4CFFC0EFCAB9616AEC73AEE9 /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
 		4E3D6D41A08115B1269DADBD /* IssueEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueEditView.swift; sourceTree = "<group>"; };
 		50E3EA3847451DED2928D37D /* AppGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroup.swift; sourceTree = "<group>"; };
 		5111AB66510859BE56B7ECCC /* WidgetSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSnapshot.swift; sourceTree = "<group>"; };
@@ -322,6 +325,7 @@
 				1B76BC307C11613576B1CD8E /* CloudSyncStatus.swift */,
 				EDFD6ACCDA31CBC6DF12EB64 /* EventKitService.swift */,
 				EFBA9A683594763A847F7B3E /* NotificationService.swift */,
+				4CFFC0EFCAB9616AEC73AEE9 /* ReminderService.swift */,
 			);
 			name = Services;
 			path = Jday/Core/Services;
@@ -635,6 +639,7 @@
 				1E58DFC03785573B82D2AEAA /* Priority.swift in Sources */,
 				C74838D63D2C150B3C9F6154 /* QuickAddView.swift in Sources */,
 				5F6A1CDEFF5096AEDCDAAC20 /* QuickAddViewModel.swift in Sources */,
+				71EF309C531CE6157C5BBF9C /* ReminderService.swift in Sources */,
 				557D2949FE35210A197D02DD /* Schedule.swift in Sources */,
 				FF0555FDE43D0E9C78BA4378 /* ScheduleDetailView.swift in Sources */,
 				2AF2C3FA0ED1E1EFE3447E56 /* SettingsView.swift in Sources */,
@@ -715,6 +720,7 @@
 				351C7197D837F3277DCF9616 /* Priority.swift in Sources */,
 				2452D2C27BC5F0637B73D604 /* QuickAddView.swift in Sources */,
 				06F2B4E6F9F287606D8BA129 /* QuickAddViewModel.swift in Sources */,
+				75C7BF432EAF6F55AE47307E /* ReminderService.swift in Sources */,
 				922A0E323DBB0D7D7D79D566 /* Schedule.swift in Sources */,
 				74B335D5D8895D9DF8F17451 /* ScheduleDetailView.swift in Sources */,
 				D4DA964A12065B2A35790262 /* SettingsView.swift in Sources */,

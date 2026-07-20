@@ -65,6 +65,13 @@
   - 'Jday' 캘린더 삭제 시 일정 보존 + 동기화 자동 해제
 - macOS 표시·동기화는 후속.
 
+### Apple 미리 알림 연동 (iOS/iPadOS)
+- 설정 > 연동 > "할 일을 미리 알림과 동기화" — 전용 "Jday" 미리 알림 목록(iCloud 소스 우선), `ReminderService`
+- 할 일 추가·수정·완료·삭제 → 미리 알림 반영 (제목·메모·마감일·우선순위·완료 상태 매핑)
+- 미리 알림에서의 완료 체크·수정·삭제·직접 추가 → 할 일로 역반영 (`syncBack`, 수정 시각 비교로 충돌 해소)
+- 캘린더와 권한이 분리되어 있어 별도 `EKEventStore`·설정 키로 관리
+- 역동기화는 재진입 가드로 보호 (조회 대기 중 다른 트리거가 끼어들면 중복 가져오기가 발생하므로)
+
 ### Apple Pencil 필기 메모 (iOS/iPadOS)
 - 할 일·일정·이슈 상세/수정 화면에서 필기 첨부 (`DrawingAttachmentRow` + PencilKit 캔버스 시트)
 - `drawingData: Data?` (externalStorage) 필드로 저장 — CloudKit 동기화, macOS는 보기 전용 렌더링
@@ -81,7 +88,7 @@
 ### SwiftData 모델
 | 모델 | 주요 필드 |
 |------|-----------|
-| `DailyTask` | title, isDone, date, priority, completedAt, memo, workspace, drawingData |
+| `DailyTask` | title, isDone, date, priority, completedAt, memo, workspace, drawingData, exportedReminderID |
 | `Schedule` | title, startTime, endTime, location, workspace, drawingData, exportedEventID |
 | `Issue` | title, detail, createdAt, isResolved, notifyAt, workspace, drawingData |
 | `Workspace` (enum) | personal / work — `nil`은 미분류 (분리 OFF 시 저장된 항목) |
@@ -112,10 +119,11 @@ Jday/
 자세한 분석은 [bugs-and-improvements.md](bugs-and-improvements.md) 참고.
 
 - macOS 위젯 / 메뉴바 (iOS 위젯 인프라 재사용) + macOS Apple 캘린더 표시
-- 미리 알림(EKReminder) ↔ 할 일 연동 ([계획](widgets-and-integrations-plan.md))
+- macOS 캘린더·미리 알림 연동 (엔타이틀먼트 추가 필요)
 - iCloud 실기기 동기화 검증 + CloudKit Production 스키마 배포 확인 (수동)
 - App Group `group.com.zerohyeon.jday` 포털 등록 확인 + 실기기에서 저장소 이전 검증 (수동)
 - (3단계) 회고 기록, Claude API 일일 업무 분석
 
+2026-07-20에 완료: Apple 미리 알림 ↔ 할 일 양방향 동기화, 역동기화 중복 생성 버그 수정
 2026-07-19에 완료: WidgetKit 위젯 4종(홈 3 + 잠금화면 3형태), App Group 저장소 이전, Apple 캘린더 연동 1·2·3단계(표시·내보내기·양방향), Apple Pencil 필기 메모
 2026-07-08에 완료: 캘린더 좌우 스와이프, 이슈 수정 기능, 작업 공간 분리 데이터 미표시 버그, iCloud 동기화 상태 표시

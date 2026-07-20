@@ -12,6 +12,9 @@ final class DailyTask {
     var priority: Priority = Priority.medium
     /// 작업 공간(개인/회사). nil = 미분류(기본 공간).
     var workspace: Workspace?
+    /// Apple 미리 알림으로 내보낸 항목의 외부 식별자(calendarItemExternalIdentifier).
+    /// iCloud 목록이면 기기 간에도 안정적이라 중복 내보내기를 방지한다.
+    var exportedReminderID: String?
     /// 필기 메모 (PencilKit PKDrawing 직렬화 데이터). CloudKit 호환을 위해 옵셔널.
     @Attribute(.externalStorage) var drawingData: Data?
     var createdAt: Date = Date()

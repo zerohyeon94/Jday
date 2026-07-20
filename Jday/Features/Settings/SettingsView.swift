@@ -16,6 +16,7 @@ struct SettingsView: View {
     @AppStorage("activeWorkspace", store: AppGroup.defaults) private var activeWorkspaceRaw = Workspace.personal.rawValue
     @AppStorage(EventKitService.enabledKey, store: AppGroup.defaults) private var appleCalendarEnabled = false
     @AppStorage(EventKitService.exportEnabledKey, store: AppGroup.defaults) private var appleCalendarExportEnabled = false
+    @AppStorage(ReminderService.syncEnabledKey, store: AppGroup.defaults) private var appleRemindersSyncEnabled = false
 
     @Environment(\.openURL) private var openURL
     @Environment(\.modelContext) private var context
@@ -178,6 +179,18 @@ struct SettingsView: View {
                 Button("시스템 설정 열기") { openSystemSettings() }
             }
 
+            toggleRow(
+                title: "할 일을 미리 알림과 동기화",
+                subtitle: "'Jday' 미리 알림 목록과 양방향으로 반영",
+                isOn: remindersBinding
+            )
+
+            if appleRemindersSyncEnabled && reminderService.isAccessDenied {
+                Label("미리 알림 접근 권한이 필요합니다", systemImage: "exclamationmark.triangle")
+                    .foregroundStyle(.orange)
+                Button("시스템 설정 열기") { openSystemSettings() }
+            }
+
             if appleCalendarEnabled && eventService.hasFullAccess {
                 DisclosureGroup("표시할 캘린더") {
                     ForEach(eventService.availableCalendars) { calendar in
@@ -190,10 +203,35 @@ struct SettingsView: View {
         } header: {
             Text("연동")
         } footer: {
-            if appleCalendarEnabled || appleCalendarExportEnabled {
-                Text("Apple 캘린더 일정은 읽기 전용으로 표시됩니다. 동기화를 켜면 Jday 일정이 'Jday' 캘린더와 양방향으로 반영됩니다 — Apple 캘린더의 'Jday' 캘린더에서 수정·삭제·추가한 내용도 Jday에 적용되니 주의하세요. 동기화를 끄더라도 이미 내보낸 일정은 Apple 캘린더에 남습니다. Mac 지원은 준비 중입니다.")
+            if appleCalendarEnabled || appleCalendarExportEnabled || appleRemindersSyncEnabled {
+                Text("Apple 캘린더 일정은 읽기 전용으로 표시됩니다. 동기화를 켜면 Jday 일정·할 일이 'Jday' 캘린더·미리 알림 목록과 양방향으로 반영됩니다 — Apple 쪽에서 수정·삭제·추가한 내용도 Jday에 적용되니 주의하세요. 동기화를 끄더라도 이미 내보낸 항목은 Apple 앱에 남습니다. Mac 지원은 준비 중입니다.")
             }
         }
+    }
+
+    private var reminderService: ReminderService { .shared }
+
+    /// 미리 알림 동기화 토글 — 켤 때 권한 요청 후 최근 할 일을 일괄 내보낸다.
+    private var remindersBinding: Binding<Bool> {
+        Binding(
+            get: { appleRemindersSyncEnabled },
+            set: { newValue in
+                if newValue {
+                    Task {
+                        guard await reminderService.requestFullAccess() else {
+                            appleRemindersSyncEnabled = false
+                            return
+                        }
+                        appleRemindersSyncEnabled = true
+                        let tasks = (try? context.fetch(FetchDescriptor<DailyTask>())) ?? []
+                        await reminderService.exportRecentTasks(tasks)
+                        try? context.save()
+                    }
+                } else {
+                    appleRemindersSyncEnabled = false
+                }
+            }
+        )
     }
 
     /// 내보내기 토글 — 켤 때 권한 요청 후 아직 끝나지 않은 기존 일정을 일괄 내보낸다.
