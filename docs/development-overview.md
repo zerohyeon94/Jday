@@ -31,7 +31,8 @@
 - 월별 그리드 + 주간/월간 세그먼트 전환
 - 날짜별 이벤트 도트, 여러 날 일정은 이어지는 막대로 표시 (macOS)
 - 선택일 일정/할 일 리스트 + 완료 기록 (`CompletedTasksView`)
-- 일정 상세 화면 (`ScheduleDetailView`)
+- 일정 상세 화면 (`ScheduleDetailView`) — 우선순위 편집, 시간·우선순위 변경 시 알림 재예약
+- 일정 중요도 3단계(낮음/보통/높음) — 목록에서 중요도 색으로 강조(높음은 느낌표 배지)
 - 이전/다음 달(주) 이동 — 화살표 버튼 + 좌우 스와이프
 
 ### 이슈 (PRD-04 / PRD-05)
@@ -89,7 +90,7 @@
 | 모델 | 주요 필드 |
 |------|-----------|
 | `DailyTask` | title, isDone, date, priority, completedAt, memo, workspace, drawingData, exportedReminderID |
-| `Schedule` | title, startTime, endTime, location, workspace, drawingData, exportedEventID |
+| `Schedule` | title, startTime, endTime, location, priority, workspace, drawingData, exportedEventID |
 | `Issue` | title, detail, createdAt, isResolved, notifyAt, workspace, drawingData |
 | `Workspace` (enum) | personal / work — `nil`은 미분류 (분리 OFF 시 저장된 항목) |
 
@@ -99,6 +100,13 @@
 - 폴백 발생 시 `Logger` 기록 + `CloudSyncStatus`에 모드 저장 → 설정 화면 "iCloud" 섹션에서 상태 확인 가능
 - `UIBackgroundModes: remote-notification` — CloudKit 변경 푸시로 백그라운드 동기화
 - 엔타이틀먼트: `aps-environment`는 `development` (App Store 배포 시 Xcode가 production 자동 전환)
+- 엔타이틀먼트: `com.apple.developer.usernotifications.time-sensitive`(iOS) — 높음 중요도 일정의 시간 민감 알림용.
+  Apple Developer 포털에서 "Time Sensitive Notifications" capability 활성화 필요(미활성 시 `.active`로 자동 강등)
+
+### 일정 알림 정책 (중요도 차등)
+- 중요도별 알림 강도: 높음 `.timeSensitive` / 보통 `.active` / 낮음 `.passive` ([NotificationService.swift](../Jday/Core/Services/NotificationService.swift))
+- 중요도별 미리 알림: 높음 = 하루 전·1시간 전·기본 리드타임 / 보통 = 기본 리드타임 1회 / 낮음 = 10분 전 1회
+- 기본 리드타임 = 설정 `notifyMinutesBefore`(기본 30분). 하나의 일정이 여러 알림을 가지므로 식별자는 `schedule-<id>-<offset>`
 
 ## 프로젝트 구조
 

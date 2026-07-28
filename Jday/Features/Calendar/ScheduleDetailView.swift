@@ -48,6 +48,15 @@ struct ScheduleDetailView: View {
                     }
                 }
 
+                Section("우선순위") {
+                    Picker(selection: $schedule.priority) {
+                        ForEach(Priority.allCases, id: \.self) { Text($0.label).tag($0) }
+                    } label: {
+                        Text("우선순위")
+                    }
+                    .pickerStyle(.segmented)
+                }
+
                 if wsEnabled {
                     Section("공간") {
                         Picker(selection: workspaceBinding) {
@@ -94,6 +103,9 @@ struct ScheduleDetailView: View {
     private func save() {
         schedule.title = schedule.title.trimmingCharacters(in: .whitespaces)
         schedule.updatedAt = .now
+        // 시간·우선순위가 바뀌었을 수 있으므로 기존 알림을 취소하고 다시 예약한다.
+        NotificationService.shared.cancelScheduleNotification(for: schedule)
+        NotificationService.shared.scheduleScheduleNotification(for: schedule)
         #if os(iOS)
         EventKitService.shared.syncExport(for: schedule)
         #endif

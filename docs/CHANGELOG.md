@@ -2,6 +2,22 @@
 
 *git 커밋 이력 기반으로 정리한 변경 내역입니다. 최신이 위에 옵니다.*
 
+## [미배포] 일정 중요도(우선순위)별 알림 (2026-07-27)
+
+### 신규
+- 일정에 중요도 3단계(낮음/보통/높음) 추가 — 할 일과 동일한 `Priority` 재사용
+  - 빠른 추가 · 일정 상세 화면에서 우선순위 선택
+  - **알림 강도 차등화**: 높음 = `.timeSensitive`(집중 모드도 뚫음), 보통 = `.active`, 낮음 = `.passive`(조용히)
+  - **미리 알림 횟수 차등화**: 높음 = 하루 전·1시간 전·기본 리드타임 여러 번 / 보통 = 기본 리드타임 1회 / 낮음 = 10분 전 1회
+  - 기본 리드타임은 설정의 `notifyMinutesBefore`(기본 30분)를 사용
+  - 홈·캘린더 일정 목록에서 중요도 색으로 강조(높음은 느낌표 배지)
+- `Schedule.priority` 필드 추가 (기본값 `.medium`, CloudKit 라이트웨이트 마이그레이션)
+- iOS `com.apple.developer.usernotifications.time-sensitive` 엔티틀먼트 추가
+  - ⚠️ Apple Developer 포털에서 "Time Sensitive Notifications" capability 활성화 필요(미활성 시 `.timeSensitive`는 `.active`로 자동 강등)
+
+### 수정
+- 일정 상세에서 시간·우선순위 수정 시 알림을 취소 후 재예약(기존에는 재예약 누락)
+
 ## [미배포] Apple 미리 알림 연동 (2026-07-20)
 
 ### 신규

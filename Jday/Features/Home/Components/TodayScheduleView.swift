@@ -61,9 +61,16 @@ private struct TimelineRow: View {
             timelineMarker
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(schedule.title)
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(schedule.isPast ? .secondary : .primary)
+                HStack(spacing: Theme.Spacing.xs) {
+                    if schedule.priority == .high, !schedule.isPast {
+                        Image(systemName: "exclamationmark.circle.fill")
+                            .font(.caption)
+                            .foregroundStyle(Color.priority(.high))
+                    }
+                    Text(schedule.title)
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(schedule.isPast ? .secondary : .primary)
+                }
 
                 if let location = schedule.location, !location.isEmpty {
                     Text(location)
@@ -80,11 +87,16 @@ private struct TimelineRow: View {
         .accessibilityLabel("\(schedule.startTime.hourMinuteLabel), \(schedule.title)")
     }
 
+    /// 미완료 일정은 중요도 색으로, 지난 일정은 브랜드색 테두리만 표시.
+    private var markerColor: Color {
+        schedule.isPast ? Theme.Colors.brand : Color.priority(schedule.priority)
+    }
+
     private var timelineMarker: some View {
         VStack(spacing: 0) {
             Circle()
-                .strokeBorder(Theme.Colors.brand, lineWidth: 2)
-                .background(Circle().fill(schedule.isPast ? Color.clear : Theme.Colors.brand))
+                .strokeBorder(markerColor, lineWidth: 2)
+                .background(Circle().fill(schedule.isPast ? Color.clear : markerColor))
                 .frame(width: 10, height: 10)
                 .padding(.top, 3)
 

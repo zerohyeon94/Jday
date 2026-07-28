@@ -7,6 +7,9 @@ final class Schedule {
     var startTime: Date = Date()
     var endTime: Date = Date()
     var location: String?
+    /// 중요도(낮음/보통/높음). 알림 강도·미리 알림 횟수·목록 강조에 사용.
+    /// CloudKit 호환을 위해 기본값 있는 속성으로 선언(라이트웨이트 마이그레이션).
+    var priority: Priority = Priority.medium
     /// 작업 공간(개인/회사). nil = 미분류(기본 공간).
     var workspace: Workspace?
     /// 필기 메모 (PencilKit PKDrawing 직렬화 데이터). CloudKit 호환을 위해 옵셔널.
@@ -17,11 +20,12 @@ final class Schedule {
     var createdAt: Date = Date()
     var updatedAt: Date = Date()
 
-    init(title: String, startTime: Date, endTime: Date, location: String? = nil, workspace: Workspace? = nil) {
+    init(title: String, startTime: Date, endTime: Date, location: String? = nil, priority: Priority = .medium, workspace: Workspace? = nil) {
         self.title = title
         self.startTime = startTime
         self.endTime = endTime
         self.location = location
+        self.priority = priority
         self.workspace = workspace
         self.createdAt = .now
         self.updatedAt = .now

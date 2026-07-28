@@ -28,6 +28,7 @@ final class QuickAddViewModel: ObservableObject {
     @Published var scheduleStartTime = Date.now
     @Published var scheduleEndTime = Calendar.current.date(byAdding: .hour, value: 1, to: .now)!
     @Published var scheduleLocation = ""
+    @Published var schedulePriority = Priority.medium
 
     // 이슈
     @Published var issueTitle = ""
@@ -79,6 +80,7 @@ final class QuickAddViewModel: ObservableObject {
             startTime: scheduleStartTime,
             endTime: scheduleEndTime,
             location: scheduleLocation.isEmpty ? nil : scheduleLocation,
+            priority: schedulePriority,
             workspace: workspace
         )
         context.insert(schedule)
@@ -123,6 +125,7 @@ final class QuickAddViewModel: ObservableObject {
             scheduleStartTime = .now
             scheduleEndTime = Calendar.current.date(byAdding: .hour, value: 1, to: .now)!
             scheduleLocation = ""
+            schedulePriority = .medium
         case .issue:
             issueTitle = ""
             issueDetail = ""

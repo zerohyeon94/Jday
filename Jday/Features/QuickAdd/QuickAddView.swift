@@ -182,6 +182,13 @@ struct QuickAddView: View {
             field(label: "장소 (선택)") {
                 styledField("장소를 입력", text: $viewModel.scheduleLocation)
             }
+            field(label: "우선순위") {
+                Picker("", selection: $viewModel.schedulePriority) {
+                    ForEach(Priority.allCases, id: \.self) { Text($0.label).tag($0) }
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+            }
         }
     }
 
