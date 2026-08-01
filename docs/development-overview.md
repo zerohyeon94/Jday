@@ -63,6 +63,11 @@
 - `MenuBarExtra`(`.window` 스타일) — 상단 메뉴바에서 오늘 할 일(완료 토글)·오늘 일정 빠른 확인 (`MenuBarContentView`)
 - 작업 공간 분리 연동, 앱 `ModelContainer` 공유
 
+### Siri 단축어 (App Intents)
+- `AddIssueIntent` · `AddTaskIntent` + `JdayAppShortcuts` — "Jday 이슈/할 일 추가해줘"로 음성·단축어 추가
+- `IntentStore` — 위젯과 동일 방식(App Group iOS / 기본 위치 macOS)으로 로컬 저장, 앱 실행 시 CloudKit 동기화
+- 작업 공간 분리 연동, 추가 후 위젯 타임라인 갱신
+
 ### Apple 캘린더 연동 — 1·2단계 (iOS/iPadOS)
 - **1단계 읽기 표시**: 설정 > 연동 > "Apple 캘린더 표시" 토글 + 표시할 캘린더 선택 (`EventKitService`)
   - 홈·캘린더 화면에 읽기 전용 카드(`ExternalEventListView`)로 표시, 월간 그리드 이벤트 도트 포함

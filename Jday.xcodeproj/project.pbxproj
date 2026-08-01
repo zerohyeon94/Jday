@@ -35,11 +35,13 @@
 		2AF2C3FA0ED1E1EFE3447E56 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383A95A5C0ED57C537FB6190 /* SettingsView.swift */; };
 		2D498412D3B0E0FDBC670E23 /* TodayScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C36B8DAAF0F4D1D4D91B7BC /* TodayScheduleView.swift */; };
 		31A4D504F73D18425F6B29D8 /* SwipeToDeleteRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E763E9F2D87DAFF47BCBDC6F /* SwipeToDeleteRow.swift */; };
+		3207F63842FC0F3C05B0123E /* IntentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7734232C290DAC41A07F6F9 /* IntentStore.swift */; };
 		351C7197D837F3277DCF9616 /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7745CA1AE7D0B753A6FCA2B /* Priority.swift */; };
 		36CBC3A72856290A7AEDC186 /* JdayWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D5B60121580F7D0AF229BF6F /* JdayWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3A43410ADA8E55012D97A4A8 /* JdayWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F74F65EEE43E803612DDA613 /* JdayWidgetsBundle.swift */; };
 		3AA5F332C1F33273B197837B /* IssueDetailContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58EE8F45C8C156F105568370 /* IssueDetailContent.swift */; };
 		3ABC01EA42E63348D8EB8EA0 /* TodayScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C36B8DAAF0F4D1D4D91B7BC /* TodayScheduleView.swift */; };
+		3CB95D263DD87FE0319C10A5 /* AddItemIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8714A89C76DB88F8C0C66116 /* AddItemIntents.swift */; };
 		441480AA853F97DE0801030F /* TodayBriefWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5890B71CA7002F4182727EA6 /* TodayBriefWidget.swift */; };
 		4930D0A980A1AC5D1BEDD800 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157127C7C036A5189D81182B /* Theme.swift */; };
 		499F6A218BE82C374CA129E0 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2405B20EB286DF5E96E6BF /* Toast.swift */; };
@@ -94,6 +96,7 @@
 		9DE56B256B1623D075779F16 /* MenuBarContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1645B33E8532C7CEE6BEA42B /* MenuBarContentView.swift */; };
 		9EC6F4FF62EB661502842952 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 644CB144E5C052CBE5E35BBC /* Assets.xcassets */; };
 		A18DF29F42EA170FCA6A52E2 /* MacCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C0E08A74E6C797D268A0E8 /* MacCalendarView.swift */; };
+		A18F8836EC795A151CAF0DE0 /* IntentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7734232C290DAC41A07F6F9 /* IntentStore.swift */; };
 		A215906B3FF58E272D5B0B34 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C934F49F589D8DA94837FB1 /* CalendarViewModel.swift */; };
 		A4BC887CC6398A847B5185D7 /* WorkspaceFilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A110AE2DDA6F1EE74CBDB241 /* WorkspaceFilterBar.swift */; };
 		A5BA8DE24EB6DBE06B711A92 /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59406FC5C9473B03E90E6672 /* TaskDetailView.swift */; };
@@ -134,6 +137,7 @@
 		E2A63CEBD3E79F2F11678EDC /* MonthCalendarWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FE1A878D7385ACEF112180 /* MonthCalendarWidget.swift */; };
 		ECF35617208317D3F332EF8C /* WidgetStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77035F5B04A26DF7166A4196 /* WidgetStore.swift */; };
 		EF5DD7AE56B1B2096C217E5E /* TaskDeletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE51868642C2913506F5555A /* TaskDeletion.swift */; };
+		F07E0B70209689AD3546DEF6 /* AddItemIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8714A89C76DB88F8C0C66116 /* AddItemIntents.swift */; };
 		F0D7BDD0C8E9BBEA0413A5DF /* iOSRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D36E89E4B02D5C63BB41C3 /* iOSRootView.swift */; };
 		F0EEE1880B1D756DC23AF9D2 /* AppearanceMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394FB1660EB764765FBB6CE1 /* AppearanceMode.swift */; };
 		FB2CF1EC69CF33C61F51914A /* MacIssueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2757CB0E0BD464A84E497A4A /* MacIssueView.swift */; };
@@ -211,6 +215,7 @@
 		7CCD9704ABA6BCED42FEE040 /* IssueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueViewModel.swift; sourceTree = "<group>"; };
 		82218CB4870F46A6838D6052 /* CompletedTasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedTasksView.swift; sourceTree = "<group>"; };
 		835E9EA647E8A777EAFC1AFB /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		8714A89C76DB88F8C0C66116 /* AddItemIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemIntents.swift; sourceTree = "<group>"; };
 		91990E13997B5824166D39C2 /* ScheduleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDetailView.swift; sourceTree = "<group>"; };
 		9FCF64F21112F9CB9C4D1D0F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A05BC0060528D8408142D37E /* LaunchContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchContext.swift; sourceTree = "<group>"; };
@@ -222,6 +227,7 @@
 		B7F921E1C837EF3AAABA7319 /* SummaryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCardView.swift; sourceTree = "<group>"; };
 		C169C94D5880B22A0FAB2EF0 /* Retrospective.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Retrospective.swift; sourceTree = "<group>"; };
 		C5EA92AE35FCCCC60ADF0018 /* Issue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Issue.swift; sourceTree = "<group>"; };
+		C7734232C290DAC41A07F6F9 /* IntentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentStore.swift; sourceTree = "<group>"; };
 		C7745CA1AE7D0B753A6FCA2B /* Priority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Priority.swift; sourceTree = "<group>"; };
 		CCE7CF19D2869B82C387DEB6 /* SharedComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedComponents.swift; sourceTree = "<group>"; };
 		CE51868642C2913506F5555A /* TaskDeletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDeletion.swift; sourceTree = "<group>"; };
@@ -351,6 +357,7 @@
 				50E3EA3847451DED2928D37D /* AppGroup.swift */,
 				1B76BC307C11613576B1CD8E /* CloudSyncStatus.swift */,
 				EDFD6ACCDA31CBC6DF12EB64 /* EventKitService.swift */,
+				C7734232C290DAC41A07F6F9 /* IntentStore.swift */,
 				EFBA9A683594763A847F7B3E /* NotificationService.swift */,
 				4CFFC0EFCAB9616AEC73AEE9 /* ReminderService.swift */,
 			);
@@ -421,6 +428,7 @@
 				7FBBD55CE3D9FC3BAAB3FB0A /* DesignSystem */,
 				ECC6249885A7207AC47E48D7 /* Extensions */,
 				50FBAA17EEAF910EE3D478C9 /* Helpers */,
+				D717AA42DFEEC756E3F711E6 /* Intents */,
 				3F7E1A877E76F920E8CBF37A /* Services */,
 			);
 			path = Core;
@@ -478,6 +486,14 @@
 				7CCD9704ABA6BCED42FEE040 /* IssueViewModel.swift */,
 			);
 			path = Issue;
+			sourceTree = "<group>";
+		};
+		D717AA42DFEEC756E3F711E6 /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				8714A89C76DB88F8C0C66116 /* AddItemIntents.swift */,
+			);
+			path = Intents;
 			sourceTree = "<group>";
 		};
 		E8F0532499E70F5CFBB91BBF /* Features */ = {
@@ -637,6 +653,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CB95D263DD87FE0319C10A5 /* AddItemIntents.swift in Sources */,
 				09E4EFD3F212D01616C70F66 /* AppGroup.swift in Sources */,
 				F0EEE1880B1D756DC23AF9D2 /* AppearanceMode.swift in Sources */,
 				9DAB1C559FD384FC55B11E55 /* CalendarView.swift in Sources */,
@@ -652,6 +669,7 @@
 				5F61DD38D8CA9F7E5CD49A8B /* ExternalEventListView.swift in Sources */,
 				05FFE39E09D430254236A8CB /* HomeView.swift in Sources */,
 				73A6FFE92092742D5F02C615 /* HomeViewModel.swift in Sources */,
+				A18F8836EC795A151CAF0DE0 /* IntentStore.swift in Sources */,
 				0F3871F9F8C5D18B1150F9ED /* Issue.swift in Sources */,
 				285B6838CDEF9CBFB693BBE3 /* IssueDetailContent.swift in Sources */,
 				18DA63BC8515F65C7B446D32 /* IssueDetailView.swift in Sources */,
@@ -724,6 +742,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F07E0B70209689AD3546DEF6 /* AddItemIntents.swift in Sources */,
 				9974A5802678C93E8D66B565 /* AppGroup.swift in Sources */,
 				16EB02C394BDCCCE0F8D47DD /* AppearanceMode.swift in Sources */,
 				9299B208FE149300CA393A22 /* CalendarView.swift in Sources */,
@@ -739,6 +758,7 @@
 				8D5CD9B4188514A0004601CE /* ExternalEventListView.swift in Sources */,
 				DE8878830970EBA47FD1E98F /* HomeView.swift in Sources */,
 				A83E6CA4C13F64547378A47B /* HomeViewModel.swift in Sources */,
+				3207F63842FC0F3C05B0123E /* IntentStore.swift in Sources */,
 				67390BF5AD17934108659851 /* Issue.swift in Sources */,
 				3AA5F332C1F33273B197837B /* IssueDetailContent.swift in Sources */,
 				A7731F6901BD76CF89B6CE30 /* IssueDetailView.swift in Sources */,

@@ -2,6 +2,14 @@
 
 *git 커밋 이력 기반으로 정리한 변경 내역입니다. 최신이 위에 옵니다.*
 
+## [미배포] Siri 단축어 (App Intents) (2026-08-01)
+
+### 신규
+- Siri·단축어로 이슈/할 일 빠른 추가 — 예: "Jday 이슈 추가해줘", "Jday 할 일 추가해줘"
+  - `AddIssueIntent` · `AddTaskIntent` + `JdayAppShortcuts`(AppShortcutsProvider)
+  - `IntentStore` — 위젯과 동일하게 App Group(iOS)·기본 위치(macOS) 저장소에 로컬 저장, 앱 실행 시 CloudKit 동기화
+  - 작업 공간 분리 연동, 추가 후 위젯 타임라인 갱신
+
 ## [미배포] 맥 메뉴바 위젯 (2026-08-01)
 
 ### 신규
