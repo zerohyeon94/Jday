@@ -68,6 +68,10 @@
 - `IntentStore` — 위젯과 동일 방식(App Group iOS / 기본 위치 macOS)으로 로컬 저장, 앱 실행 시 CloudKit 동기화
 - 작업 공간 분리 연동, 추가 후 위젯 타임라인 갱신
 
+### 아침 요약 알림
+- 매일 아침 지정 시각에 오늘의 할 일·일정 개수를 로컬 알림으로 전달 (서버 없음, `NotificationService.refreshMorningSummaries`)
+- 향후 7일 롤링 예약, 앱 실행·활성화 시 재예약. 설정에서 켜기/끄기 + 시각 지정 (`morningSummaryEnabled`·`morningSummaryHour`·`morningSummaryMinute`)
+
 ### Apple 캘린더 연동 — 1·2단계 (iOS/iPadOS)
 - **1단계 읽기 표시**: 설정 > 연동 > "Apple 캘린더 표시" 토글 + 표시할 캘린더 선택 (`EventKitService`)
   - 홈·캘린더 화면에 읽기 전용 카드(`ExternalEventListView`)로 표시, 월간 그리드 이벤트 도트 포함

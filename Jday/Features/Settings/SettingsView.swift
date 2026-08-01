@@ -6,7 +6,9 @@ import EventKit
 
 struct SettingsView: View {
     @AppStorage("notificationsEnabled") private var notificationsEnabled = true
-    @AppStorage("emailSummaryEnabled") private var emailSummaryEnabled = false
+    @AppStorage("morningSummaryEnabled") private var morningSummaryEnabled = false
+    @AppStorage("morningSummaryHour") private var morningSummaryHour = 8
+    @AppStorage("morningSummaryMinute") private var morningSummaryMinute = 0
     @AppStorage("notifyMinutesBefore") private var notifyMinutesBefore = 30
     @AppStorage("startTab") private var startTab = "home"
     @AppStorage("weekStartsOnMonday", store: AppGroup.defaults) private var weekStartsOnMonday = false
@@ -69,10 +71,15 @@ struct SettingsView: View {
             .disabled(notificationAuthStatus == .denied)
 
             toggleRow(
-                title: "이메일 요약",
-                subtitle: "매일 아침 요약 메일",
-                isOn: $emailSummaryEnabled
+                title: "아침 요약 알림",
+                subtitle: "매일 아침 오늘의 할 일·일정 요약 알림",
+                isOn: morningSummaryBinding
             )
+            .disabled(notificationAuthStatus == .denied)
+
+            if morningSummaryEnabled {
+                DatePicker("요약 시각", selection: morningTimeBinding, displayedComponents: .hourAndMinute)
+            }
 
             if notificationsEnabled {
                 Picker("기본 알림 시간", selection: $notifyMinutesBefore) {
@@ -80,6 +87,40 @@ struct SettingsView: View {
                 }
             }
         }
+    }
+
+    /// 아침 요약 토글 — 켤 때 알림 권한을 먼저 요청하고, 허용되면 예약한다.
+    private var morningSummaryBinding: Binding<Bool> {
+        Binding(
+            get: { morningSummaryEnabled },
+            set: { newValue in
+                if newValue {
+                    Task {
+                        let granted = await NotificationService.shared.requestAuthorization()
+                        morningSummaryEnabled = granted
+                        NotificationService.shared.refreshMorningSummaries(context: context)
+                    }
+                } else {
+                    morningSummaryEnabled = false
+                    NotificationService.shared.refreshMorningSummaries(context: context)
+                }
+            }
+        )
+    }
+
+    /// 아침 요약 시각 — 시/분을 Date로 노출하고, 변경 시 다시 예약한다.
+    private var morningTimeBinding: Binding<Date> {
+        Binding(
+            get: {
+                Calendar.current.date(bySettingHour: morningSummaryHour, minute: morningSummaryMinute, second: 0, of: .now) ?? .now
+            },
+            set: { newDate in
+                let comps = Calendar.current.dateComponents([.hour, .minute], from: newDate)
+                morningSummaryHour = comps.hour ?? 8
+                morningSummaryMinute = comps.minute ?? 0
+                NotificationService.shared.refreshMorningSummaries(context: context)
+            }
+        )
     }
 
     private var appearanceBinding: Binding<AppearanceMode> {

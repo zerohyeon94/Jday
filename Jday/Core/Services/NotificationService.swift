@@ -1,5 +1,6 @@
 import Foundation
 import UserNotifications
+import SwiftData
 import OSLog
 
 private let logger = Logger(subsystem: "com.j.jday", category: "NotificationService")
@@ -99,6 +100,77 @@ final class NotificationService {
             guard !ids.isEmpty else { return }
             center.removePendingNotificationRequests(withIdentifiers: ids)
         }
+    }
+
+    // MARK: - 아침 요약 알림
+
+    /// 설정 키 (UserDefaults.standard — SettingsView의 @AppStorage와 공유).
+    enum MorningSummaryKey {
+        static let enabled = "morningSummaryEnabled"
+        static let hour = "morningSummaryHour"
+        static let minute = "morningSummaryMinute"
+    }
+
+    /// 아침 요약 알림을 다시 예약한다(향후 7일 롤링). 앱 활성화·설정 변경 시 호출.
+    /// 서버 없이 각 날짜의 할 일·일정 개수를 미리 계산해 로컬 알림으로 예약한다.
+    func refreshMorningSummaries(context: ModelContext) {
+        cancelMorningSummaries()
+
+        let defaults = UserDefaults.standard
+        guard defaults.bool(forKey: MorningSummaryKey.enabled) else { return }
+
+        let hour = defaults.object(forKey: MorningSummaryKey.hour) as? Int ?? 8
+        let minute = defaults.object(forKey: MorningSummaryKey.minute) as? Int ?? 0
+
+        let tasks = (try? context.fetch(FetchDescriptor<DailyTask>())) ?? []
+        let schedules = (try? context.fetch(FetchDescriptor<Schedule>())) ?? []
+
+        let wsEnabled = AppGroup.defaults.bool(forKey: "workspaceSeparationEnabled")
+        let wsActive = Workspace(rawValue: AppGroup.defaults.string(forKey: "activeWorkspace") ?? "") ?? .personal
+        let filteredTasks = tasks.workspaceFiltered(enabled: wsEnabled, active: wsActive)
+        let filteredSchedules = schedules.workspaceFiltered(enabled: wsEnabled, active: wsActive)
+
+        let calendar = Calendar.current
+        for offset in 0..<7 {
+            guard let day = calendar.date(byAdding: .day, value: offset, to: .now) else { continue }
+            var comps = calendar.dateComponents([.year, .month, .day], from: day)
+            comps.hour = hour
+            comps.minute = minute
+            guard let fireDate = calendar.date(from: comps), fireDate > .now else { continue }
+
+            let taskCount = filteredTasks.filter { $0.date.isSameDay(as: day) && !$0.isDone }.count
+            let scheduleCount = filteredSchedules.filter { $0.occurs(on: day) }.count
+
+            let content = UNMutableNotificationContent()
+            content.title = String(localized: "오늘의 계획")
+            content.body = summaryBody(taskCount: taskCount, scheduleCount: scheduleCount)
+            content.sound = .default
+
+            let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: false)
+            let identifier = "morning-summary-\(Int(day.startOfDay.timeIntervalSince1970))"
+            let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error {
+                    logger.error("아침 요약 알림 등록 실패: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+
+    func cancelMorningSummaries() {
+        let center = UNUserNotificationCenter.current()
+        center.getPendingNotificationRequests { requests in
+            let ids = requests.map(\.identifier).filter { $0.hasPrefix("morning-summary-") }
+            guard !ids.isEmpty else { return }
+            center.removePendingNotificationRequests(withIdentifiers: ids)
+        }
+    }
+
+    private func summaryBody(taskCount: Int, scheduleCount: Int) -> String {
+        if taskCount == 0 && scheduleCount == 0 {
+            return String(localized: "오늘은 등록된 할 일과 일정이 없어요. 좋은 하루 되세요!")
+        }
+        return String(localized: "오늘 할 일 \(taskCount)개, 일정 \(scheduleCount)개가 있어요.")
     }
 
     // MARK: - 중요도 매핑

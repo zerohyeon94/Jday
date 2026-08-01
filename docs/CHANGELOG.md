@@ -2,6 +2,17 @@
 
 *git 커밋 이력 기반으로 정리한 변경 내역입니다. 최신이 위에 옵니다.*
 
+## [미배포] 아침 요약 알림 (2026-08-01)
+
+### 신규
+- 설정의 "이메일 요약"을 **로컬 "아침 요약 알림"으로 대체** — 서버 없이 매일 아침 지정 시각에 오늘의 할 일·일정 개수 알림
+  - 향후 7일 롤링 예약, 앱 활성화 시 재예약 (`NotificationService.refreshMorningSummaries`)
+  - 설정에서 켜기/끄기 + 요약 시각(시:분) 지정, 켤 때 알림 권한 요청, 작업 공간 분리 연동
+  - `emailSummaryEnabled` 설정 제거 → `morningSummaryEnabled`·`morningSummaryHour`·`morningSummaryMinute`
+
+### 참고
+- 노션 로드맵의 "이메일 요약(2단계)"과 "Claude API 연동(3단계)" 중, 이메일은 서버가 필요해 로컬 알림으로 대체했고 Claude API 연동은 키·비용·프라이버시 결정이 필요해 보류
+
 ## [미배포] Siri 단축어 (App Intents) (2026-08-01)
 
 ### 신규

@@ -63,6 +63,10 @@ struct JdayApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                // 아침 요약 알림 초기 예약(설정에서 켰을 때만 동작)
+                .task {
+                    NotificationService.shared.refreshMorningSummaries(context: container.mainContext)
+                }
                 #if os(iOS)
                 // 앱 사용 중 Apple 캘린더가 바뀌면 즉시 역반영
                 .task {
@@ -91,6 +95,10 @@ struct JdayApp: App {
         }
         .modelContainer(container)
         .onChange(of: scenePhase) { _, newPhase in
+            // 앱 활성화 시 아침 요약을 다시 예약(향후 7일 롤링 갱신)
+            if newPhase == .active {
+                NotificationService.shared.refreshMorningSummaries(context: container.mainContext)
+            }
             #if os(iOS)
             // 앱에서 변경한 데이터를 위젯에 즉시 반영
             if newPhase == .background {
