@@ -52,6 +52,7 @@
 		5A8940EACA1A29C6B466247A /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59406FC5C9473B03E90E6672 /* TaskDetailView.swift */; };
 		5C3355C5D72363065F80D647 /* Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EA92AE35FCCCC60ADF0018 /* Issue.swift */; };
 		5DD21AEDA0FF187634EE3550 /* TodayTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB5A4F7A9F192E8EDC142FE /* TodayTasksView.swift */; };
+		5E4004053B36F3A3A09D9695 /* LaunchContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05BC0060528D8408142D37E /* LaunchContext.swift */; };
 		5F3304F028FC65B72326ACDB /* WorkspaceFilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A110AE2DDA6F1EE74CBDB241 /* WorkspaceFilterBar.swift */; };
 		5F61DD38D8CA9F7E5CD49A8B /* ExternalEventListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B2782EE034852DA03D0F30 /* ExternalEventListView.swift */; };
 		5F6A1CDEFF5096AEDCDAAC20 /* QuickAddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055CBCF5018493DB663361D /* QuickAddViewModel.swift */; };
@@ -84,6 +85,7 @@
 		9299B208FE149300CA393A22 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38843B376C3C091734C26907 /* CalendarView.swift */; };
 		9505DF1CAFDD010BE083201E /* DailyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C3674DECE5748A01FEB615 /* DailyTask.swift */; };
 		96282D74C78811BA7531A1E9 /* IssueEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3D6D41A08115B1269DADBD /* IssueEditView.swift */; };
+		97FFBF22CD797003F3AAD99A /* LaunchContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05BC0060528D8408142D37E /* LaunchContext.swift */; };
 		9974A5802678C93E8D66B565 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E3EA3847451DED2928D37D /* AppGroup.swift */; };
 		9D9EE8F7EBECA0F9869D50CF /* IssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCD9704ABA6BCED42FEE040 /* IssueViewModel.swift */; };
 		9DA943C0EBAAFB03BDBF1A9B /* Retrospective.swift in Sources */ = {isa = PBXBuildFile; fileRef = C169C94D5880B22A0FAB2EF0 /* Retrospective.swift */; };
@@ -208,6 +210,7 @@
 		835E9EA647E8A777EAFC1AFB /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		91990E13997B5824166D39C2 /* ScheduleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDetailView.swift; sourceTree = "<group>"; };
 		9FCF64F21112F9CB9C4D1D0F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A05BC0060528D8408142D37E /* LaunchContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchContext.swift; sourceTree = "<group>"; };
 		A110AE2DDA6F1EE74CBDB241 /* WorkspaceFilterBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceFilterBar.swift; sourceTree = "<group>"; };
 		A483E0D1333BC41C47CE541D /* JdayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JdayApp.swift; sourceTree = "<group>"; };
 		A83B9F894969AB4D17E07058 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -354,6 +357,7 @@
 		50FBAA17EEAF910EE3D478C9 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				A05BC0060528D8408142D37E /* LaunchContext.swift */,
 				786C8E67AA2979A0AF277B11 /* PreviewHelpers.swift */,
 			);
 			path = Helpers;
@@ -652,6 +656,7 @@
 				90E3CC39C6D893F4F765FE8B /* IssueRowView.swift in Sources */,
 				658D6F3C5ADD806905EF4494 /* IssueViewModel.swift in Sources */,
 				663D9DF12E3D6C5A9DC5C30B /* JdayApp.swift in Sources */,
+				5E4004053B36F3A3A09D9695 /* LaunchContext.swift in Sources */,
 				64CDFB09FCC77EA80BE9E92C /* MacCalendarView.swift in Sources */,
 				0F6258DF263D1FEF7A3FEFFD /* MacHomeView.swift in Sources */,
 				E0611AB2A5BA91EA9C30C3AA /* MacIssueView.swift in Sources */,
@@ -737,6 +742,7 @@
 				FB75D2299B2BBC7C42D34FD0 /* IssueRowView.swift in Sources */,
 				9D9EE8F7EBECA0F9869D50CF /* IssueViewModel.swift in Sources */,
 				C28AEFE4E7C81C197F9DA2F7 /* JdayApp.swift in Sources */,
+				97FFBF22CD797003F3AAD99A /* LaunchContext.swift in Sources */,
 				A18DF29F42EA170FCA6A52E2 /* MacCalendarView.swift in Sources */,
 				B94F570F08AA2457C216DF88 /* MacHomeView.swift in Sources */,
 				FB2CF1EC69CF33C61F51914A /* MacIssueView.swift in Sources */,

@@ -14,9 +14,9 @@ struct iOSRootView: View {
     @State private var previousTab: Tab = iOSRootView.defaultTab
     @State private var showQuickAdd = false
 
-    /// 월요일 → 캘린더, 그 외 → 홈
+    /// 월요일·공휴일 다음날 → 캘린더(주간 계획 모드), 그 외 → 홈
     static var defaultTab: Tab {
-        Calendar.current.component(.weekday, from: .now) == 2 ? .calendar : .home
+        LaunchContext.shouldOpenCalendar() ? .calendar : .home
     }
 
     var body: some View {

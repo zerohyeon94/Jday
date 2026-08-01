@@ -7,7 +7,7 @@ import SwiftData
 /// "껍데기(사이드바 구성·툴바·빠른추가 배치)"만 iPad에 맞게 둔다.
 /// → 여기만 고치면 iPhone(iOSRootView)·macOS(SidebarRootView)에 영향 없이 iPad만 바뀐다.
 struct iPadRootView: View {
-    @State private var selectedItem: SidebarItem? = .home
+    @State private var selectedItem: SidebarItem? = LaunchContext.shouldOpenCalendar() ? .calendar : .home
     @State private var showQuickAdd = false
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
 

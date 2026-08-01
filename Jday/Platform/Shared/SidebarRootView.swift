@@ -5,7 +5,7 @@ import SwiftData
 /// macOS 전용 루트 — 사이드바 + 디테일 2단 레이아웃.
 /// (iPad는 Platform/iPad/iPadRootView 에서 별도 처리)
 struct SidebarRootView: View {
-    @State private var selectedItem: SidebarItem? = .home
+    @State private var selectedItem: SidebarItem? = LaunchContext.shouldOpenCalendar() ? .calendar : .home
     @State private var showQuickAdd = false
 
     @Query private var issues: [Issue]
