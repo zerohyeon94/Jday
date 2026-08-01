@@ -108,6 +108,13 @@ struct JdayApp: App {
         Settings {
             SettingsView()
         }
+
+        // 메뉴바 위젯 — 오늘 업무 빠른 확인 + 할 일 체크
+        MenuBarExtra("Jday", systemImage: "checklist") {
+            MenuBarContentView()
+                .modelContainer(container)
+        }
+        .menuBarExtraStyle(.window)
         #endif
     }
 }

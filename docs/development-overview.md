@@ -59,6 +59,10 @@
 - 데이터 공유: App Group `group.com.zerohyeon.jday` — SwiftData 저장소·작업 공간 설정 공유, 앱 백그라운드 전환 시 타임라인 갱신
 - 위젯 익스텐션은 CloudKit sync를 하지 않음(로컬 읽기 전용 + 완료 토글 쓰기, 업로드는 앱 실행 시)
 
+### 메뉴바 위젯 (macOS)
+- `MenuBarExtra`(`.window` 스타일) — 상단 메뉴바에서 오늘 할 일(완료 토글)·오늘 일정 빠른 확인 (`MenuBarContentView`)
+- 작업 공간 분리 연동, 앱 `ModelContainer` 공유
+
 ### Apple 캘린더 연동 — 1·2단계 (iOS/iPadOS)
 - **1단계 읽기 표시**: 설정 > 연동 > "Apple 캘린더 표시" 토글 + 표시할 캘린더 선택 (`EventKitService`)
   - 홈·캘린더 화면에 읽기 전용 카드(`ExternalEventListView`)로 표시, 월간 그리드 이벤트 도트 포함

@@ -17,6 +17,7 @@
 		0F6258DF263D1FEF7A3FEFFD /* MacHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49920543B3C27F2FAAFFF2F4 /* MacHomeView.swift */; };
 		141962B8F4A6417BAD75006A /* SharedComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE7CF19D2869B82C387DEB6 /* SharedComponents.swift */; };
 		146A3BD2A711C92A18585336 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B7656AC7918C012DAAF0 /* Date+Extensions.swift */; };
+		15FBFA816E47ACDAD75DF22A /* MenuBarContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1645B33E8532C7CEE6BEA42B /* MenuBarContentView.swift */; };
 		16EB02C394BDCCCE0F8D47DD /* AppearanceMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394FB1660EB764765FBB6CE1 /* AppearanceMode.swift */; };
 		17C814BCAB30538D88D13BBF /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2405B20EB286DF5E96E6BF /* Toast.swift */; };
 		18DA63BC8515F65C7B446D32 /* IssueDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D56E31B023DDB69ADD3C96 /* IssueDetailView.swift */; };
@@ -90,6 +91,7 @@
 		9D9EE8F7EBECA0F9869D50CF /* IssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCD9704ABA6BCED42FEE040 /* IssueViewModel.swift */; };
 		9DA943C0EBAAFB03BDBF1A9B /* Retrospective.swift in Sources */ = {isa = PBXBuildFile; fileRef = C169C94D5880B22A0FAB2EF0 /* Retrospective.swift */; };
 		9DAB1C559FD384FC55B11E55 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38843B376C3C091734C26907 /* CalendarView.swift */; };
+		9DE56B256B1623D075779F16 /* MenuBarContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1645B33E8532C7CEE6BEA42B /* MenuBarContentView.swift */; };
 		9EC6F4FF62EB661502842952 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 644CB144E5C052CBE5E35BBC /* Assets.xcassets */; };
 		A18DF29F42EA170FCA6A52E2 /* MacCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C0E08A74E6C797D268A0E8 /* MacCalendarView.swift */; };
 		A215906B3FF58E272D5B0B34 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C934F49F589D8DA94837FB1 /* CalendarViewModel.swift */; };
@@ -169,6 +171,7 @@
 		11475CAC72A97A361328EFEE /* Jday.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Jday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13AC70FB29B59CA5B986FC87 /* Jday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Jday.entitlements; sourceTree = "<group>"; };
 		157127C7C036A5189D81182B /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		1645B33E8532C7CEE6BEA42B /* MenuBarContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarContentView.swift; sourceTree = "<group>"; };
 		16D36E89E4B02D5C63BB41C3 /* iOSRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSRootView.swift; sourceTree = "<group>"; };
 		1B76BC307C11613576B1CD8E /* CloudSyncStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncStatus.swift; sourceTree = "<group>"; };
 		1C8EDE096B3030E608ECDFD9 /* DrawingAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingAttachment.swift; sourceTree = "<group>"; };
@@ -291,6 +294,7 @@
 				70C0E08A74E6C797D268A0E8 /* MacCalendarView.swift */,
 				49920543B3C27F2FAAFFF2F4 /* MacHomeView.swift */,
 				2757CB0E0BD464A84E497A4A /* MacIssueView.swift */,
+				1645B33E8532C7CEE6BEA42B /* MenuBarContentView.swift */,
 				B7CDDF432E950E3152857FAC /* SidebarItem.swift */,
 				B6D32CF9EC64C6D2F8DE2A49 /* SidebarRootView.swift */,
 			);
@@ -660,6 +664,7 @@
 				64CDFB09FCC77EA80BE9E92C /* MacCalendarView.swift in Sources */,
 				0F6258DF263D1FEF7A3FEFFD /* MacHomeView.swift in Sources */,
 				E0611AB2A5BA91EA9C30C3AA /* MacIssueView.swift in Sources */,
+				15FBFA816E47ACDAD75DF22A /* MenuBarContentView.swift in Sources */,
 				767ED8FF28B44249315D6063 /* NotificationService.swift in Sources */,
 				BB10E6751F4E01254A7EFDA0 /* PreviewHelpers.swift in Sources */,
 				1E58DFC03785573B82D2AEAA /* Priority.swift in Sources */,
@@ -746,6 +751,7 @@
 				A18DF29F42EA170FCA6A52E2 /* MacCalendarView.swift in Sources */,
 				B94F570F08AA2457C216DF88 /* MacHomeView.swift in Sources */,
 				FB2CF1EC69CF33C61F51914A /* MacIssueView.swift in Sources */,
+				9DE56B256B1623D075779F16 /* MenuBarContentView.swift in Sources */,
 				7F2BADBA8BE530E06F56E33F /* NotificationService.swift in Sources */,
 				867962C1BCB211F6DA928504 /* PreviewHelpers.swift in Sources */,
 				351C7197D837F3277DCF9616 /* Priority.swift in Sources */,
