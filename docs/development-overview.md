@@ -20,6 +20,7 @@
 - 컨텍스트 메뉴 (완료/상세/삭제/우선순위 변경/날짜 변경)
 - 할 일 메모 및 상세 시트 (`TaskDetailView`)
 - 오늘 일정 타임라인 — 지난 일정 흐림 처리
+- "오늘 회고" 카드 — 하루 배운 점 기록/수정 (`RetrospectiveCardView` + `RetrospectiveEditView`), 날짜별 1건 업서트
 
 ### 빠른 추가 (PRD-02)
 - 바텀시트 (iOS) / 팝오버 (macOS) / iPad 전용 스타일
@@ -92,6 +93,7 @@
 | `DailyTask` | title, isDone, date, priority, completedAt, memo, workspace, drawingData, exportedReminderID |
 | `Schedule` | title, startTime, endTime, location, priority, workspace, drawingData, exportedEventID |
 | `Issue` | title, detail, createdAt, isResolved, notifyAt, workspace, drawingData |
+| `Retrospective` | content, date(자정 정규화), workspace — 하루 회고(배운 점), 날짜별 1건 |
 | `Workspace` (enum) | personal / work — `nil`은 미분류 (분리 OFF 시 저장된 항목) |
 
 ### CloudKit
@@ -113,7 +115,7 @@
 ```
 Jday/
 ├── App/            # JdayApp(진입점), ContentView(플랫폼 분기)
-├── Models/         # DailyTask, Schedule, Issue, Priority, Workspace
+├── Models/         # DailyTask, Schedule, Issue, Retrospective, Priority, Workspace
 ├── Features/       # Home, Calendar, QuickAdd, Issue, Settings
 ├── Platform/       # iOS, iPad, Shared(macOS 포함)
 └── Core/           # DesignSystem, Extensions, Services, Helpers

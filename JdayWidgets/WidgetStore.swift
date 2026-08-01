@@ -9,7 +9,7 @@ private let logger = Logger(subsystem: "com.j.jday", category: "Widget")
 /// CloudKit 동기화는 메인 앱만 수행 — 익스텐션은 로컬 파일만 사용한다(cloudKitDatabase: .none).
 enum WidgetStore {
     static let container: ModelContainer? = {
-        let schema = Schema([DailyTask.self, Schedule.self, Issue.self])
+        let schema = Schema([DailyTask.self, Schedule.self, Issue.self, Retrospective.self])
         let config = ModelConfiguration(schema: schema, groupContainer: .identifier(AppGroup.id), cloudKitDatabase: .none)
         do {
             return try ModelContainer(for: schema, configurations: config)

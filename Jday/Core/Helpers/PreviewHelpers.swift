@@ -4,7 +4,7 @@ import Foundation
 @MainActor
 enum PreviewHelpers {
     static func makeContainer() -> ModelContainer {
-        let schema = Schema([DailyTask.self, Schedule.self, Issue.self])
+        let schema = Schema([DailyTask.self, Schedule.self, Issue.self, Retrospective.self])
         let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
         let container = try! ModelContainer(for: schema, configurations: config)
 

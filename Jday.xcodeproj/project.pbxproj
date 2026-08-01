@@ -47,6 +47,7 @@
 		522B93E942D743A9757D8EE2 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD42E8A5F9E40DC0A4C1397 /* Color+Extensions.swift */; };
 		557D2949FE35210A197D02DD /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61574E5F5EE807DAD85E43A3 /* Schedule.swift */; };
 		55F5EDD88E1FEB9BE1DB8B88 /* DrawingAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8EDE096B3030E608ECDFD9 /* DrawingAttachment.swift */; };
+		56E959C4657E2F477585FD90 /* Retrospective.swift in Sources */ = {isa = PBXBuildFile; fileRef = C169C94D5880B22A0FAB2EF0 /* Retrospective.swift */; };
 		575295483F89812B4469BC91 /* YesterdayTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BF7F19BE7E443A893EDFB3 /* YesterdayTasksView.swift */; };
 		5A8940EACA1A29C6B466247A /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59406FC5C9473B03E90E6672 /* TaskDetailView.swift */; };
 		5C3355C5D72363065F80D647 /* Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EA92AE35FCCCC60ADF0018 /* Issue.swift */; };
@@ -68,6 +69,7 @@
 		74B335D5D8895D9DF8F17451 /* ScheduleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91990E13997B5824166D39C2 /* ScheduleDetailView.swift */; };
 		75C7BF432EAF6F55AE47307E /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFFC0EFCAB9616AEC73AEE9 /* ReminderService.swift */; };
 		767ED8FF28B44249315D6063 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBA9A683594763A847F7B3E /* NotificationService.swift */; };
+		7BB51C3C36B1870050D65465 /* RetrospectiveCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681E9E6D7A5209EC784A73E7 /* RetrospectiveCardView.swift */; };
 		7C12776A298E64632AF427CB /* DailyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C3674DECE5748A01FEB615 /* DailyTask.swift */; };
 		7F2BADBA8BE530E06F56E33F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBA9A683594763A847F7B3E /* NotificationService.swift */; };
 		801530727B60B30C6EA17CFC /* TaskDeletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE51868642C2913506F5555A /* TaskDeletion.swift */; };
@@ -76,6 +78,7 @@
 		8C6B54373FBFED3B6DA4173B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 644CB144E5C052CBE5E35BBC /* Assets.xcassets */; };
 		8D5CD9B4188514A0004601CE /* ExternalEventListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B2782EE034852DA03D0F30 /* ExternalEventListView.swift */; };
 		8E972E25787F2E9547C11466 /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7745CA1AE7D0B753A6FCA2B /* Priority.swift */; };
+		8F232AB6FD0873645AC0BFC6 /* RetrospectiveEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B4B57AEEE9F3B176DEA188 /* RetrospectiveEditView.swift */; };
 		90E3CC39C6D893F4F765FE8B /* IssueRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B83C52848D656A79E0A801 /* IssueRowView.swift */; };
 		922A0E323DBB0D7D7D79D566 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61574E5F5EE807DAD85E43A3 /* Schedule.swift */; };
 		9299B208FE149300CA393A22 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38843B376C3C091734C26907 /* CalendarView.swift */; };
@@ -83,6 +86,7 @@
 		96282D74C78811BA7531A1E9 /* IssueEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3D6D41A08115B1269DADBD /* IssueEditView.swift */; };
 		9974A5802678C93E8D66B565 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E3EA3847451DED2928D37D /* AppGroup.swift */; };
 		9D9EE8F7EBECA0F9869D50CF /* IssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCD9704ABA6BCED42FEE040 /* IssueViewModel.swift */; };
+		9DA943C0EBAAFB03BDBF1A9B /* Retrospective.swift in Sources */ = {isa = PBXBuildFile; fileRef = C169C94D5880B22A0FAB2EF0 /* Retrospective.swift */; };
 		9DAB1C559FD384FC55B11E55 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38843B376C3C091734C26907 /* CalendarView.swift */; };
 		9EC6F4FF62EB661502842952 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 644CB144E5C052CBE5E35BBC /* Assets.xcassets */; };
 		A18DF29F42EA170FCA6A52E2 /* MacCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C0E08A74E6C797D268A0E8 /* MacCalendarView.swift */; };
@@ -101,6 +105,7 @@
 		B0EB42C840BB63D7BE4843FF /* YesterdayTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BF7F19BE7E443A893EDFB3 /* YesterdayTasksView.swift */; };
 		B17E99D81CAF61CE3CDF7CD7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF64F21112F9CB9C4D1D0F /* ContentView.swift */; };
 		B3BB1570CB5298A9281DE280 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CDDF432E950E3152857FAC /* SidebarItem.swift */; };
+		B516D14FA3EBE863A61F8EF4 /* Retrospective.swift in Sources */ = {isa = PBXBuildFile; fileRef = C169C94D5880B22A0FAB2EF0 /* Retrospective.swift */; };
 		B5FFE9EE9DCF9AF6BEBAE4A4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF64F21112F9CB9C4D1D0F /* ContentView.swift */; };
 		B94F570F08AA2457C216DF88 /* MacHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49920543B3C27F2FAAFFF2F4 /* MacHomeView.swift */; };
 		BB10E6751F4E01254A7EFDA0 /* PreviewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786C8E67AA2979A0AF277B11 /* PreviewHelpers.swift */; };
@@ -109,6 +114,7 @@
 		C28AEFE4E7C81C197F9DA2F7 /* JdayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A483E0D1333BC41C47CE541D /* JdayApp.swift */; };
 		C5C25CA46B94EE5873F0E5F0 /* EventKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFD6ACCDA31CBC6DF12EB64 /* EventKitService.swift */; };
 		C74838D63D2C150B3C9F6154 /* QuickAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2AE13F09497DBAA9E9B12C /* QuickAddView.swift */; };
+		C8BE888136C55F247E639FD8 /* RetrospectiveCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681E9E6D7A5209EC784A73E7 /* RetrospectiveCardView.swift */; };
 		CAC676AB9B0FCC26F5A5B4FF /* Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A34DA33798EB9EC761D235 /* Workspace.swift */; };
 		CACD52FAEEB66020A654251D /* SummaryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F921E1C837EF3AAABA7319 /* SummaryCardView.swift */; };
 		CEE9A156A9358B9608B93970 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157127C7C036A5189D81182B /* Theme.swift */; };
@@ -116,6 +122,7 @@
 		D4DA964A12065B2A35790262 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383A95A5C0ED57C537FB6190 /* SettingsView.swift */; };
 		D6A329B9672872D0DEA983C9 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B7656AC7918C012DAAF0 /* Date+Extensions.swift */; };
 		D746DA7220EEC6C181E6FDB3 /* EventKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFD6ACCDA31CBC6DF12EB64 /* EventKitService.swift */; };
+		DACD810A5B0D196722ADAE4B /* RetrospectiveEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B4B57AEEE9F3B176DEA188 /* RetrospectiveEditView.swift */; };
 		DE8878830970EBA47FD1E98F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835E9EA647E8A777EAFC1AFB /* HomeView.swift */; };
 		DF94C671CFC47C296515FD55 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD42E8A5F9E40DC0A4C1397 /* Color+Extensions.swift */; };
 		E0611AB2A5BA91EA9C30C3AA /* MacIssueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2757CB0E0BD464A84E497A4A /* MacIssueView.swift */; };
@@ -175,6 +182,7 @@
 		38843B376C3C091734C26907 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		394FB1660EB764765FBB6CE1 /* AppearanceMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceMode.swift; sourceTree = "<group>"; };
 		3C36B8DAAF0F4D1D4D91B7BC /* TodayScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayScheduleView.swift; sourceTree = "<group>"; };
+		48B4B57AEEE9F3B176DEA188 /* RetrospectiveEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrospectiveEditView.swift; sourceTree = "<group>"; };
 		49920543B3C27F2FAAFFF2F4 /* MacHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacHomeView.swift; sourceTree = "<group>"; };
 		4A61E93DC048FA090D108FBB /* TodayTasksWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayTasksWidget.swift; sourceTree = "<group>"; };
 		4C934F49F589D8DA94837FB1 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
@@ -189,6 +197,7 @@
 		5DD42E8A5F9E40DC0A4C1397 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		61574E5F5EE807DAD85E43A3 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		644CB144E5C052CBE5E35BBC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		681E9E6D7A5209EC784A73E7 /* RetrospectiveCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrospectiveCardView.swift; sourceTree = "<group>"; };
 		70C0E08A74E6C797D268A0E8 /* MacCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacCalendarView.swift; sourceTree = "<group>"; };
 		73F2B7656AC7918C012DAAF0 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		77035F5B04A26DF7166A4196 /* WidgetStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetStore.swift; sourceTree = "<group>"; };
@@ -205,6 +214,7 @@
 		B6D32CF9EC64C6D2F8DE2A49 /* SidebarRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarRootView.swift; sourceTree = "<group>"; };
 		B7CDDF432E950E3152857FAC /* SidebarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
 		B7F921E1C837EF3AAABA7319 /* SummaryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCardView.swift; sourceTree = "<group>"; };
+		C169C94D5880B22A0FAB2EF0 /* Retrospective.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Retrospective.swift; sourceTree = "<group>"; };
 		C5EA92AE35FCCCC60ADF0018 /* Issue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Issue.swift; sourceTree = "<group>"; };
 		C7745CA1AE7D0B753A6FCA2B /* Priority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Priority.swift; sourceTree = "<group>"; };
 		CCE7CF19D2869B82C387DEB6 /* SharedComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedComponents.swift; sourceTree = "<group>"; };
@@ -264,6 +274,7 @@
 				E5C3674DECE5748A01FEB615 /* DailyTask.swift */,
 				C5EA92AE35FCCCC60ADF0018 /* Issue.swift */,
 				C7745CA1AE7D0B753A6FCA2B /* Priority.swift */,
+				C169C94D5880B22A0FAB2EF0 /* Retrospective.swift */,
 				61574E5F5EE807DAD85E43A3 /* Schedule.swift */,
 				E7A34DA33798EB9EC761D235 /* Workspace.swift */,
 			);
@@ -289,6 +300,15 @@
 				16D36E89E4B02D5C63BB41C3 /* iOSRootView.swift */,
 			);
 			path = iOS;
+			sourceTree = "<group>";
+		};
+		206FD337EF342D8A34E69747 /* Retrospective */ = {
+			isa = PBXGroup;
+			children = (
+				681E9E6D7A5209EC784A73E7 /* RetrospectiveCardView.swift */,
+				48B4B57AEEE9F3B176DEA188 /* RetrospectiveEditView.swift */,
+			);
+			path = Retrospective;
 			sourceTree = "<group>";
 		};
 		2CEAC632CCB92D12396D7887 /* JdayWidgets */ = {
@@ -459,6 +479,7 @@
 				9775D65F99CF59BF51CEE48F /* Home */,
 				B1A3E51C69A796271FF127E2 /* Issue */,
 				A228AE397DE929B8CCA3861A /* QuickAdd */,
+				206FD337EF342D8A34E69747 /* Retrospective */,
 				EAD9006174153DEC88234733 /* Settings */,
 			);
 			path = Features;
@@ -640,6 +661,9 @@
 				C74838D63D2C150B3C9F6154 /* QuickAddView.swift in Sources */,
 				5F6A1CDEFF5096AEDCDAAC20 /* QuickAddViewModel.swift in Sources */,
 				71EF309C531CE6157C5BBF9C /* ReminderService.swift in Sources */,
+				9DA943C0EBAAFB03BDBF1A9B /* Retrospective.swift in Sources */,
+				7BB51C3C36B1870050D65465 /* RetrospectiveCardView.swift in Sources */,
+				DACD810A5B0D196722ADAE4B /* RetrospectiveEditView.swift in Sources */,
 				557D2949FE35210A197D02DD /* Schedule.swift in Sources */,
 				FF0555FDE43D0E9C78BA4378 /* ScheduleDetailView.swift in Sources */,
 				2AF2C3FA0ED1E1EFE3447E56 /* SettingsView.swift in Sources */,
@@ -674,6 +698,7 @@
 				3A43410ADA8E55012D97A4A8 /* JdayWidgetsBundle.swift in Sources */,
 				E2A63CEBD3E79F2F11678EDC /* MonthCalendarWidget.swift in Sources */,
 				8E972E25787F2E9547C11466 /* Priority.swift in Sources */,
+				B516D14FA3EBE863A61F8EF4 /* Retrospective.swift in Sources */,
 				0885F600EEF55209649324A9 /* Schedule.swift in Sources */,
 				441480AA853F97DE0801030F /* TodayBriefWidget.swift in Sources */,
 				BCA231F4B58694464E53EC9A /* TodayProgressWidget.swift in Sources */,
@@ -721,6 +746,9 @@
 				2452D2C27BC5F0637B73D604 /* QuickAddView.swift in Sources */,
 				06F2B4E6F9F287606D8BA129 /* QuickAddViewModel.swift in Sources */,
 				75C7BF432EAF6F55AE47307E /* ReminderService.swift in Sources */,
+				56E959C4657E2F477585FD90 /* Retrospective.swift in Sources */,
+				C8BE888136C55F247E639FD8 /* RetrospectiveCardView.swift in Sources */,
+				8F232AB6FD0873645AC0BFC6 /* RetrospectiveEditView.swift in Sources */,
 				922A0E323DBB0D7D7D79D566 /* Schedule.swift in Sources */,
 				74B335D5D8895D9DF8F17451 /* ScheduleDetailView.swift in Sources */,
 				D4DA964A12065B2A35790262 /* SettingsView.swift in Sources */,

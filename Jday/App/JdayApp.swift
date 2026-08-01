@@ -12,7 +12,7 @@ struct JdayApp: App {
     @Environment(\.scenePhase) private var scenePhase
 
     init() {
-        let schema = Schema([DailyTask.self, Schedule.self, Issue.self])
+        let schema = Schema([DailyTask.self, Schedule.self, Issue.self, Retrospective.self])
 
         #if DEBUG
         if CommandLine.arguments.contains("-seedPreviewData") {

@@ -8,9 +8,11 @@ struct MacHomeView: View {
 
     @Query(sort: \DailyTask.date) private var allTasks: [DailyTask]
     @Query(sort: \Schedule.startTime) private var allSchedules: [Schedule]
+    @Query(sort: \Retrospective.date) private var allRetrospectives: [Retrospective]
 
     @State private var selectedTask: DailyTask?
     @State private var deletedSnapshot: DeletedTaskSnapshot?
+    @State private var showRetrospectiveEditor = false
 
     @AppStorage("workspaceSeparationEnabled", store: AppGroup.defaults) private var wsEnabled = false
     @AppStorage("activeWorkspace", store: AppGroup.defaults) private var wsActiveRaw = Workspace.personal.rawValue
@@ -23,6 +25,13 @@ struct MacHomeView: View {
     private var filteredSchedules: [Schedule] {
         allSchedules.workspaceFiltered(enabled: wsEnabled, active: wsActive)
     }
+    private var filteredRetrospectives: [Retrospective] {
+        allRetrospectives.workspaceFiltered(enabled: wsEnabled, active: wsActive)
+    }
+    private var todayRetrospective: Retrospective? {
+        filteredRetrospectives.first { $0.date.isToday }
+    }
+    private var newItemWorkspace: Workspace? { wsEnabled ? wsActive : nil }
 
     private var todayTasks: [DailyTask] { filteredTasks.filter { $0.date.isToday } }
     private var yesterdayPendingTasks: [DailyTask] { filteredTasks.filter { $0.date.isYesterday && !$0.isDone } }
@@ -47,7 +56,7 @@ struct MacHomeView: View {
 
                 HStack(alignment: .top, spacing: Theme.Spacing.xl) {
                     leftColumn
-                    TodayScheduleView(schedules: todaySchedules)
+                    rightColumn
                         .frame(maxWidth: 360, alignment: .top)
                 }
             }
@@ -60,6 +69,22 @@ struct MacHomeView: View {
         }
         .undoToast($deletedSnapshot) { snapshot in
             viewModel.restoreTask(snapshot, context: context)
+        }
+        .sheet(isPresented: $showRetrospectiveEditor) {
+            RetrospectiveEditView(
+                date: .now,
+                existing: todayRetrospective,
+                workspace: newItemWorkspace
+            )
+        }
+    }
+
+    private var rightColumn: some View {
+        VStack(spacing: Theme.Spacing.xl) {
+            TodayScheduleView(schedules: todaySchedules)
+            RetrospectiveCardView(retrospective: todayRetrospective) {
+                showRetrospectiveEditor = true
+            }
         }
     }
 

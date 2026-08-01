@@ -7,9 +7,11 @@ struct HomeView: View {
 
     @Query(sort: \DailyTask.date) private var allTasks: [DailyTask]
     @Query(sort: \Schedule.startTime) private var allSchedules: [Schedule]
+    @Query(sort: \Retrospective.date) private var allRetrospectives: [Retrospective]
 
     @State private var selectedTask: DailyTask?
     @State private var deletedSnapshot: DeletedTaskSnapshot?
+    @State private var showRetrospectiveEditor = false
 
     @AppStorage(EventKitService.enabledKey, store: AppGroup.defaults) private var appleCalendarEnabled = false
     /// 오늘의 Apple 캘린더 이벤트 (읽기 전용)
@@ -31,6 +33,18 @@ struct HomeView: View {
     }
     private var filteredSchedules: [Schedule] {
         allSchedules.workspaceFiltered(enabled: wsEnabled, active: wsActive)
+    }
+    private var filteredRetrospectives: [Retrospective] {
+        allRetrospectives.workspaceFiltered(enabled: wsEnabled, active: wsActive)
+    }
+
+    private var todayRetrospective: Retrospective? {
+        filteredRetrospectives.first { $0.date.isToday }
+    }
+
+    /// 새 항목 저장 시 태그할 작업 공간(분리 OFF면 nil).
+    private var newItemWorkspace: Workspace? {
+        wsEnabled ? wsActive : nil
     }
 
     private var todayTasks: [DailyTask] {
@@ -67,6 +81,13 @@ struct HomeView: View {
         #endif
         .sheet(item: $selectedTask) { task in
             TaskDetailView(task: task)
+        }
+        .sheet(isPresented: $showRetrospectiveEditor) {
+            RetrospectiveEditView(
+                date: .now,
+                existing: todayRetrospective,
+                workspace: newItemWorkspace
+            )
         }
         .undoToast($deletedSnapshot) { snapshot in
             viewModel.restoreTask(snapshot, context: context)
@@ -118,6 +139,10 @@ struct HomeView: View {
 
             if !todayExternalEvents.isEmpty {
                 ExternalEventListView(events: todayExternalEvents)
+            }
+
+            RetrospectiveCardView(retrospective: todayRetrospective) {
+                showRetrospectiveEditor = true
             }
         }
     }
