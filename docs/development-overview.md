@@ -1,6 +1,6 @@
 # Jday 개발 현황 정리
 
-*최종 업데이트: 2026-07-19*
+*최종 업데이트: 2026-11-11*
 
 ## 개요
 
@@ -9,6 +9,12 @@
 - **버전:** 1.0.0 (빌드 2)
 - **플랫폼:** iOS 17.0+ / iPadOS 17.0+ / macOS 14.0+
 - **스택:** SwiftUI Multiplatform · MVVM · SwiftData · CloudKit · UserNotifications
+
+## 프로젝트 생성과 검증
+
+- `project.yml`이 원본이며 `xcodegen generate`로 `.xcodeproj`를 생성한다. 생성물을 직접 편집하지 않는다.
+- 2026-11-11 XcodeGen 2.46.0으로 재생성해 `Extensions`·`Services`·`Models`의 다중 부모 소속 문제를 해소했다. 세 타깃의 소스 경로와 위젯 공유 소스 포함을 확인했다.
+- 서명 없이 `Jday_macOS` 빌드 성공을 검증했다. 현재 테스트 타깃은 없어 빌드 성공을 테스트 통과로 간주하지 않는다. iOS 빌드는 이번에 실행하지 않았다.
 
 ## 구현 완료 기능
 

@@ -2,6 +2,16 @@
 
 *git 커밋 이력 기반으로 정리한 변경 내역입니다. 최신이 위에 옵니다.*
 
+## [미배포] Xcode 프로젝트 로딩 복구 (2026-11-11)
+
+### 수정
+- 원본 `project.yml`을 XcodeGen 2.46.0으로 재생성해 `Extensions`·`Services`·`Models`의 중복 부모 소속과 잘못된 상대 경로를 바로잡았다. `.xcodeproj`를 직접 편집하지 않았다.
+- 위젯 공유 소스의 타깃 포함을 유지했다. iOS 앱·macOS 앱·위젯의 소스 경로가 모두 유효함을 확인했다.
+
+### 검증
+- `xcodebuild build -project Jday.xcodeproj -scheme Jday_macOS -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO`와 임시 `-derivedDataPath`로 macOS 빌드 성공을 확인했다.
+- 현재 테스트 타깃은 없다. 이 결과는 macOS 빌드 검증이며 자동 테스트 실행 결과는 아니다. iOS 빌드는 이번 검증 범위에 포함하지 않았다.
+
 ## [미배포] 아침 요약 알림 (2026-08-01)
 
 ### 신규
