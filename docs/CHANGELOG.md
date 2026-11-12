@@ -2,6 +2,15 @@
 
 *git 커밋 이력 기반으로 정리한 변경 내역입니다. 최신이 위에 옵니다.*
 
+## [미배포] 알림 취소 동시성 경고 제거 · 아침 요약 재예약 경쟁 조건 수정 (2026-11-12)
+
+### 수정
+- `NotificationService.cancelScheduleNotification(for:)`·`cancelMorningSummaries()`가 콜백형 `getPendingNotificationRequests` 대신 async `pendingNotificationRequests()`를 쓰도록 바꿔 `UNUserNotificationCenter` Sendable 캡처 경고를 없앴다.
+- `refreshMorningSummaries`가 이전 아침 요약 취소를 기다리지 않고 바로 새 알림을 등록해, 늦게 끝난 취소가 방금 등록한 알림을 지울 수 있던 문제를 고쳤다. 이제 취소를 마친 뒤 등록하고, 연달아 호출되거나 `cancelMorningSummaries()`가 불리면 세대 번호로 이전 호출의 등록을 멈춘다.
+
+### 검증
+- `Jday_macOS`(macOS)·`Jday_iOS`(iOS 시뮬레이터) 빌드 성공, 경고 0개.
+
 ## [미배포] Xcode 프로젝트 로딩 복구 (2026-11-11)
 
 ### 수정

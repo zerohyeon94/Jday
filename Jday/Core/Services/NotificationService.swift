@@ -94,12 +94,14 @@ final class NotificationService {
     func cancelScheduleNotification(for schedule: Schedule) {
         // offset별로 여러 알림이 예약되어 있으므로 `schedule-<id>-` 프리픽스로 모두 취소한다.
         let prefix = "schedule-\(schedule.persistentModelID)-"
+        Task { await removePendingRequests(withPrefix: prefix) }
+    }
+
+    private func removePendingRequests(withPrefix prefix: String) async {
         let center = UNUserNotificationCenter.current()
-        center.getPendingNotificationRequests { requests in
-            let ids = requests.map(\.identifier).filter { $0.hasPrefix(prefix) }
-            guard !ids.isEmpty else { return }
-            center.removePendingNotificationRequests(withIdentifiers: ids)
-        }
+        let ids = await center.pendingNotificationRequests().map(\.identifier).filter { $0.hasPrefix(prefix) }
+        guard !ids.isEmpty else { return }
+        center.removePendingNotificationRequests(withIdentifiers: ids)
     }
 
     // MARK: - 아침 요약 알림
@@ -114,10 +116,31 @@ final class NotificationService {
     /// 아침 요약 알림을 다시 예약한다(향후 7일 롤링). 앱 활성화·설정 변경 시 호출.
     /// 서버 없이 각 날짜의 할 일·일정 개수를 미리 계산해 로컬 알림으로 예약한다.
     func refreshMorningSummaries(context: ModelContext) {
-        cancelMorningSummaries()
+        let requests = makeMorningSummaryRequests(context: context)
+        morningSummaryGeneration += 1
+        let generation = morningSummaryGeneration
+        // 이전 알림 취소가 끝난 뒤 등록한다. 연달아 호출되면 마지막 호출만 등록한다.
+        Task {
+            await removePendingRequests(withPrefix: Self.morningSummaryPrefix)
+            let center = UNUserNotificationCenter.current()
+            for request in requests {
+                guard generation == morningSummaryGeneration else { return }
+                do {
+                    try await center.add(request)
+                } catch {
+                    logger.error("아침 요약 알림 등록 실패: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
 
+    private static let morningSummaryPrefix = "morning-summary-"
+    private var morningSummaryGeneration = 0
+
+    /// 켜져 있으면 향후 7일치 아침 요약 요청을 만든다. 꺼져 있으면 빈 배열.
+    private func makeMorningSummaryRequests(context: ModelContext) -> [UNNotificationRequest] {
         let defaults = UserDefaults.standard
-        guard defaults.bool(forKey: MorningSummaryKey.enabled) else { return }
+        guard defaults.bool(forKey: MorningSummaryKey.enabled) else { return [] }
 
         let hour = defaults.object(forKey: MorningSummaryKey.hour) as? Int ?? 8
         let minute = defaults.object(forKey: MorningSummaryKey.minute) as? Int ?? 0
@@ -131,6 +154,7 @@ final class NotificationService {
         let filteredSchedules = schedules.workspaceFiltered(enabled: wsEnabled, active: wsActive)
 
         let calendar = Calendar.current
+        var requests: [UNNotificationRequest] = []
         for offset in 0..<7 {
             guard let day = calendar.date(byAdding: .day, value: offset, to: .now) else { continue }
             var comps = calendar.dateComponents([.year, .month, .day], from: day)
@@ -147,23 +171,16 @@ final class NotificationService {
             content.sound = .default
 
             let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: false)
-            let identifier = "morning-summary-\(Int(day.startOfDay.timeIntervalSince1970))"
-            let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-            UNUserNotificationCenter.current().add(request) { error in
-                if let error {
-                    logger.error("아침 요약 알림 등록 실패: \(error.localizedDescription)")
-                }
-            }
+            let identifier = "\(Self.morningSummaryPrefix)\(Int(day.startOfDay.timeIntervalSince1970))"
+            requests.append(UNNotificationRequest(identifier: identifier, content: content, trigger: trigger))
         }
+        return requests
     }
 
     func cancelMorningSummaries() {
-        let center = UNUserNotificationCenter.current()
-        center.getPendingNotificationRequests { requests in
-            let ids = requests.map(\.identifier).filter { $0.hasPrefix("morning-summary-") }
-            guard !ids.isEmpty else { return }
-            center.removePendingNotificationRequests(withIdentifiers: ids)
-        }
+        // 진행 중인 refresh가 취소 뒤에 다시 등록하지 않도록 세대를 올린다.
+        morningSummaryGeneration += 1
+        Task { await removePendingRequests(withPrefix: Self.morningSummaryPrefix) }
     }
 
     private func summaryBody(taskCount: Int, scheduleCount: Int) -> String {
